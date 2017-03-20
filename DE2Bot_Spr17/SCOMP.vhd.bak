@@ -52,7 +52,7 @@ ARCHITECTURE a OF SCOMP IS
 		EX_RETI
 	);
 
-	TYPE STACK_TYPE IS ARRAY (0 TO 9) OF STD_LOGIC_VECTOR(10 DOWNTO 0);
+	TYPE STACK_TYPE IS ARRAY (0 TO 19) OF STD_LOGIC_VECTOR(10 DOWNTO 0);
 
 	SIGNAL STATE        : STATE_TYPE;
 	SIGNAL PC_STACK     : STACK_TYPE;
@@ -89,7 +89,7 @@ BEGIN
 		wrcontrol_aclr_a => "NONE",
 		address_aclr_a   => "NONE",
 		outdata_aclr_a   => "NONE",
-		init_file        => "SimpleRobotProgram.mif",
+		init_file        => "StartingPoint_Spr17.mif",
 		lpm_hint         => "ENABLE_RUNTIME_MOD=NO",
 		lpm_type         => "altsyncram"
 	)
