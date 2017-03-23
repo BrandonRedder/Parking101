@@ -61,6 +61,83 @@ WaitForUser:
 ;* Main code
 ;***************************************************************
 Main:
+	IN		IR_LO					;Read in IR Second Word
+	JZERO	Main					;If zero, no new value, check again
+	STORE	IR_Current_Val			;Else, store new value and start down tree
+	Call Reset_IR					;Reset IR to not read same value twice
+	LOAD	IR_Current_Val			
+	
+	SUB		IR_Power				;Check if power button (E-Stop)
+	JZERO	Die
+	
+	SUB		IR_1
+	;Do stuff for parking spot 1
+	
+	SUB		IR_Play					;Check if it is pause button (Stop motion)
+	JZERO	Pause_Motion
+	
+	SUB		IR_5
+	;Do stuff for parking spot 5
+	
+	SUB		IR_9
+	;Do stuff for parking spot 9
+	
+	SUB		IR_Enter
+	;Do stuff for parallel parking
+	
+	SUB		IR_VolUp
+	;Do stuff to increase magnitude of motion
+	
+	SUB		IR_RW
+	;Do stuff to turn left
+	
+	SUB		IR_3
+	;Do stuff for parking spot 3
+	
+	SUB		IR_7
+	;Do stuff for parking spot 7
+	
+	SUB		IR_Pause
+	;Do stuff to back up
+	
+	SUB		IR_2
+	;Do stuff for parking spot 2
+	
+	SUB		IR_6
+	;Do stuff for parking spot 6
+	
+	SUB		IR_0
+	;Do stuff to go forward
+	
+	SUB		IR_VolDwn
+	;Do stuff to make smaller motions
+	
+	SUB		IR_FF
+	;Do stuff to turn right
+	
+	SUB		IR_4
+	;Do stuff for parking spot 4
+	
+	SUB		IR_8
+	;Do stuff for parking spot 8
+	
+	SUB		IR_TV_VCR
+	;Do stuff for perpendicular parking
+
+
+
+Pause_Motion:
+	LOAD	Zero
+	STORE	DVel
+	IN		THETA
+	STORE	DTHETA
+	JUMP	Main
+
+Reset_IR:
+	LOAD	Zero
+	OUT		IR_HI
+	OUT		IR_LO
+	RETURN
 
 Die:
 ; Sometimes it's useful to permanently stop execution.
@@ -708,7 +785,8 @@ IR_LO:    EQU &HD1  ; read the low word of the IR receiver (OUT will clear both 
 ;* IR Differences
 ;* The difference between the current value and the next value of possible commands (in order)
 ;***************************************************************
-ORG 2000 
+ORG 2000
+IR_Current_Val:	DW	&H0
 IR_Power:	DW	&H00FF
 IR_1:		DW	&H1FE0
 IR_Play:	DW	&H07F8
