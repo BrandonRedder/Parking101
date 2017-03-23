@@ -703,3 +703,28 @@ RIN:      EQU &HC8
 LIN:      EQU &HC9
 IR_HI:    EQU &HD0  ; read the high word of the IR receiver (OUT will clear both words)
 IR_LO:    EQU &HD1  ; read the low word of the IR receiver (OUT will clear both words)
+
+;***************************************************************
+;* IR Differences
+;* The difference between the current value and the next value of possible commands (in order)
+;***************************************************************
+ORG 2000 
+IR_Power:	DW	&H00FF
+IR_1:		DW	&H1FE0
+IR_Play:	DW	&H07F8
+IR_5:		DW	&H07F8
+IR_9:		DW	&H07F8
+IR_Enter:	DW	&H01FE
+IR_VolUp:	DW	&H05FA
+IR_RW:		DW	&H07F8
+IR_3:		DW	&H17E8
+IR_7:		DW	&H0FF0
+IR_Pause:	DW	&H17E8
+IR_2:		DW	&H17E8
+IR_6:		DW	&H0FF0
+IR_0:		DW	&H07F8
+IR_VolDwn:	DW	&H07F8
+IR_FF:		DW	&H07F8
+IR_4:		DW	&H17E8
+IR_8:		DW	&H0FF0
+IR_TV_VCR:	DW	&H0EF1
