@@ -56,6 +56,11 @@ WaitForUser:
 	JPOS   WaitForUser ; not ready (KEYs are active-low, hence JPOS)
 	LOAD   Zero
 	OUT    XLEDS       ; clear LEDs once ready to continue
+	
+	LOAD	Increment_Speed
+	OUT		SSEG1
+	LOAD	Increment_Angle
+	OUT		SSEG2
 
 ;***************************************************************
 ;* Main code
@@ -85,8 +90,8 @@ Main:
 	SUB		IR_Enter
 	;Do stuff for parallel parking
 	
-	SUB		IR_VolUp
-	;Do stuff to increase magnitude of motion
+	SUB		IR_VolUp				;Increase the increment in motion and angle
+	JZERO	Increase_Increment
 	
 	SUB		IR_RW
 	;Do stuff to turn left
@@ -109,8 +114,8 @@ Main:
 	SUB		IR_0
 	;Do stuff to go forward
 	
-	SUB		IR_VolDwn
-	;Do stuff to make smaller motions
+	SUB		IR_VolDwn				;Decrease the increment in motion and angle
+	JZERO	Decrease_Increment
 	
 	SUB		IR_FF
 	;Do stuff to turn right
@@ -123,8 +128,30 @@ Main:
 	
 	SUB		IR_TV_VCR
 	;Do stuff for perpendicular parking
+	
+	JUMP	Main					;Match not found, return to begining
 
-
+Increase_Increment:
+	LOAD	Increment_Speed
+	ADDI	10
+	STORE	Increment_Speed
+	OUT		SSEG1
+	LOAD	Increment_Angle
+	ADDI	5
+	STORE	Increment_Angle
+	OUT		SSEG2
+	JUMP	Main
+	
+Decrease_Increment:
+	LOAD	Increment_Speed
+	ADDI	-10
+	STORE	Increment_Speed
+	OUT		SSEG1
+	LOAD	Increment_Angle
+	ADDI	-5
+	STORE	Increment_Angle
+	OUT		SSEG2
+	JUMP	Main
 
 Pause_Motion:
 	LOAD	Zero
@@ -235,7 +262,30 @@ CapVelLow:
 ;***************************************************************
 ;* Subroutines
 ;***************************************************************
+Increase_Change:
+	LOAD	
+	JUMP	Main
+	
+Decrease_Change:
 
+	JUMP	Main
+
+Pause_Motion:
+	LOAD	Zero
+	STORE	DVel
+	IN		THETA
+	STORE	DTHETA
+	JUMP	Main
+
+Reset_IR:
+	LOAD	Zero
+	OUT		IR_HI
+	OUT		IR_LO
+	RETURN
+
+;*************************
+;* Predefined Subroutines
+;*************************
 
 ;*******************************************************************************
 ; Mod360: modulo 360
@@ -685,6 +735,8 @@ I2CError:
 ;* Variables
 ;***************************************************************
 Temp:     DW 0 ; "Temp" is not a great name, but can be useful
+Increment_Speed:	DW	10 ;Value used to make adjustments to position
+Increment_Angle:	DW	5 ;Value used to make adjustments to angle
 
 ;***************************************************************
 ;* Constants
