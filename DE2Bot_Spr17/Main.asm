@@ -93,8 +93,8 @@ Main:
 	SUB		IR_VolUp				;Increase the increment in motion and angle
 	JZERO	Increase_Increment
 	
-	SUB		IR_RW
-	;Do stuff to turn left
+	SUB		IR_RW					;Do stuff to turn left
+	JZERO	Turn_Left
 	
 	SUB		IR_3
 	;Do stuff for parking spot 3
@@ -102,8 +102,8 @@ Main:
 	SUB		IR_7
 	;Do stuff for parking spot 7
 	
-	SUB		IR_Pause
-	;Do stuff to back up
+	SUB		IR_Pause				;Do stuff to back up
+	JZERO	Move_Backward
 	
 	SUB		IR_2
 	;Do stuff for parking spot 2
@@ -111,14 +111,14 @@ Main:
 	SUB		IR_6
 	;Do stuff for parking spot 6
 	
-	SUB		IR_0
-	;Do stuff to go forward
+	SUB		IR_0					;Do stuff to go forward
+	JZERO	Move_Forward
 	
 	SUB		IR_VolDwn				;Decrease the increment in motion and angle
 	JZERO	Decrease_Increment
 	
-	SUB		IR_FF
-	;Do stuff to turn right
+	SUB		IR_FF					;Do stuff to turn right
+	JZERO	Turn_Right
 	
 	SUB		IR_4
 	;Do stuff for parking spot 4
@@ -131,40 +131,7 @@ Main:
 	
 	JUMP	Main					;Match not found, return to begining
 
-Increase_Increment:
-	LOAD	Increment_Speed
-	ADDI	10
-	STORE	Increment_Speed
-	OUT		SSEG1
-	LOAD	Increment_Angle
-	ADDI	5
-	STORE	Increment_Angle
-	OUT		SSEG2
-	JUMP	Main
-	
-Decrease_Increment:
-	LOAD	Increment_Speed
-	ADDI	-10
-	STORE	Increment_Speed
-	OUT		SSEG1
-	LOAD	Increment_Angle
-	ADDI	-5
-	STORE	Increment_Angle
-	OUT		SSEG2
-	JUMP	Main
 
-Pause_Motion:
-	LOAD	Zero
-	STORE	DVel
-	IN		THETA
-	STORE	DTHETA
-	JUMP	Main
-
-Reset_IR:
-	LOAD	Zero
-	OUT		IR_HI
-	OUT		IR_LO
-	RETURN
 
 Die:
 ; Sometimes it's useful to permanently stop execution.
@@ -262,26 +229,86 @@ CapVelLow:
 ;***************************************************************
 ;* Subroutines
 ;***************************************************************
-Increase_Change:
-	LOAD	
+Move_Forward:							;Manually move bot forward, by increment
+	LOADI	0
+	ADD		Increment_Speed
+	STORE	DVel
+	Call	Wait2
+	LOADI	0
+	STORE	DVel
 	JUMP	Main
 	
-Decrease_Change:
-
+Move_Backward:							;Manually move bot back my increment
+	LOADI	0
+	SUB		Increment_Speed
+	STORE	DVel
+	Call	Wait2
+	LOADI	0
+	STORE	DVel
+	JUMP	Main
+	
+Turn_Left:								;Manually turn bot to left by increment
+	IN    	THETA
+	ADD		Increment_Angle
+	STORE 	DTheta
+	JUMP 	Main
+	
+Turn_Right:								;Manually turn bot to right by increment
+	IN    	THETA
+	SUB		Increment_Angle
+	STORE 	DTheta
+	JUMP	Main
+	
+Increase_Increment:						;Increase linear and angular increment for manual adjustments
+	LOAD	Increment_Speed
+	JZERO	Fix_Increment
+	JNEG	Fix_Increment
+	ADDI	10
+	STORE	Increment_Speed
+	OUT		SSEG1
+	LOAD	Increment_Angle
+	JZERO	Fix_Increment
+	JNEG	Fix_Increment
+	ADDI	5
+	STORE	Increment_Angle
+	OUT		SSEG2
 	JUMP	Main
 
-Pause_Motion:
+Decrease_Increment:					;Decrease linear and angular increment for manual adjustments
+	LOAD	Increment_Speed
+	JZERO	Fix_Increment
+	JNEG	Fix_Increment
+	ADDI	-10
+	STORE	Increment_Speed
+	OUT		SSEG1
+	LOAD	Increment_Angle
+	JZERO	Fix_Increment
+	JNEG	Fix_Increment
+	ADDI	-5
+	STORE	Increment_Angle
+	OUT		SSEG2
+	JUMP	Main
+	
+Fix_Increment:						;Return Increments to Positive, non-zero, values
+	LOAD	Ten
+	STORE 	Increment_Speed
+	LOAD	Five
+	STORE	Increment_Angle
+	JUMP Main
+
+Pause_Motion:						;Pause motion from motors
 	LOAD	Zero
 	STORE	DVel
 	IN		THETA
 	STORE	DTHETA
 	JUMP	Main
 
-Reset_IR:
+Reset_IR:							;Return IR value to zero (Function Call)
 	LOAD	Zero
 	OUT		IR_HI
 	OUT		IR_LO
 	RETURN
+
 
 ;*************************
 ;* Predefined Subroutines
@@ -658,6 +685,15 @@ Wloop:
 	JNEG   Wloop
 	RETURN
 
+; Modified Subroutine to wait 2 seconds.
+Wait2:
+	OUT    TIMER
+Wloop2:
+	IN     TIMER
+	OUT    XLEDS       ; User-feedback that a pause is occurring.
+	ADDI   -20         ; 2 second at 10Hz.
+	JNEG   Wloop2
+	RETURN
 ; This subroutine will get the battery voltage,
 ; and stop program execution if it is too low.
 ; SetupI2C must be executed prior to this.
