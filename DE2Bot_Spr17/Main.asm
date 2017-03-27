@@ -66,10 +66,10 @@ WaitForUser:
 ;* Main code
 ;***************************************************************
 Main:				
-	IN      IR_HI                                           ; get the high word
-	OUT     SSEG1						; display the high word
+	;IN      IR_HI                                          ; get the high word
+	;OUT     SSEG1						; display the high word
 	IN      IR_LO                                           ; get the low word
-	OUT     SSEG2						; display the low word
+	;OUT     SSEG2						; display the low word
 
         JZERO	Main					        ;If zero, no new value, check again
 	STORE	IR_Current_Val			                ;Else, store new value and start down tree
@@ -80,19 +80,16 @@ Main:
 	JZERO	Die
 	
 	SUB		IR_1
-	LOAD    ONE
-	JUMP    Goto_Spot
+	JZERO   GoOne
 	
 	SUB		IR_Play					;Check if it is pause button (Stop motion)
 	JZERO	Pause_Motion
 	
 	SUB		IR_5
-	LOAD    FIVE
-	JUMP    Goto_Spot
+	JZERO   GoFive
 	
 	SUB		IR_9
-	LOAD    NINE
-	JUMP    Goto_Spot
+	JZERO   GoNine
 	
 	SUB		IR_Enter
 	JUMP    Parallel
@@ -104,23 +101,19 @@ Main:
 	JZERO	Turn_Left
 	
 	SUB		IR_3
-	LOAD    THREE
-	JUMP    Goto_Spot
+	JZERO   GoThree
 	
 	SUB		IR_7
-	LOAD    SEVEN
-	JUMP    Goto_Spot
+	JZERO   GoSeven
 	
 	SUB		IR_Pause				;Do stuff to back up
 	JZERO	Move_Backward
 	
 	SUB		IR_2
-	LOAD    TWO
-	JUMP    Goto_Spot
+	JZERO   GoTwo
 	
 	SUB		IR_6
-	LOAD    SIX
-	JUMP    Goto_Spot
+	JZERO   GoSix
 	
 	SUB		IR_0					;Do stuff to go forward
 	JZERO	Move_Forward
@@ -132,15 +125,13 @@ Main:
 	JZERO	Turn_Right
 	
 	SUB		IR_4
-	LOAD    FOUR
-	JUMP    Goto_Spot
+	JZERO   GoFour
 	
 	SUB		IR_8
-	LOAD    EIGHT
-	JUMP    Goto_Spot
+	JZERO   GoEight
 	
 	SUB		IR_TV_VCR
-	JUMP    Perpendicular
+	JZERO   Perpendicular
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -322,17 +313,29 @@ Reset_IR:							;Return IR value to zero (Function Call)
 
 ;*****************************NOT TESTED**************************************************
 
+GoOne:	LOAD OffOne
+	JUMP Goto_Spot
+GoTwo:  LOAD OffTwo
+	JUMP Goto_Spot
+GoThree:LOAD OffThree
+	JUMP Goto_Spot
+GoFour: LOAD OffFour
+	JUMP Goto_Spot
+GoFive: LOAD OffFive
+	JUMP Goto_Spot
+GoSix:  LOAD OffSix
+	JUMP Goto_Spot
+GoSeven:LOAD OffSeven
+	JUMP Goto_Spot
+GoEight:LOAD OffEight
+	JUMP Goto_Spot
+GoNine: LOAD OffNine
+	JUMP Goto_Spot
+
 Goto_Spot:
-	STORE   Spot						;Save the target spot
+	STORE   Spot_Off					;Save the target spot
 	CALL	Goto_Auto_Init_Pos				;Initial position in front of parking spot 9
-	LOAD	NINE
-	SUB     Spot						;Calculate the spot offset relative to spot 9
-	STORE   m16sA						;Multiply spot offset with the spot width
-	LOAD    Spot_Width
-	STORE   m16sB
-	CALL    Mult16s
-	LOAD 	mres16sL
-	;Goto_Forward method to move by mres16sL""", assuming gotoforward exists and goes forward by the amount
+	;Goto_Forward method to move by offset""", assuming gotoforward exists and goes forward by the amount
 	;In place 90 degrees turn to the right"""
 	;Goto_Forward method to move by Auto_Perp_Distance"""
 	JUMP    Perpendicular
@@ -818,8 +821,7 @@ I2CError:
 Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
 Increment_Speed:	DW	10 ;Value used to make adjustments to position
 Increment_Angle:	DW	5  ;Value used to make adjustments to angle
-Spot:                   DW      0  ;Target spot
-Spot_Width:		DW	0  ;Width of each spot
+Spot_Off:               DW      0  ;Spot offset
 Auto_Perp_Distance:	DW	0  ;Distance that will bring the robot to the position for perpendicular parking in auto parking 
 Perpendicular_Distance: DW      0  ;Distance that will park the robot from a specified position
 
