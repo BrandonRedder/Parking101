@@ -347,7 +347,7 @@ Go_Forward:
 	RETURN
 
 Perpendicular:
-	;In place 90 degrees turn to the right***
+	;In place 90 degrees turn to the right***		
         ;Goto_Forward method to move by PerpendicularDistance***
 	JUMP Main
 
@@ -821,8 +821,8 @@ Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
 Increment_Speed:	DW	10 ;Value used to make adjustments to position
 Increment_Angle:	DW	5  ;Value used to make adjustments to angle
 SpotOff:                DW      0  ;Spot offset
-PerpendicularDistance:  DW      0  ;Distance that will park the robot from a specified position
-OffOne:			DW	0
+PerpendicularDistance:  DW      0  ;Distance to travel from a perpendicular parking initial position
+OffOne:			DW	0  ;Need to put the offsets
 OffTwo:			DW	0
 OffThree:		DW	0
 OffFour:		DW	0
