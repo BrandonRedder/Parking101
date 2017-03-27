@@ -65,11 +65,14 @@ WaitForUser:
 ;***************************************************************
 ;* Main code
 ;***************************************************************
-Main:
-	IN		IR_LO					;Read in IR Second Word
-	JZERO	Main					;If zero, no new value, check again
-	STORE	IR_Current_Val			;Else, store new value and start down tree
-	Call Reset_IR					;Reset IR to not read same value twice
+Main:				
+	IN      IR_HI                                           ; get the high word
+	OUT     SSEG1
+	IN      IR_LO                                           ; get the low word
+	OUT     SSEG2
+        JZERO	Main					        ;If zero, no new value, check again
+	STORE	IR_Current_Val			                ;Else, store new value and start down tree
+	Call    Reset_IR					;Reset IR to not read same value twice
 	LOAD	IR_Current_Val			
 	
 	SUB		IR_Power				;Check if power button (E-Stop)
@@ -129,9 +132,7 @@ Main:
 	SUB		IR_TV_VCR
 	;Do stuff for perpendicular parking
 	
-	JUMP	Main					;Match not found, return to begining
-
-
+	JUMP	Main					        ;Match not found, return to begining
 
 Die:
 ; Sometimes it's useful to permanently stop execution.
@@ -247,13 +248,13 @@ Move_Backward:							;Manually move bot back my increment
 	STORE	DVel
 	JUMP	Main
 	
-Turn_Left:								;Manually turn bot to left by increment
+Turn_Left:							;Manually turn bot to left by increment
 	IN    	THETA
 	ADD		Increment_Angle
 	STORE 	DTheta
 	JUMP 	Main
 	
-Turn_Right:								;Manually turn bot to right by increment
+Turn_Right:							;Manually turn bot to right by increment
 	IN    	THETA
 	SUB		Increment_Angle
 	STORE 	DTheta
@@ -274,7 +275,7 @@ Increase_Increment:						;Increase linear and angular increment for manual adjus
 	OUT		SSEG2
 	JUMP	Main
 
-Decrease_Increment:					;Decrease linear and angular increment for manual adjustments
+Decrease_Increment:						;Decrease linear and angular increment for manual adjustments
 	LOAD	Increment_Speed
 	JZERO	Fix_Increment
 	JNEG	Fix_Increment
@@ -289,14 +290,14 @@ Decrease_Increment:					;Decrease linear and angular increment for manual adjust
 	OUT		SSEG2
 	JUMP	Main
 	
-Fix_Increment:						;Return Increments to Positive, non-zero, values
+Fix_Increment:							;Return Increments to Positive, non-zero, values
 	LOAD	Ten
 	STORE 	Increment_Speed
 	LOAD	Five
 	STORE	Increment_Angle
 	JUMP Main
 
-Pause_Motion:						;Pause motion from motors
+Pause_Motion:							;Pause motion from motors
 	LOAD	Zero
 	STORE	DVel
 	IN		THETA
@@ -305,8 +306,8 @@ Pause_Motion:						;Pause motion from motors
 
 Reset_IR:							;Return IR value to zero (Function Call)
 	LOAD	Zero
-	OUT		IR_HI
-	OUT		IR_LO
+	OUT     IR_HI
+	OUT     IR_LO
 	RETURN
 
 

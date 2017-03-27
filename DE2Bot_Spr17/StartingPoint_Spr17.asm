@@ -697,6 +697,7 @@ I2CError:
 ;* Variables
 ;***************************************************************
 Temp:     DW 0 ; "Temp" is not a great name, but can be useful
+aIRLOW:   DW 0
 
 ;***************************************************************
 ;* Constants
