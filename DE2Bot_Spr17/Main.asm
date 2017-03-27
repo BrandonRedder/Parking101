@@ -349,11 +349,11 @@ Go_Forward:
 Perpendicular:
 	;In place 90 degrees turn to the right***		
         ;Goto_Forward method to move by PerpendicularDistance***
-	JUMP Main
+	JUMP Die
 
 Parallel:
 	;Required moves for parallel parking***
-	JUMP Main
+	JUMP Die
 
 ;*****************************NOT TESTED**************************************************
 
