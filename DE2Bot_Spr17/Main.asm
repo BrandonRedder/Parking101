@@ -296,7 +296,7 @@ Fix_Increment:							;Return Increments to Positive, non-zero, values
 	STORE 	Increment_Speed
 	LOAD	Five
 	STORE	Increment_Angle
-	JUMP Main
+	JUMP 	Main
 
 Pause_Motion:							;Pause motion from motors
 	LOAD	Zero
@@ -333,28 +333,27 @@ GoNine: LOAD OffNine
 	JUMP Goto_Spot
 
 Goto_Spot:
-	STORE   Spot_Off					;Save the target spot
-	CALL	Goto_Auto_Init_Pos				;Initial position in front of parking spot 9
-	;Goto_Forward method to move by offset""", assuming gotoforward exists and goes forward by the amount
-	;In place 90 degrees turn to the right"""
-	;Goto_Forward method to move by Auto_Perp_Distance"""
+	STORE   SpotOff
+	CALL	Goto_Init_Pos					
+	LOAD	SpotOff
+	;Goto_Forward method to move by offset***
 	JUMP    Perpendicular
 
-Goto_Auto_Init_Pos:						;Not defined, needs to measure the arena"""
-	RETURN							;Goes to an initial position in front of spot 9
-								;Facing towards the further wall, not spots
+Goto_Init_Pos:							;Initial position in front of the parking spot 9
+	RETURN							;Facing towards the further wall, not spots***
+
+Goto_Forward:
+	;Logic to go forward by the specified amount***
+	RETURN
 
 Perpendicular:
-        ;Goto_Forward method to move by Perpendicular_Distance"""
+	;In place 90 degrees turn to the right***
+        ;Goto_Forward method to move by PerpendicularDistance***
 	JUMP Main
 
 Parallel:
-	;Required moves for parallel parking"""
+	;Required moves for parallel parking***
 	JUMP Main
-
-Goto_Forward:
-	;Logic to go forward by the specified amount"""
-	RETURN
 
 ;*****************************NOT TESTED**************************************************
 
@@ -821,10 +820,17 @@ I2CError:
 Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
 Increment_Speed:	DW	10 ;Value used to make adjustments to position
 Increment_Angle:	DW	5  ;Value used to make adjustments to angle
-Spot_Off:               DW      0  ;Spot offset
-Auto_Perp_Distance:	DW	0  ;Distance that will bring the robot to the position for perpendicular parking in auto parking 
-Perpendicular_Distance: DW      0  ;Distance that will park the robot from a specified position
-
+SpotOff:                DW      0  ;Spot offset
+PerpendicularDistance:  DW      0  ;Distance that will park the robot from a specified position
+OffOne:			DW	0
+OffTwo:			DW	0
+OffThree:		DW	0
+OffFour:		DW	0
+OffFive			DW	0
+OffSix:			DW	0
+OffSeven:		DW	0
+OffEight:		DW	0
+OffNine:		DW	0
 ;***************************************************************
 ;* Constants
 ;* (though there is nothing stopping you from writing to these)
