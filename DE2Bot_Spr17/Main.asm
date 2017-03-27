@@ -336,13 +336,13 @@ Goto_Spot:
 	STORE   SpotOff
 	CALL	Goto_Init_Pos					
 	LOAD	SpotOff
-	;Goto_Forward method to move by offset***
+	;Go_Forward method to move by offset***
 	JUMP    Perpendicular
 
 Goto_Init_Pos:							;Initial position in front of the parking spot 9
 	RETURN							;Facing towards the further wall, not spots***
 
-Goto_Forward:
+Go_Forward:
 	;Logic to go forward by the specified amount***
 	RETURN
 
