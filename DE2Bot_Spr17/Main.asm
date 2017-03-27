@@ -67,9 +67,10 @@ WaitForUser:
 ;***************************************************************
 Main:				
 	IN      IR_HI                                           ; get the high word
-	OUT     SSEG1
+	OUT     SSEG1						; display the high word
 	IN      IR_LO                                           ; get the low word
-	OUT     SSEG2
+	OUT     SSEG2						; display the low word
+
         JZERO	Main					        ;If zero, no new value, check again
 	STORE	IR_Current_Val			                ;Else, store new value and start down tree
 	Call    Reset_IR					;Reset IR to not read same value twice
@@ -79,19 +80,22 @@ Main:
 	JZERO	Die
 	
 	SUB		IR_1
-	;Do stuff for parking spot 1
+	LOAD    ONE
+	JUMP    Goto_Spot
 	
 	SUB		IR_Play					;Check if it is pause button (Stop motion)
 	JZERO	Pause_Motion
 	
 	SUB		IR_5
-	;Do stuff for parking spot 5
+	LOAD    FIVE
+	JUMP    Goto_Spot
 	
 	SUB		IR_9
-	;Do stuff for parking spot 9
+	LOAD    NINE
+	JUMP    Goto_Spot
 	
 	SUB		IR_Enter
-	;Do stuff for parallel parking
+	JUMP    Parallel
 	
 	SUB		IR_VolUp				;Increase the increment in motion and angle
 	JZERO	Increase_Increment
@@ -100,19 +104,23 @@ Main:
 	JZERO	Turn_Left
 	
 	SUB		IR_3
-	;Do stuff for parking spot 3
+	LOAD    THREE
+	JUMP    Goto_Spot
 	
 	SUB		IR_7
-	;Do stuff for parking spot 7
+	LOAD    SEVEN
+	JUMP    Goto_Spot
 	
 	SUB		IR_Pause				;Do stuff to back up
 	JZERO	Move_Backward
 	
 	SUB		IR_2
-	;Do stuff for parking spot 2
+	LOAD    TWO
+	JUMP    Goto_Spot
 	
 	SUB		IR_6
-	;Do stuff for parking spot 6
+	LOAD    SIX
+	JUMP    Goto_Spot
 	
 	SUB		IR_0					;Do stuff to go forward
 	JZERO	Move_Forward
@@ -124,13 +132,15 @@ Main:
 	JZERO	Turn_Right
 	
 	SUB		IR_4
-	;Do stuff for parking spot 4
+	LOAD    FOUR
+	JUMP    Goto_Spot
 	
 	SUB		IR_8
-	;Do stuff for parking spot 8
+	LOAD    EIGHT
+	JUMP    Goto_Spot
 	
 	SUB		IR_TV_VCR
-	;Do stuff for perpendicular parking
+	JUMP    Perpendicular
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -310,6 +320,40 @@ Reset_IR:							;Return IR value to zero (Function Call)
 	OUT     IR_LO
 	RETURN
 
+;*****************************NOT TESTED**************************************************
+
+Goto_Spot:
+	STORE   Spot						;Save the target spot
+	CALL	Goto_Auto_Init_Pos				;Initial position in front of parking spot 9
+	LOAD	NINE
+	SUB     Spot						;Calculate the spot offset relative to spot 9
+	STORE   m16sA						;Multiply spot offset with the spot width
+	LOAD    Spot_Width
+	STORE   m16sB
+	CALL    Mult16s
+	LOAD 	mres16sL
+	;Goto_Forward method to move by mres16sL""", assuming gotoforward exists and goes forward by the amount
+	;In place 90 degrees turn to the right"""
+	;Goto_Forward method to move by Auto_Perp_Distance"""
+	JUMP    Perpendicular
+
+Goto_Auto_Init_Pos:						;Not defined, needs to measure the arena"""
+	RETURN							;Goes to an initial position in front of spot 9
+								;Facing towards the further wall, not spots
+
+Perpendicular:
+        ;Goto_Forward method to move by Perpendicular_Distance"""
+	JUMP Main
+
+Parallel:
+	;Required moves for parallel parking"""
+	JUMP Main
+
+Goto_Forward:
+	;Logic to go forward by the specified amount"""
+	RETURN
+
+;*****************************NOT TESTED**************************************************
 
 ;*************************
 ;* Predefined Subroutines
@@ -771,9 +815,13 @@ I2CError:
 ;***************************************************************
 ;* Variables
 ;***************************************************************
-Temp:     DW 0 ; "Temp" is not a great name, but can be useful
+Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
 Increment_Speed:	DW	10 ;Value used to make adjustments to position
-Increment_Angle:	DW	5 ;Value used to make adjustments to angle
+Increment_Angle:	DW	5  ;Value used to make adjustments to angle
+Spot:                   DW      0  ;Target spot
+Spot_Width:		DW	0  ;Width of each spot
+Auto_Perp_Distance:	DW	0  ;Distance that will bring the robot to the position for perpendicular parking in auto parking 
+Perpendicular_Distance: DW      0  ;Distance that will park the robot from a specified position
 
 ;***************************************************************
 ;* Constants
