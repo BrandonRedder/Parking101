@@ -66,12 +66,12 @@ WaitForUser:
 ;* Main code
 ;***************************************************************
 Main:				
-	;IN      IR_HI                                          ; get the high word
+	;IN      IR_HI                      ; get the high word
 	;OUT     SSEG1						; display the high word
-	IN      IR_LO                                           ; get the low word
+	IN      IR_LO                       ; get the low word
 	;OUT     SSEG2						; display the low word
 
-        JZERO	Main					        ;If zero, no new value, check again
+    JZERO	Main					        ;If zero, no new value, check again
 	STORE	IR_Current_Val			                ;Else, store new value and start down tree
 	Call    Reset_IR					;Reset IR to not read same value twice
 	LOAD	IR_Current_Val			
@@ -951,3 +951,17 @@ IR_FF:		DW	&H07F8
 IR_4:		DW	&H17E8
 IR_8:		DW	&H0FF0
 IR_TV_VCR:	DW	&H0EF1
+
+;*******************************************************************
+;* Parking Spot Offsets
+;*******************************************************************
+SpotOff:	DW	&H0000
+OffOne:		DW	&H0000
+OffTwo:		DW	&H0000
+OffThree:	DW	&H0000
+OffFour:	DW	&H0000
+OffFive:	DW	&H0000
+OffSix:		DW	&H0000
+OffSeven:	DW	&H0000
+OffEight:	DW	&H0000
+OffNine:	DW	&H0000
