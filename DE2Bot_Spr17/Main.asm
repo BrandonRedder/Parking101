@@ -317,7 +317,7 @@ GoOne:	LOAD OffOne
 	JUMP Goto_Spot
 GoTwo:  LOAD OffTwo
 	JUMP Goto_Spot
-GoThree:LOAD OffThree
+GoThree: LOAD OffThree
 	JUMP Goto_Spot
 GoFour: LOAD OffFour
 	JUMP Goto_Spot
@@ -325,25 +325,43 @@ GoFive: LOAD OffFive
 	JUMP Goto_Spot
 GoSix:  LOAD OffSix
 	JUMP Goto_Spot
-GoSeven:LOAD OffSeven
+GoSeven: LOAD OffSeven
 	JUMP Goto_Spot
-GoEight:LOAD OffEight
+GoEight: LOAD OffEight
 	JUMP Goto_Spot
 GoNine: LOAD OffNine
 	JUMP Goto_Spot
 
-Goto_Spot:
+Goto_Spot:						;Go to specific spot specified by offset value in AC
 	STORE   SpotOff
 	CALL	Goto_Init_Pos					
 	LOAD	SpotOff
-	;Go_Forward method to move by offset***
+	CALL	Go_Forward
 	JUMP    Perpendicular
 
 Goto_Init_Pos:							;Initial position in front of the parking spot 9
 	RETURN							;Facing towards the further wall, not spots***
 
-Go_Forward:
-	;Logic to go forward by the specified amount***
+Go_Forward:					;Logic to go forward by the specified amount***
+	STORE	Travel_Distance
+	IN		XPOS
+	STORE	Starting_X
+	IN		YPOS
+	STORE	Starting_Y
+	IN		THETA
+	STORE	DTHETA
+	LOADI	30
+	STORE	DVEL
+GF_Check:
+	IN		XPOS
+	SUB		Starting_X
+	STORE	L2X
+	IN		YPOS
+	SUB		Starting_Y
+	STORE	L2Y
+	CALL	L2Estimate
+	SUB		Travel_Distance
+	JNEG	GF_Check
 	RETURN
 
 Perpendicular:
@@ -820,17 +838,7 @@ I2CError:
 Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
 Increment_Speed:	DW	10 ;Value used to make adjustments to position
 Increment_Angle:	DW	5  ;Value used to make adjustments to angle
-SpotOff:                DW      0  ;Spot offset
-PerpendicularDistance:  DW      0  ;Distance to travel from a perpendicular parking initial position
-OffOne:			DW	0  ;Need to put the offsets
-OffTwo:			DW	0
-OffThree:		DW	0
-OffFour:		DW	0
-OffFive			DW	0
-OffSix:			DW	0
-OffSeven:		DW	0
-OffEight:		DW	0
-OffNine:		DW	0
+
 ;***************************************************************
 ;* Constants
 ;* (though there is nothing stopping you from writing to these)
@@ -953,8 +961,9 @@ IR_8:		DW	&H0FF0
 IR_TV_VCR:	DW	&H0EF1
 
 ;*******************************************************************
-;* Parking Spot Offsets
+;* Variables for Fully Autonomous
 ;*******************************************************************
+PerpendicularDistance:  DW      0  ;Distance to travel from a perpendicular parking initial position
 SpotOff:	DW	&H0000
 OffOne:		DW	&H0000
 OffTwo:		DW	&H0000
@@ -965,3 +974,10 @@ OffSix:		DW	&H0000
 OffSeven:	DW	&H0000
 OffEight:	DW	&H0000
 OffNine:	DW	&H0000
+
+;*******************************************************************
+;* Variables for GoForward function
+;*******************************************************************
+Travel_Distance:	DW	&H0000
+	Starting_X:		DW	&H0000
+	Starting_Y:		DW	&H0000	
