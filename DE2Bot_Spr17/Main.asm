@@ -1,5 +1,5 @@
-;REV 1.0.0
-; 3/29/17 7:12
+;REV 1.0.2
+; 3/30/17 12:12
 
 ; This code uses the timer interrupt for the control code.
 ORG 0                  ; Jump table is located in mem 0-4
@@ -55,12 +55,14 @@ WaitForUser:
 	JPOS   WaitForUser ; not ready (KEYs are active-low, hence JPOS)
 	LOAD   Zero
 	OUT    XLEDS       ; clear LEDs once ready to continue
-	
+
+	;Outputing Speed and angle values to SSEG display
 	LOAD	Increment_Speed
 	OUT		SSEG1
 	LOAD	Increment_Angle
 	OUT		SSEG2
 
+	;Setting up interrupts for motion control
 	LOADI  0
 	STORE  DVel        ; desired forward velocity
 	IN     THETA
@@ -176,82 +178,6 @@ Forever:
 	DEAD:  DW &HDEAD   ; Example of a "local" variable
 
 
-; Timer ISR.  Currently just calls the movement control code.
-; You could, however, do additional tasks here if desired.
-CTimer_ISR:
-	CALL   ControlMovement
-	RETI   ; return from ISR
-	
-	
-; Control code.  If called repeatedly, this code will attempt
-; to control the robot to face the angle specified in DTheta
-; and match the speed specified in DVel
-DTheta:    DW 0
-DVel:      DW 0
-ControlMovement:
-	LOADI  50          ; used later to get a +/- constant
-	STORE  MaxVal
-	CALL   GetThetaErr ; get the heading error
-	; A simple way to get a decent velocity value
-	; for turning is to multiply the angular error by 4
-	; and add ~50.
-	SHIFT  2
-	STORE  CMAErr      ; hold temporarily
-	SHIFT  3           ; multiply by another 4
-	CALL   CapValue    ; get a +/- max of 50
-	ADD    CMAErr
-	STORE  CMAErr
-
-	
-	; For this basic control method, simply take the
-	; desired forward velocity and add a differential
-	; velocity for each wheel when turning is needed.
-	LOADI  510
-	STORE  MaxVal
-	LOAD   DVel
-	CALL   CapValue    ; ensure velocity is valid
-	STORE  DVel        ; overwrite any invalid input
-	ADD    CMAErr
-	CALL   CapValue    ; ensure velocity is valid
-	OUT    RVELCMD
-	LOAD   CMAErr
-	CALL   Neg         ; left wheel gets negative differential
-	ADD    DVel
-	CALL   CapValue
-	OUT    LVELCMD
-	
-	RETURN
-	CMAErr: DW 0       ; holds angle error velocity
-
-; Returns the current angular error wrapped to +/-180
-GetThetaErr:
-	; convenient way to get angle error in +/-180 range is
-	; ((error + 180) % 360 ) - 180
-	IN     THETA
-	SUB    DTheta      ; actual - desired angle
-	CALL   Neg         ; desired - actual angle
-	ADDI   180
-	CALL   Mod360
-	ADDI   -180
-	RETURN
-
-; caps a value to +/-MaxVal
-CapValue:
-	SUB     MaxVal
-	JPOS    CapVelHigh
-	ADD     MaxVal
-	ADD     MaxVal
-	JNEG    CapVelLow
-	SUB     MaxVal
-	RETURN
-CapVelHigh:
-	LOAD    MaxVal
-	RETURN
-CapVelLow:
-	LOAD    MaxVal
-	CALL    Neg
-	RETURN
-	MaxVal: DW 510
 
 ;***************************************************************
 ;* Subroutines
@@ -329,25 +255,31 @@ Reset_IR:							;Return IR value to zero (Function Call)
 	OUT     IR_HI
 	OUT     IR_LO
 	RETURN
-
-;*****************************NOT TESTED**************************************************
-
+	
 GoOne:	LOAD OffOne
 	JUMP Goto_Spot
+
 GoTwo:  LOAD OffTwo
 	JUMP Goto_Spot
+
 GoThree: LOAD OffThree
 	JUMP Goto_Spot
+
 GoFour: LOAD OffFour
 	JUMP Goto_Spot
+	
 GoFive: LOAD OffFive
 	JUMP Goto_Spot
+	
 GoSix:  LOAD OffSix
 	JUMP Goto_Spot
+	
 GoSeven: LOAD OffSeven
 	JUMP Goto_Spot
+	
 GoEight: LOAD OffEight
 	JUMP Goto_Spot
+	
 GoNine: LOAD OffNine
 	JUMP Goto_Spot
 
@@ -392,11 +324,96 @@ Parallel:
 	;Required moves for parallel parking***
 	JUMP Die
 
-;*****************************NOT TESTED**************************************************
+; Modified Subroutine to wait 2 seconds.
+Wait2:
+	OUT    TIMER
+Wloop2:
+	IN     TIMER
+	OUT    XLEDS       ; User-feedback that a pause is occurring.
+	ADDI   -20         ; 2 second at 10Hz.
+	JNEG   Wloop2
+	RETURN
 
 ;*************************
 ;* Predefined Subroutines
 ;*************************
+
+; Timer ISR.  Currently just calls the movement control code.
+; You could, however, do additional tasks here if desired.
+CTimer_ISR:
+	CALL   ControlMovement
+	RETI   ; return from ISR
+	
+	
+; Control code.  If called repeatedly, this code will attempt
+; to control the robot to face the angle specified in DTheta
+; and match the speed specified in DVel
+DTheta:    DW 0
+DVel:      DW 0
+ControlMovement:
+	LOADI  50          ; used later to get a +/- constant
+	STORE  MaxVal
+	CALL   GetThetaErr ; get the heading error
+	; A simple way to get a decent velocity value
+	; for turning is to multiply the angular error by 4
+	; and add ~50.
+	SHIFT  2
+	STORE  CMAErr      ; hold temporarily
+	SHIFT  3           ; multiply by another 4
+	CALL   CapValue    ; get a +/- max of 50
+	ADD    CMAErr
+	STORE  CMAErr
+
+	
+	; For this basic control method, simply take the
+	; desired forward velocity and add a differential
+	; velocity for each wheel when turning is needed.
+	LOADI  510
+	STORE  MaxVal
+	LOAD   DVel
+	CALL   CapValue    ; ensure velocity is valid
+	STORE  DVel        ; overwrite any invalid input
+	ADD    CMAErr
+	CALL   CapValue    ; ensure velocity is valid
+	OUT    RVELCMD
+	LOAD   CMAErr
+	CALL   Neg         ; left wheel gets negative differential
+	ADD    DVel
+	CALL   CapValue
+	OUT    LVELCMD
+	
+	RETURN
+	CMAErr: DW 0       ; holds angle error velocity
+
+; Returns the current angular error wrapped to +/-180
+GetThetaErr:
+	; convenient way to get angle error in +/-180 range is
+	; ((error + 180) % 360 ) - 180
+	IN     THETA
+	SUB    DTheta      ; actual - desired angle
+	CALL   Neg         ; desired - actual angle
+	ADDI   180
+	CALL   Mod360
+	ADDI   -180
+	RETURN
+
+; caps a value to +/-MaxVal
+CapValue:
+	SUB     MaxVal
+	JPOS    CapVelHigh
+	ADD     MaxVal
+	ADD     MaxVal
+	JNEG    CapVelLow
+	SUB     MaxVal
+	RETURN
+CapVelHigh:
+	LOAD    MaxVal
+	RETURN
+CapVelLow:
+	LOAD    MaxVal
+	CALL    Neg
+	RETURN
+	MaxVal: DW 510
 
 ;*******************************************************************************
 ; Mod360: modulo 360
@@ -769,15 +786,6 @@ Wloop:
 	JNEG   Wloop
 	RETURN
 
-; Modified Subroutine to wait 2 seconds.
-Wait2:
-	OUT    TIMER
-Wloop2:
-	IN     TIMER
-	OUT    XLEDS       ; User-feedback that a pause is occurring.
-	ADDI   -20         ; 2 second at 10Hz.
-	JNEG   Wloop2
-	RETURN
 ; This subroutine will get the battery voltage,
 ; and stop program execution if it is too low.
 ; SetupI2C must be executed prior to this.
@@ -854,7 +862,19 @@ I2CError:
 ;***************************************************************
 ;* Variables
 ;***************************************************************
+
+;** Generic Variables
 Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
+
+;** Variables for GoForward function
+Travel_Distance:	DW	&H0000
+	Starting_X:		DW	&H0000
+	Starting_Y:		DW	&H0000
+
+;** Variables for IR Code
+IR_Current_Val:	DW	&H0
+
+;** Variables for motion control
 Increment_Speed:	DW	60 ;Value used to make adjustments to position
 Increment_Angle:	DW	15  ;Value used to make adjustments to angle
 
@@ -875,9 +895,9 @@ Eight:    DW 8
 Nine:     DW 9
 Ten:      DW 10
 
-; Some bit masks.
-; Masks of multiple bits can be constructed by ORing these
-; 1-bit masks together.
+; **Some bit masks.
+; **Masks of multiple bits can be constructed by ORing these
+; **1-bit masks together.
 Mask0:    DW &B00000001
 Mask1:    DW &B00000010
 Mask2:    DW &B00000100
@@ -889,7 +909,7 @@ Mask7:    DW &B10000000
 LowByte:  DW &HFF      ; binary 00000000 1111111
 LowNibl:  DW &HF       ; 0000 0000 0000 1111
 
-; some useful movement values
+; **some useful movement values
 OneMeter: DW 961       ; ~1m in 1.04mm units
 HalfMeter: DW 481      ; ~0.5m in 1.04mm units
 TwoFeet:  DW 586       ; ~2ft in 1.04mm units
@@ -908,9 +928,7 @@ MinBatt:  DW 140       ; 14.0V - minimum safe battery voltage
 I2CWCmd:  DW &H1190    ; write one i2c byte, read one byte, addr 0x90
 I2CRCmd:  DW &H0190    ; write nothing, read one byte, addr 0x90
 
-;***************************************************************
-;* IO address space map
-;***************************************************************
+;** IO address space map
 SWITCHES: EQU &H00  ; slide switches
 LEDS:     EQU &H01  ; red LEDs
 TIMER:    EQU &H02  ; timer, usually running at 10 Hz
@@ -953,12 +971,8 @@ LIN:      EQU &HC9
 IR_HI:    EQU &HD0  ; read the high word of the IR receiver (OUT will clear both words)
 IR_LO:    EQU &HD1  ; read the low word of the IR receiver (OUT will clear both words)
 
-;***************************************************************
-;* IR Differences
-;* The difference between the current value and the next value of possible commands (in order)
-;***************************************************************
+;** IR Command Values
 ORG 2000
-IR_Current_Val:	DW	&H0
 IR_Power:	DW	&H00FF
 IR_1:		DW	&H20DF
 IR_Play:	DW	&H28D7
@@ -979,9 +993,7 @@ IR_4:		DW	&HE01F
 IR_8:		DW	&HF00F
 IR_TV_VCR:	DW	&HFF00
 
-;*******************************************************************
-;* Variables for Fully Autonomous
-;*******************************************************************
+;** Constants for Fully Autonomous
 PerpendicularDistance:  DW      0  ;Distance to travel from a perpendicular parking initial position
 SpotOff:	DW	&H0000
 OffOne:		DW	&H0000
@@ -994,9 +1006,8 @@ OffSeven:	DW	&H0000
 OffEight:	DW	&H0000
 OffNine:	DW	&H0000
 
-;*******************************************************************
-;* Variables for GoForward function
-;*******************************************************************
-Travel_Distance:	DW	&H0000
-	Starting_X:		DW	&H0000
-	Starting_Y:		DW	&H0000	
+
+
+
+
+
