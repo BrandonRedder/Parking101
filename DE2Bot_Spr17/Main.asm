@@ -65,71 +65,86 @@ WaitForUser:
 ;***************************************************************
 ;* Main code
 ;***************************************************************
-Main:				
-	;IN      IR_HI                      ; get the high word
-	;OUT     SSEG1						; display the high word
-	IN      IR_LO                       ; get the low word
-	;OUT     SSEG2						; display the low word
+Main:
+	IN       IR_LO                  ; get the low word
 
-    JZERO	Main					        ;If zero, no new value, check again
-	STORE	IR_Current_Val			                ;Else, store new value and start down tree
-	Call    Reset_IR					;Reset IR to not read same value twice
-	LOAD	IR_Current_Val			
+    JZERO	Main					;If zero, no new value, check again
+	STORE	IR_Current_Val	        ;Else, store new value and start down tree
+	Call    Reset_IR				;Reset IR to not read same value twice
 	
+	LOAD    IR_Current_Val
 	SUB		IR_Power				;Check if power button (E-Stop)
 	JZERO	Die
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_1
 	JZERO   GoOne
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_Play					;Check if it is pause button (Stop motion)
 	JZERO	Pause_Motion
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_5
 	JZERO   GoFive
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_9
 	JZERO   GoNine
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_Enter
 	JUMP    Parallel
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_VolUp				;Increase the increment in motion and angle
 	JZERO	Increase_Increment
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_RW					;Do stuff to turn left
 	JZERO	Turn_Left
 	
+	LOAD    IR_Current_Val
 	SUB		IR_3
 	JZERO   GoThree
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_7
 	JZERO   GoSeven
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_Pause				;Do stuff to back up
 	JZERO	Move_Backward
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_2
 	JZERO   GoTwo
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_6
 	JZERO   GoSix
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_0					;Do stuff to go forward
 	JZERO	Move_Forward
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_VolDwn				;Decrease the increment in motion and angle
 	JZERO	Decrease_Increment
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_FF					;Do stuff to turn right
 	JZERO	Turn_Right
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_4
 	JZERO   GoFour
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_8
 	JZERO   GoEight
-	
+
+	LOAD    IR_Current_Val	
 	SUB		IR_TV_VCR
 	JZERO   Perpendicular
 	
