@@ -114,7 +114,7 @@ Main:
 
 	LOAD    IR_Current_Val	
 	SUB		IR_RW					;Do stuff to turn left
-	JZERO	Turn_Left
+	CZERO	Turn_Left
 	
 	LOAD    IR_Current_Val
 	SUB		IR_3
@@ -146,7 +146,7 @@ Main:
 
 	LOAD    IR_Current_Val	
 	SUB		IR_FF					;Do stuff to turn right
-	JZERO	Turn_Right
+	CZERO	Turn_Right
 
 	LOAD    IR_Current_Val	
 	SUB		IR_4
@@ -198,14 +198,26 @@ Turn_Left:							;Manually turn bot to left by increment
 	IN    	THETA
 	ADD		Increment_Angle
 	STORE 	DTheta
-	JUMP 	Main
+	RETURN
 	
 Turn_Right:							;Manually turn bot to right by increment
 	IN    	THETA
 	SUB		Increment_Angle
 	STORE 	DTheta
-	JUMP	Main
+	RETURN
 	
+Turn_Left90:							;Manually turn bot to left by 90 degrees
+	IN    	THETA
+	ADDI	90
+	STORE 	DTheta
+	RETURN
+	
+Turn_Right90:							;Manually turn bot to right by 90 degrees
+	IN    	THETA
+	ADDI	-90
+	STORE 	DTheta
+	RETURN
+
 Increase_Increment:						;Increase linear and angular increment for manual adjustments
 	LOAD	Increment_Speed
 	JZERO	Fix_Increment

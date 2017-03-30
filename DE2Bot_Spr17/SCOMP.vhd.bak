@@ -318,7 +318,7 @@ BEGIN
 					STATE          <= EX_STORE;
 
 				WHEN EX_CALL =>
-					FOR i IN 0 TO 8 LOOP
+					FOR i IN 0 TO 18 LOOP
 						PC_STACK(i + 1) <= PC_STACK(i);
 					END LOOP;
 					PC_STACK(0) <= PC;
@@ -326,7 +326,7 @@ BEGIN
 					STATE       <= FETCH;
 
 				WHEN EX_RETURN =>
-					FOR i IN 0 TO 8 LOOP
+					FOR i IN 0 TO 18 LOOP
 						PC_STACK(i) <= PC_STACK(i + 1);
 					END LOOP;
 					PC          <= PC_STACK(0);

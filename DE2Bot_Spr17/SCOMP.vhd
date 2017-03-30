@@ -49,7 +49,8 @@ ARCHITECTURE a OF SCOMP IS
 		EX_OUT,
 		EX_OUT2,
 		EX_LOADI,
-		EX_RETI
+		EX_RETI,
+		EX_CZERO
 	);
 
 	TYPE STACK_TYPE IS ARRAY (0 TO 19) OF STD_LOGIC_VECTOR(10 DOWNTO 0);
@@ -357,7 +358,15 @@ BEGIN
 					PC    <= PC_SAVED; -- restore saved registers
 					AC    <= AC_SAVED;
 					STATE <= FETCH;
-
+				WHEN EX_CZERO =>
+					IF (AC = x"0000") THEN
+						FOR i IN 0 TO 18 LOOP
+						PC_STACK(i + 1) <= PC_STACK(i);
+						END LOOP;
+						PC_STACK(0) <= PC;
+						PC          <= IR(10 DOWNTO 0);
+					END IF;
+					STATE <= FETCH;
 				WHEN OTHERS =>
 					STATE <= FETCH;          -- If an invalid state is reached, return to FETCH
 					
