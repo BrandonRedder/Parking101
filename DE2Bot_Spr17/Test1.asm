@@ -69,96 +69,20 @@ WaitForUser:
 	LOADI  10          ; 10ms * 10 = 0.1s rate, or 10Hz.
 	OUT    CTIMER      ; turn on timer peripheral
 	SEI    &B0010
+	
+	OUT 	RESETPOS
 ;***************************************************************
 ;* Main code
 ;***************************************************************
-Main:				
-	;IN      IR_HI                      ; get the high word
-	;OUT     SSEG1						; display the high word
-	IN      IR_LO                       ; get the low word
-	;OUT     SSEG2						; display the low word
 
-    JZERO	Main					;If zero, no new value, check again
-	STORE	IR_Current_Val	        ;Else, store new value and start down tree
-	Call    Reset_IR				;Reset IR to not read same value twice
-	
-	LOAD    IR_Current_Val
-	SUB		IR_Power				;Check if power button (E-Stop)
-	JZERO	Die
-
-	LOAD    IR_Current_Val	
-	SUB		IR_1
-	JZERO   GoOne
-
-	LOAD    IR_Current_Val	
-	SUB		IR_Play					;Check if it is pause button (Stop motion)
-	JZERO	Pause_Motion
-
-	LOAD    IR_Current_Val	
-	SUB		IR_5
-	JZERO   GoFive
-
-	LOAD    IR_Current_Val	
-	SUB		IR_9
-	JZERO   GoNine
-
-	LOAD    IR_Current_Val	
-	SUB		IR_Enter
-	JZERO   Parallel
-
-	LOAD    IR_Current_Val	
-	SUB		IR_VolUp				;Increase the increment in motion and angle
-	JZERO	Increase_Increment
-
-	LOAD    IR_Current_Val	
-	SUB		IR_RW					;Do stuff to turn left
-	JZERO	Turn_Left
-	
-	LOAD    IR_Current_Val
-	SUB		IR_3
-	JZERO   GoThree
-
-	LOAD    IR_Current_Val	
-	SUB		IR_7
-	JZERO   GoSeven
-
-	LOAD    IR_Current_Val	
-	SUB		IR_Pause				;Do stuff to back up
-	JZERO	Move_Backward
-
-	LOAD    IR_Current_Val	
-	SUB		IR_2
-	JZERO   GoTwo
-
-	LOAD    IR_Current_Val	
-	SUB		IR_6
-	JZERO   GoSix
-
-	LOAD    IR_Current_Val	
-	SUB		IR_0					;Do stuff to go forward
-	JZERO	Move_Forward
-
-	LOAD    IR_Current_Val	
-	SUB		IR_VolDwn				;Decrease the increment in motion and angle
-	JZERO	Decrease_Increment
-
-	LOAD    IR_Current_Val	
-	SUB		IR_FF					;Do stuff to turn right
-	JZERO	Turn_Right
-
-	LOAD    IR_Current_Val	
-	SUB		IR_4
-	JZERO   GoFour
-
-	LOAD    IR_Current_Val	
-	SUB		IR_8
-	JZERO   GoEight
-
-	LOAD    IR_Current_Val	
-	SUB		IR_TV_VCR
-	JZERO   Perpendicular
-	
-	JUMP	Main					        ;Match not found, return to begining
+Main:
+	LOADI	0				
+	LOADI	300
+	CALL	Go_Forward
+	CALL	Wait2
+	LOADI	100
+	CALL	Go_Forward
+	JUMP	Die
 
 Die:
 ; Sometimes it's useful to permanently stop execution.
@@ -260,11 +184,17 @@ Move_Forward:							;Manually move bot forward, by increment
 	LOADI	0
 	ADD		Increment_Speed
 	STORE	DVel
+	Call	Wait2
+	LOADI	0
+	STORE	DVel
 	JUMP	Main
 	
 Move_Backward:							;Manually move bot back my increment
 	LOADI	0
 	SUB		Increment_Speed
+	STORE	DVel
+	Call	Wait2
+	LOADI	0
 	STORE	DVel
 	JUMP	Main
 	
@@ -284,13 +214,13 @@ Increase_Increment:						;Increase linear and angular increment for manual adjus
 	LOAD	Increment_Speed
 	JZERO	Fix_Increment
 	JNEG	Fix_Increment
-	ADDI	20
+	ADDI	10
 	STORE	Increment_Speed
 	OUT		SSEG1
 	LOAD	Increment_Angle
 	JZERO	Fix_Increment
 	JNEG	Fix_Increment
-	ADDI	15
+	ADDI	5
 	STORE	Increment_Angle
 	OUT		SSEG2
 	JUMP	Main
@@ -299,21 +229,21 @@ Decrease_Increment:						;Decrease linear and angular increment for manual adjus
 	LOAD	Increment_Speed
 	JZERO	Fix_Increment
 	JNEG	Fix_Increment
-	ADDI	-20
+	ADDI	-10
 	STORE	Increment_Speed
 	OUT		SSEG1
 	LOAD	Increment_Angle
 	JZERO	Fix_Increment
 	JNEG	Fix_Increment
-	ADDI	-15
+	ADDI	-5
 	STORE	Increment_Angle
 	OUT		SSEG2
 	JUMP	Main
 	
 Fix_Increment:							;Return Increments to Positive, non-zero, values
-	LOADI	60
+	LOAD	Ten
 	STORE 	Increment_Speed
-	LOADI	15
+	LOAD	Five
 	STORE	Increment_Angle
 	JUMP 	Main
 
@@ -369,7 +299,7 @@ Go_Forward:					;Logic to go forward by the specified amount***
 	STORE	Starting_Y
 	IN		THETA
 	STORE	DTHETA
-	LOADI	30
+	LOADI	100
 	STORE	DVEL
 GF_Check:
 	IN		XPOS
@@ -381,6 +311,8 @@ GF_Check:
 	CALL	L2Estimate
 	SUB		Travel_Distance
 	JNEG	GF_Check
+	LOADI	0
+	STORE	DVel
 	RETURN
 
 Perpendicular:
@@ -855,8 +787,8 @@ I2CError:
 ;* Variables
 ;***************************************************************
 Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
-Increment_Speed:	DW	60 ;Value used to make adjustments to position
-Increment_Angle:	DW	15  ;Value used to make adjustments to angle
+Increment_Speed:	DW	10 ;Value used to make adjustments to position
+Increment_Angle:	DW	5  ;Value used to make adjustments to angle
 
 ;***************************************************************
 ;* Constants
@@ -960,24 +892,24 @@ IR_LO:    EQU &HD1  ; read the low word of the IR receiver (OUT will clear both 
 ORG 2000
 IR_Current_Val:	DW	&H0
 IR_Power:	DW	&H00FF
-IR_1:		DW	&H20DF
-IR_Play:	DW	&H28D7
-IR_5:		DW	&H30CF
-IR_9:		DW	&H38C7
-IR_Enter:	DW	&H3AC5
-IR_VolUp:	DW	&H40BF
-IR_RW:		DW	&H48B7
-IR_3:		DW	&H609F
-IR_7:		DW	&H708F
-IR_Pause:	DW	&H8877
-IR_2:		DW	&HA05F
-IR_6:		DW	&HB04F
-IR_0:		DW	&HB847
-IR_VolDwn:	DW	&HC03F
-IR_FF:		DW	&HC837
-IR_4:		DW	&HE01F
-IR_8:		DW	&HF00F
-IR_TV_VCR:	DW	&HFF00
+IR_1:		DW	&H1FE0
+IR_Play:	DW	&H07F8
+IR_5:		DW	&H07F8
+IR_9:		DW	&H07F8
+IR_Enter:	DW	&H01FE
+IR_VolUp:	DW	&H05FA
+IR_RW:		DW	&H07F8
+IR_3:		DW	&H17E8
+IR_7:		DW	&H0FF0
+IR_Pause:	DW	&H17E8
+IR_2:		DW	&H17E8
+IR_6:		DW	&H0FF0
+IR_0:		DW	&H07F8
+IR_VolDwn:	DW	&H07F8
+IR_FF:		DW	&H07F8
+IR_4:		DW	&H17E8
+IR_8:		DW	&H0FF0
+IR_TV_VCR:	DW	&H0EF1
 
 ;*******************************************************************
 ;* Variables for Fully Autonomous
