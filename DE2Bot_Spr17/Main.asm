@@ -106,7 +106,7 @@ Main:
 
 	LOAD    IR_Current_Val	
 	SUB		IR_Enter
-	JZERO   Parallel
+	CZERO   Parallel
 
 	LOAD    IR_Current_Val	
 	SUB		IR_VolUp				;Increase the increment in motion and angle
@@ -158,7 +158,15 @@ Main:
 
 	LOAD    IR_Current_Val	
 	SUB		IR_TV_VCR
-	JZERO   Perpendicular
+	CZERO   Perpendicular
+	
+	LOAD    IR_Current_Val			;Turn left 90
+	SUB		IR_CH_UP
+	CZERO   Turn_Left90
+
+	LOAD    IR_Current_Val			;Turn right 90
+	SUB		IR_CH_DW
+	CZERO   Turn_Right90
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -181,6 +189,8 @@ Forever:
 
 ;***************************************************************
 ;* Subroutines
+;***************************************************************
+;** Manual Control Subroutines
 ;***************************************************************
 Move_Forward:							;Manually move bot forward, by increment
 	LOADI	0
@@ -225,12 +235,6 @@ Increase_Increment:						;Increase linear and angular increment for manual adjus
 	ADDI	20
 	STORE	Increment_Speed
 	OUT		SSEG1
-	LOAD	Increment_Angle
-	JZERO	Fix_Increment
-	JNEG	Fix_Increment
-	ADDI	15
-	STORE	Increment_Angle
-	OUT		SSEG2
 	JUMP	Main
 
 Decrease_Increment:						;Decrease linear and angular increment for manual adjustments
@@ -240,12 +244,6 @@ Decrease_Increment:						;Decrease linear and angular increment for manual adjus
 	ADDI	-20
 	STORE	Increment_Speed
 	OUT		SSEG1
-	LOAD	Increment_Angle
-	JZERO	Fix_Increment
-	JNEG	Fix_Increment
-	ADDI	-15
-	STORE	Increment_Angle
-	OUT		SSEG2
 	JUMP	Main
 	
 Fix_Increment:							;Return Increments to Positive, non-zero, values
@@ -262,12 +260,9 @@ Pause_Motion:							;Pause motion from motors
 	STORE	DTHETA
 	JUMP	Main
 
-Reset_IR:							;Return IR value to zero (Function Call)
-	LOAD	Zero
-	OUT     IR_HI
-	OUT     IR_LO
-	RETURN
-	
+;***************************************************************
+;** Autonomous Control Subroutines
+;***************************************************************
 GoOne:	LOAD OffOne
 	JUMP Goto_Spot
 
@@ -335,9 +330,17 @@ Perpendicular:
 Parallel:
 	;Required moves for parallel parking***
 	JUMP Die
-
-; Modified Subroutine to wait 2 seconds.
-Wait2:
+	
+;***************************************************************
+;** Other Subroutines
+;***************************************************************
+Reset_IR:			   ; Return IR value to zero (Function Call)
+	LOAD	Zero
+	OUT     IR_HI
+	OUT     IR_LO
+	RETURN
+	
+Wait2:				   ; Modified Subroutine to wait 2 seconds.
 	OUT    TIMER
 Wloop2:
 	IN     TIMER
@@ -1004,6 +1007,8 @@ IR_FF:		DW	&HC837
 IR_4:		DW	&HE01F
 IR_8:		DW	&HF00F
 IR_TV_VCR:	DW	&HFF00
+IR_CH_UP:	DW	&H8074
+IR_CH_DW:	DW	&H40BF
 
 ;** Constants for Fully Autonomous
 PerpendicularDistance:  DW      0  ;Distance to travel from a perpendicular parking initial position
