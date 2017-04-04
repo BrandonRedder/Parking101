@@ -87,86 +87,84 @@ Main:
 	LOAD    IR_Current_Val
 	SUB		IR_Power				;Check if power button (E-Stop)
 	JZERO	Die
+	
+	LOAD    IR_Current_Val	
+	SUB		IR_VolUp				;Increase the increment in motion and angle
+	JZERO	Increase_Increment
 
 	LOAD    IR_Current_Val	
-	SUB		IR_1
-	JZERO   GoOne
+	SUB		IR_VolDwn				;Decrease the increment in motion and angle
+	JZERO	Decrease_Increment
+
+
 
 	LOAD    IR_Current_Val	
 	SUB		IR_Play					;Check if it is pause button (Stop motion)
 	JZERO	Pause_Motion
 
 	LOAD    IR_Current_Val	
-	SUB		IR_5
-	JZERO   GoFive
-
-	LOAD    IR_Current_Val	
-	SUB		IR_9
-	JZERO   GoNine
-
-	LOAD    IR_Current_Val	
-	SUB		IR_Enter
-	CZERO   Parallel
-
-	LOAD    IR_Current_Val	
-	SUB		IR_VolUp				;Increase the increment in motion and angle
-	JZERO	Increase_Increment
-
+	SUB		IR_FF					;Do stuff to turn right
+	CZERO	Turn_Right
+	
 	LOAD    IR_Current_Val	
 	SUB		IR_RW					;Do stuff to turn left
-	CZERO	Turn_Left
-	
-	LOAD    IR_Current_Val
-	SUB		IR_3
-	JZERO   GoThree
-
-	LOAD    IR_Current_Val	
-	SUB		IR_7
-	JZERO   GoSeven
-
-	LOAD    IR_Current_Val	
-	SUB		IR_Pause				;Do stuff to back up
-	JZERO	Move_Backward
-
-	LOAD    IR_Current_Val	
-	SUB		IR_2
-	JZERO   GoTwo
-
-	LOAD    IR_Current_Val	
-	SUB		IR_6
-	JZERO   GoSix
+	CZERO	Turn_Left	
 
 	LOAD    IR_Current_Val	
 	SUB		IR_0					;Do stuff to go forward
 	JZERO	Move_Forward
 
 	LOAD    IR_Current_Val	
-	SUB		IR_VolDwn				;Decrease the increment in motion and angle
-	JZERO	Decrease_Increment
+	SUB		IR_Pause				;Do stuff to back up
+	JZERO	Move_Backward
+	
+	LOAD    IR_Current_Val			;Turn in place left 90
+	SUB		IR_CH_UP
+	CZERO   Turn_Left90
+
+	LOAD    IR_Current_Val			;Turn in place right 90
+	SUB		IR_CH_DW
+	CZERO   Turn_Right90
+	
+	
+	
+	LOAD    IR_Current_Val	
+	SUB		IR_TV_VCR
+	CZERO   Perpendicular
 
 	LOAD    IR_Current_Val	
-	SUB		IR_FF					;Do stuff to turn right
-	CZERO	Turn_Right
+	SUB		IR_Enter
+	CZERO   Parallel
+	
+	LOAD    IR_Current_Val	
+	SUB		IR_1
+	;JZERO   GoOne
+	CZERO   Turn_Left90 
+
+	LOAD    IR_Current_Val	
+	SUB		IR_2
+	;JZERO   GoTwo
+	CZERO   Turn_Right90 
+	
+	LOAD    IR_Current_Val
+	SUB		IR_3
+	JZERO   GoThree
 
 	LOAD    IR_Current_Val	
 	SUB		IR_4
 	JZERO   GoFour
 
 	LOAD    IR_Current_Val	
-	SUB		IR_8
-	JZERO   GoEight
+	SUB		IR_5
+	JZERO   GoFive
 
 	LOAD    IR_Current_Val	
-	SUB		IR_TV_VCR
-	CZERO   Perpendicular
-	
-	LOAD    IR_Current_Val			;Turn left 90
-	SUB		IR_CH_UP
-	CZERO   Turn_Left90
+	SUB		IR_6
+	JZERO   GoSix
 
-	LOAD    IR_Current_Val			;Turn right 90
-	SUB		IR_CH_DW
-	CZERO   Turn_Right90
+	LOAD    IR_Current_Val	
+	SUB		IR_7
+	JZERO   GoSeven
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -283,24 +281,47 @@ GoSix:  LOAD OffSix
 	
 GoSeven: LOAD OffSeven
 	JUMP Goto_Spot
-	
-GoEight: LOAD OffEight
-	JUMP Goto_Spot
-	
-GoNine: LOAD OffNine
-	JUMP Goto_Spot
 
 Goto_Spot:						;Go to specific spot specified by offset value in AC
-	STORE   SpotOff
-	CALL	Goto_Init_Pos					
+	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
+	CALL	Goto_Init_Pos1					
 	LOAD	SpotOff
 	CALL	Go_Forward
 	JUMP    Perpendicular
 
-Goto_Init_Pos:							;Initial position in front of the parking spot 9
-	RETURN							;Facing towards the further wall, not spots***
-
-Go_Forward:					;Logic to go forward by the specified amount***
+Err_Correct:
+	CALL   	GetThetaErr ; get the heading error
+	CALL   	Abs	
+	ADDI   	-5          ; check if within 5 degrees
+	JPOS  	Err_Correct	; if not, keep testing
+	OUT    	RESETPOS
+	LOADI	0
+	STORE	DTHETA	
+	RETURN
+	
+Goto_Init_Pos1:			;Facing towards the further wall, not spots
+	LOAD	FMID		; 350 is MID velocity
+	STORE	Dvel
+	CALL	Turn_Right90
+	CALL   	Err_Correct
+	CALL	Turn_Left90
+	CALL   	Err_Correct
+	LOADI	0
+	STORE	Dvel		
+	RETURN							
+	
+Goto_Init_Pos2:			;Facing towards the further wall, not spots
+	LOAD 	InitDist1
+	CALL	Go_Forward2
+	CALL 	Turn_Right90
+	CALL   	Err_Correct
+	LOAD 	InitDist2
+	CALL	Go_Forward2
+	CALL 	Turn_Left90
+	CALL   	Err_Correct
+	RETURN
+	
+Go_Forward:						;Logic to go forward by the specified amount***
 	STORE	Travel_Distance
 	IN		XPOS
 	STORE	Starting_X
@@ -321,14 +342,34 @@ GF_Check:
 	SUB		Travel_Distance
 	JNEG	GF_Check
 	RETURN
+	
+Go_Forward2:						;Logic to go forward by the specified amount***
+	STORE	Travel_Distance
+	OUT    	RESETPOS
+	LOAD	FSLOW
+	STORE	DVEL
+GF_Check2:
+	IN		XPOS
+	SUB		Travel_Distance
+	JNEG	GF_Check2
+	LOADI	0
+	STORE	DVEL
+	RETURN	
 
 Perpendicular:
-	;In place 90 degrees turn to the right***		
-        ;Goto_Forward method to move by PerpendicularDistance***
+    CALL	Turn_Right90
+	CALL   	Err_Correct
+   	LOAD	PerpendicularDist
+   	CALL	Go_Forward2
 	JUMP Die
 
 Parallel:
-	;Required moves for parallel parking***
+   	CALL	Turn_Right90
+	CALL   	Err_Correct
+    LOAD 	ParallelDist
+    CALL	Go_Forward2
+    CALL	Turn_Left90
+	CALL   	Err_Correct
 	JUMP Die
 	
 ;***************************************************************
@@ -989,41 +1030,40 @@ IR_LO:    EQU &HD1  ; read the low word of the IR receiver (OUT will clear both 
 ;** IR Command Values
 ORG 2000
 IR_Power:	DW	&H00FF
-IR_1:		DW	&H20DF
 IR_Play:	DW	&H28D7
-IR_5:		DW	&H30CF
-IR_9:		DW	&H38C7
-IR_Enter:	DW	&H3AC5
-IR_VolUp:	DW	&H40BF
-IR_RW:		DW	&H48B7
-IR_3:		DW	&H609F
-IR_7:		DW	&H708F
 IR_Pause:	DW	&H8877
-IR_2:		DW	&HA05F
-IR_6:		DW	&HB04F
-IR_0:		DW	&HB847
-IR_VolDwn:	DW	&HC03F
-IR_FF:		DW	&HC837
-IR_4:		DW	&HE01F
-IR_8:		DW	&HF00F
+IR_Enter:	DW	&H3AC5
 IR_TV_VCR:	DW	&HFF00
 IR_CH_UP:	DW	&H8074
 IR_CH_DW:	DW	&H40BF
+IR_VolUp:	DW	&H40BF
+IR_VolDwn:	DW	&HC03F
+IR_RW:		DW	&H48B7
+IR_FF:		DW	&HC837
+IR_0:		DW	&HB847
+IR_1:		DW	&H20DF
+IR_2:		DW	&HA05F
+IR_3:		DW	&H609F
+IR_4:		DW	&HE01F
+IR_5:		DW	&H30CF
+IR_6:		DW	&HB04F
+IR_7:		DW	&H708F
+IR_8:		DW	&HF00F
+IR_9:		DW	&H38C7
 
 ;** Constants for Fully Autonomous
-PerpendicularDistance:  DW      0  ;Distance to travel from a perpendicular parking initial position
+PerpendicularDist:  DW	400
+ParallelDist:  		DW	250
+InitDist1:	DW	&H012C	; 300mm
+InitDist2:	DW	&H02BC	; 700mm
 SpotOff:	DW	&H0000
-OffOne:		DW	&H0000
+OffOne:		DW	&H01F4  ; 500mm
 OffTwo:		DW	&H0000
 OffThree:	DW	&H0000
 OffFour:	DW	&H0000
 OffFive:	DW	&H0000
 OffSix:		DW	&H0000
 OffSeven:	DW	&H0000
-OffEight:	DW	&H0000
-OffNine:	DW	&H0000
-
-
 
 
 

@@ -1,6 +1,6 @@
 Analysis & Synthesis report for DE2Bot
-Thu Mar 30 12:47:37 2017
-Quartus II Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
+Mon Apr 03 19:06:55 2017
+Quartus II Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Full Version
 
 
 ---------------------
@@ -29,7 +29,7 @@ Quartus II Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
  21. General Register Statistics
  22. Inverted Register Statistics
  23. Multiplexer Restructuring Statistics (Restructuring Performed)
- 24. Source assignments for SCOMP:inst8|altsyncram:MEMORY|altsyncram_6du3:auto_generated
+ 24. Source assignments for SCOMP:inst8|altsyncram:MEMORY|altsyncram_pss3:auto_generated
  25. Source assignments for IR_RCVR:inst44|ir_lpm_counter0:inst18|lpm_counter:lpm_counter_component
  26. Source assignments for IR_RCVR:inst44|ir_lpm_counter1:inst24|lpm_counter:lpm_counter_component
  27. Source assignments for IR_RCVR:inst44|ir_lpm_counter0:inst16|lpm_counter:lpm_counter_component
@@ -170,24 +170,24 @@ applicable agreement for further details.
 
 
 
-+-----------------------------------------------------------------------------------+
-; Analysis & Synthesis Summary                                                      ;
-+------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu Mar 30 12:47:37 2017        ;
-; Quartus II Version                 ; 9.1 Build 350 03/24/2010 SP 2 SJ Web Edition ;
-; Revision Name                      ; DE2Bot                                       ;
-; Top-level Entity Name              ; DE2bot                                       ;
-; Family                             ; Cyclone II                                   ;
-; Total logic elements               ; 5,348                                        ;
-;     Total combinational functions  ; 4,573                                        ;
-;     Dedicated logic registers      ; 2,339                                        ;
-; Total registers                    ; 2339                                         ;
-; Total pins                         ; 182                                          ;
-; Total virtual pins                 ; 0                                            ;
-; Total memory bits                  ; 107,264                                      ;
-; Embedded Multiplier 9-bit elements ; 42                                           ;
-; Total PLLs                         ; 2                                            ;
-+------------------------------------+----------------------------------------------+
++------------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                       ;
++------------------------------------+-----------------------------------------------+
+; Analysis & Synthesis Status        ; Successful - Mon Apr 03 19:06:54 2017         ;
+; Quartus II Version                 ; 9.1 Build 350 03/24/2010 SP 2 SJ Full Version ;
+; Revision Name                      ; DE2Bot                                        ;
+; Top-level Entity Name              ; DE2bot                                        ;
+; Family                             ; Cyclone II                                    ;
+; Total logic elements               ; 5,350                                         ;
+;     Total combinational functions  ; 4,575                                         ;
+;     Dedicated logic registers      ; 2,340                                         ;
+; Total registers                    ; 2340                                          ;
+; Total pins                         ; 182                                           ;
+; Total virtual pins                 ; 0                                             ;
+; Total memory bits                  ; 107,264                                       ;
+; Embedded Multiplier 9-bit elements ; 42                                            ;
+; Total PLLs                         ; 2                                             ;
++------------------------------------+-----------------------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------+
@@ -269,140 +269,147 @@ applicable agreement for further details.
 +----------------------------------------------------------------------------+--------------------+--------------------+
 
 
-Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
-+-------------------------------------+
-; Parallel Compilation                ;
-+----------------------------+--------+
-; Processors                 ; Number ;
-+----------------------------+--------+
-; Number detected on machine ; 4      ;
-; Maximum allowed            ; 1      ;
-+----------------------------+--------+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 4           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 1           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     1 processor            ; 100.0%      ;
+;     2-4 processors         ;   0.0%      ;
++----------------------------+-------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                            ;
-+----------------------------------+-----------------+----------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                                                        ;
-+----------------------------------+-----------------+----------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-; IR_RCVR.bdf                      ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/IR_RCVR.bdf               ;
-; acc_clk_gen.vhd                  ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/acc_clk_gen.vhd           ;
-; altpll0.vhd                      ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/altpll0.vhd               ;
-; altpll1.vhd                      ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/altpll1.vhd               ;
-; DE2bot.bdf                       ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/DE2bot.bdf                ;
-; DIG_IN.vhd                       ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/DIG_IN.vhd                ;
-; HEX_DISP.vhd                     ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/HEX_DISP.vhd              ;
-; i2c_ctrl.vhd                     ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/i2c_ctrl.vhd              ;
-; I2C_INTERFACE.bdf                ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/I2C_INTERFACE.bdf         ;
-; i2c_master.vhd                   ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/i2c_master.vhd            ;
-; i2c_oneshot_ctrl.vhd             ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/i2c_oneshot_ctrl.vhd      ;
-; IO_DECODER.vhd                   ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/IO_DECODER.vhd            ;
-; LEDS.vhd                         ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/LEDS.vhd                  ;
-; lpm_add_sub_oe0.vhd              ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/lpm_add_sub_oe0.vhd       ;
-; lpm_bustri_oe0.vhd               ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/lpm_bustri_oe0.vhd        ;
-; lpm_bustri_uart0.vhd             ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/lpm_bustri_uart0.vhd      ;
-; lpm_constant_oe0.vhd             ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/lpm_constant_oe0.vhd      ;
-; lpm_counter_oe0.vhd              ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/lpm_counter_oe0.vhd       ;
-; lpm_dff_oe0.vhd                  ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/lpm_dff_oe0.vhd           ;
-; lpm_dff_uart0.vhd                ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/lpm_dff_uart0.vhd         ;
-; lpm_mult_oe0.vhd                 ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/lpm_mult_oe0.vhd          ;
-; ODOMETRY.vhd                     ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ODOMETRY.vhd              ;
-; oneshot_i2c.bdf                  ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/oneshot_i2c.bdf           ;
-; OPTICAL_ENCODER.bdf              ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/OPTICAL_ENCODER.bdf       ;
-; POSN_VEL.bdf                     ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/POSN_VEL.bdf              ;
-; QUAD_HEX.bdf                     ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/QUAD_HEX.bdf              ;
-; QUADRATURE_DECODE.bdf            ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/QUADRATURE_DECODE.bdf     ;
-; SAFETY_ENABLE.bdf                ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/SAFETY_ENABLE.bdf         ;
-; SCOMP.vhd                        ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/SCOMP.vhd                 ;
-; SLCD.vhd                         ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/SLCD.vhd                  ;
-; SONAR.vhd                        ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/SONAR.vhd                 ;
-; TIMER.vhd                        ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/TIMER.vhd                 ;
-; uart.vhd                         ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/uart.vhd                  ;
-; uart_dcfifo_in.vhd               ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/uart_dcfifo_in.vhd        ;
-; uart_dcfifo_out.vhd              ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/uart_dcfifo_out.vhd       ;
-; UART_INTERFACE.bdf               ; yes             ; User Block Diagram/Schematic File      ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/UART_INTERFACE.bdf        ;
-; VEL_CONTROL.vhd                  ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/VEL_CONTROL.vhd           ;
-; UART_LIMITER.vhd                 ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/UART_LIMITER.vhd          ;
-; CTIMER.vhd                       ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/CTIMER.vhd                ;
-; DAC_BEEP.vhd                     ; yes             ; User VHDL File                         ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/DAC_BEEP.vhd              ;
-; ir_lpm_dff9.vhd                  ; yes             ; User Wizard-Generated File             ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ir_lpm_dff9.vhd           ;
-; altpll.tdf                       ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/altpll.tdf                                                                          ;
-; altsyncram.tdf                   ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/altsyncram.tdf                                                                      ;
-; db/altsyncram_6du3.tdf           ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/altsyncram_6du3.tdf    ;
-; lpm_clshift.tdf                  ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_clshift.tdf                                                                     ;
-; db/lpm_clshift_fuc.tdf           ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/lpm_clshift_fuc.tdf    ;
-; lpm_bustri.tdf                   ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_bustri.tdf                                                                      ;
-; ir_lpm_counter0.vhd              ; yes             ; Auto-Found Wizard-Generated File       ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ir_lpm_counter0.vhd       ;
-; lpm_counter.tdf                  ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_counter.tdf                                                                     ;
-; db/cntr_7ji.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/cntr_7ji.tdf           ;
-; ir_lpm_compare0.vhd              ; yes             ; Auto-Found Wizard-Generated File       ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ir_lpm_compare0.vhd       ;
-; lpm_compare.tdf                  ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_compare.tdf                                                                     ;
-; db/cmpr_h0h.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/cmpr_h0h.tdf           ;
-; ir_lpm_constant2.vhd             ; yes             ; Auto-Found Wizard-Generated File       ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ir_lpm_constant2.vhd      ;
-; lpm_constant.tdf                 ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_constant.tdf                                                                    ;
-; lpm_ff.tdf                       ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_ff.tdf                                                                          ;
-; ir_lpm_counter1.vhd              ; yes             ; Auto-Found Wizard-Generated File       ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ir_lpm_counter1.vhd       ;
-; db/cntr_7ij.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/cntr_7ij.tdf           ;
-; ir_lpm_constant0.vhd             ; yes             ; Auto-Found Wizard-Generated File       ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ir_lpm_constant0.vhd      ;
-; ir_lpm_shiftreg0.vhd             ; yes             ; Auto-Found Wizard-Generated File       ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ir_lpm_shiftreg0.vhd      ;
-; lpm_shiftreg.tdf                 ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_shiftreg.tdf                                                                    ;
-; ir_lpm_constant1.vhd             ; yes             ; Auto-Found Wizard-Generated File       ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/ir_lpm_constant1.vhd      ;
-; lpm_add_sub.tdf                  ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_add_sub.tdf                                                                     ;
-; db/add_sub_nfh.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/add_sub_nfh.tdf        ;
-; db/cntr_mrg.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/cntr_mrg.tdf           ;
-; lpm_mult.tdf                     ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_mult.tdf                                                                        ;
-; db/mult_j2n.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/mult_j2n.tdf           ;
-; db/altsyncram_06l3.tdf           ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/altsyncram_06l3.tdf    ;
-; sin_table.mif                    ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/sin_table.mif             ;
-; db/altsyncram_r5l3.tdf           ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/altsyncram_r5l3.tdf    ;
-; cos_table.mif                    ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/cos_table.mif             ;
-; db/mult_h3o.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/mult_h3o.tdf           ;
-; multcore.tdf                     ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/multcore.tdf                                                                        ;
-; mpar_add.tdf                     ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/mpar_add.tdf                                                                        ;
-; db/add_sub_5ch.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/add_sub_5ch.tdf        ;
-; db/add_sub_9ch.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/add_sub_9ch.tdf        ;
-; altshift.tdf                     ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/altshift.tdf                                                                        ;
-; dcfifo.tdf                       ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/dcfifo.tdf                                                                          ;
-; db/dcfifo_qtl1.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/dcfifo_qtl1.tdf        ;
-; db/a_graycounter_d86.tdf         ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/a_graycounter_d86.tdf  ;
-; db/a_graycounter_4fc.tdf         ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/a_graycounter_4fc.tdf  ;
-; db/a_graycounter_3fc.tdf         ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/a_graycounter_3fc.tdf  ;
-; db/altsyncram_9hu.tdf            ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/altsyncram_9hu.tdf     ;
-; db/dffpipe_ngh.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/dffpipe_ngh.tdf        ;
-; db/alt_synch_pipe_gcb.tdf        ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/alt_synch_pipe_gcb.tdf ;
-; db/dffpipe_ed9.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/dffpipe_ed9.tdf        ;
-; db/alt_synch_pipe_kc8.tdf        ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/alt_synch_pipe_kc8.tdf ;
-; db/dffpipe_fd9.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/dffpipe_fd9.tdf        ;
-; db/cmpr_n16.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/cmpr_n16.tdf           ;
-; db/mux_1u7.tdf                   ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/mux_1u7.tdf            ;
-; db/dcfifo_31m1.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/dcfifo_31m1.tdf        ;
-; db/a_gray2bin_acb.tdf            ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/a_gray2bin_acb.tdf     ;
-; db/a_graycounter_e86.tdf         ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/a_graycounter_e86.tdf  ;
-; db/a_graycounter_5fc.tdf         ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/a_graycounter_5fc.tdf  ;
-; db/a_graycounter_6fc.tdf         ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/a_graycounter_6fc.tdf  ;
-; db/altsyncram_bhu.tdf            ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/altsyncram_bhu.tdf     ;
-; db/dffpipe_adc.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/dffpipe_adc.tdf        ;
-; db/alt_synch_pipe_hcb.tdf        ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/alt_synch_pipe_hcb.tdf ;
-; db/dffpipe_gd9.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/dffpipe_gd9.tdf        ;
-; db/alt_synch_pipe_lc8.tdf        ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/alt_synch_pipe_lc8.tdf ;
-; db/dffpipe_hd9.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/dffpipe_hd9.tdf        ;
-; db/cmpr_o16.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/cmpr_o16.tdf           ;
-; db/cntr_gkj.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/cntr_gkj.tdf           ;
-; db/cmpr_a2i.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/cmpr_a2i.tdf           ;
-; db/altsyncram_pmk3.tdf           ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/altsyncram_pmk3.tdf    ;
-; sound.mif                        ; yes             ; Auto-Found Memory Initialization File  ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/sound.mif                 ;
-; db/mult_m3t.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/mult_m3t.tdf           ;
-; db/mult_45t.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/mult_45t.tdf           ;
-; db/mult_q3t.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/mult_q3t.tdf           ;
-; lpm_divide.tdf                   ; yes             ; Megafunction                           ; c:/altera/91sp2/quartus/libraries/megafunctions/lpm_divide.tdf                                                                      ;
-; db/lpm_divide_ulo.tdf            ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/lpm_divide_ulo.tdf     ;
-; db/abs_divider_8dg.tdf           ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/abs_divider_8dg.tdf    ;
-; db/alt_u_div_s5f.tdf             ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/alt_u_div_s5f.tdf      ;
-; db/add_sub_lkc.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/add_sub_lkc.tdf        ;
-; db/add_sub_mkc.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/add_sub_mkc.tdf        ;
-; db/lpm_abs_2s9.tdf               ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/lpm_abs_2s9.tdf        ;
-; db/mult_25t.tdf                  ; yes             ; Auto-Generated Megafunction            ; C:/Users/Brand/Documents/Georgia Tech/Spring 2017/ECE 2031/Project/Implementation/Parking101/DE2Bot_Spr17/db/mult_25t.tdf           ;
-+----------------------------------+-----------------+----------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                            ;
++----------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                        ;
++----------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------+
+; IR_RCVR.bdf                      ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/IR_RCVR.bdf               ;
+; acc_clk_gen.vhd                  ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/acc_clk_gen.vhd           ;
+; altpll0.vhd                      ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/altpll0.vhd               ;
+; altpll1.vhd                      ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/altpll1.vhd               ;
+; DE2bot.bdf                       ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/DE2bot.bdf                ;
+; DIG_IN.vhd                       ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/DIG_IN.vhd                ;
+; HEX_DISP.vhd                     ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/HEX_DISP.vhd              ;
+; i2c_ctrl.vhd                     ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/i2c_ctrl.vhd              ;
+; I2C_INTERFACE.bdf                ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/I2C_INTERFACE.bdf         ;
+; i2c_master.vhd                   ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/i2c_master.vhd            ;
+; i2c_oneshot_ctrl.vhd             ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/i2c_oneshot_ctrl.vhd      ;
+; IO_DECODER.vhd                   ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/IO_DECODER.vhd            ;
+; LEDS.vhd                         ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/LEDS.vhd                  ;
+; lpm_add_sub_oe0.vhd              ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/lpm_add_sub_oe0.vhd       ;
+; lpm_bustri_oe0.vhd               ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/lpm_bustri_oe0.vhd        ;
+; lpm_bustri_uart0.vhd             ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/lpm_bustri_uart0.vhd      ;
+; lpm_constant_oe0.vhd             ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/lpm_constant_oe0.vhd      ;
+; lpm_counter_oe0.vhd              ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/lpm_counter_oe0.vhd       ;
+; lpm_dff_oe0.vhd                  ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/lpm_dff_oe0.vhd           ;
+; lpm_dff_uart0.vhd                ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/lpm_dff_uart0.vhd         ;
+; lpm_mult_oe0.vhd                 ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/lpm_mult_oe0.vhd          ;
+; ODOMETRY.vhd                     ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/ODOMETRY.vhd              ;
+; oneshot_i2c.bdf                  ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/oneshot_i2c.bdf           ;
+; OPTICAL_ENCODER.bdf              ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/OPTICAL_ENCODER.bdf       ;
+; POSN_VEL.bdf                     ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/POSN_VEL.bdf              ;
+; QUAD_HEX.bdf                     ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/QUAD_HEX.bdf              ;
+; QUADRATURE_DECODE.bdf            ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/QUADRATURE_DECODE.bdf     ;
+; SAFETY_ENABLE.bdf                ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/SAFETY_ENABLE.bdf         ;
+; SCOMP.vhd                        ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/SCOMP.vhd                 ;
+; SLCD.vhd                         ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/SLCD.vhd                  ;
+; SONAR.vhd                        ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/SONAR.vhd                 ;
+; TIMER.vhd                        ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/TIMER.vhd                 ;
+; uart.vhd                         ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/uart.vhd                  ;
+; uart_dcfifo_in.vhd               ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/uart_dcfifo_in.vhd        ;
+; uart_dcfifo_out.vhd              ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/uart_dcfifo_out.vhd       ;
+; UART_INTERFACE.bdf               ; yes             ; User Block Diagram/Schematic File      ; P:/project/Parking101-master/DE2Bot_Spr17/UART_INTERFACE.bdf        ;
+; VEL_CONTROL.vhd                  ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/VEL_CONTROL.vhd           ;
+; UART_LIMITER.vhd                 ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/UART_LIMITER.vhd          ;
+; CTIMER.vhd                       ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/CTIMER.vhd                ;
+; DAC_BEEP.vhd                     ; yes             ; User VHDL File                         ; P:/project/Parking101-master/DE2Bot_Spr17/DAC_BEEP.vhd              ;
+; ir_lpm_dff9.vhd                  ; yes             ; User Wizard-Generated File             ; P:/project/Parking101-master/DE2Bot_Spr17/ir_lpm_dff9.vhd           ;
+; altpll.tdf                       ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/altpll.tdf        ;
+; altsyncram.tdf                   ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/altsyncram.tdf    ;
+; db/altsyncram_pss3.tdf           ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/altsyncram_pss3.tdf    ;
+; main.mif                         ; yes             ; Auto-Found Memory Initialization File  ; P:/project/Parking101-master/DE2Bot_Spr17/main.mif                  ;
+; lpm_clshift.tdf                  ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_clshift.tdf   ;
+; db/lpm_clshift_fuc.tdf           ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/lpm_clshift_fuc.tdf    ;
+; lpm_bustri.tdf                   ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_bustri.tdf    ;
+; ir_lpm_counter0.vhd              ; yes             ; Auto-Found Wizard-Generated File       ; P:/project/Parking101-master/DE2Bot_Spr17/ir_lpm_counter0.vhd       ;
+; lpm_counter.tdf                  ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_counter.tdf   ;
+; db/cntr_7ji.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/cntr_7ji.tdf           ;
+; ir_lpm_compare0.vhd              ; yes             ; Auto-Found Wizard-Generated File       ; P:/project/Parking101-master/DE2Bot_Spr17/ir_lpm_compare0.vhd       ;
+; lpm_compare.tdf                  ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_compare.tdf   ;
+; db/cmpr_h0h.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/cmpr_h0h.tdf           ;
+; ir_lpm_constant2.vhd             ; yes             ; Auto-Found Wizard-Generated File       ; P:/project/Parking101-master/DE2Bot_Spr17/ir_lpm_constant2.vhd      ;
+; lpm_constant.tdf                 ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_constant.tdf  ;
+; lpm_ff.tdf                       ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_ff.tdf        ;
+; ir_lpm_counter1.vhd              ; yes             ; Auto-Found Wizard-Generated File       ; P:/project/Parking101-master/DE2Bot_Spr17/ir_lpm_counter1.vhd       ;
+; db/cntr_7ij.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/cntr_7ij.tdf           ;
+; ir_lpm_constant0.vhd             ; yes             ; Auto-Found Wizard-Generated File       ; P:/project/Parking101-master/DE2Bot_Spr17/ir_lpm_constant0.vhd      ;
+; ir_lpm_shiftreg0.vhd             ; yes             ; Auto-Found Wizard-Generated File       ; P:/project/Parking101-master/DE2Bot_Spr17/ir_lpm_shiftreg0.vhd      ;
+; lpm_shiftreg.tdf                 ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_shiftreg.tdf  ;
+; ir_lpm_constant1.vhd             ; yes             ; Auto-Found Wizard-Generated File       ; P:/project/Parking101-master/DE2Bot_Spr17/ir_lpm_constant1.vhd      ;
+; lpm_add_sub.tdf                  ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_add_sub.tdf   ;
+; db/add_sub_nfh.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/add_sub_nfh.tdf        ;
+; db/cntr_mrg.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/cntr_mrg.tdf           ;
+; lpm_mult.tdf                     ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_mult.tdf      ;
+; db/mult_j2n.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/mult_j2n.tdf           ;
+; db/altsyncram_06l3.tdf           ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/altsyncram_06l3.tdf    ;
+; sin_table.mif                    ; yes             ; Auto-Found Memory Initialization File  ; P:/project/Parking101-master/DE2Bot_Spr17/sin_table.mif             ;
+; db/altsyncram_r5l3.tdf           ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/altsyncram_r5l3.tdf    ;
+; cos_table.mif                    ; yes             ; Auto-Found Memory Initialization File  ; P:/project/Parking101-master/DE2Bot_Spr17/cos_table.mif             ;
+; db/mult_h3o.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/mult_h3o.tdf           ;
+; multcore.tdf                     ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/multcore.tdf      ;
+; mpar_add.tdf                     ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/mpar_add.tdf      ;
+; db/add_sub_5ch.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/add_sub_5ch.tdf        ;
+; db/add_sub_9ch.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/add_sub_9ch.tdf        ;
+; altshift.tdf                     ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/altshift.tdf      ;
+; dcfifo.tdf                       ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/dcfifo.tdf        ;
+; db/dcfifo_qtl1.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/dcfifo_qtl1.tdf        ;
+; db/a_graycounter_d86.tdf         ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/a_graycounter_d86.tdf  ;
+; db/a_graycounter_4fc.tdf         ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/a_graycounter_4fc.tdf  ;
+; db/a_graycounter_3fc.tdf         ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/a_graycounter_3fc.tdf  ;
+; db/altsyncram_9hu.tdf            ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/altsyncram_9hu.tdf     ;
+; db/dffpipe_ngh.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/dffpipe_ngh.tdf        ;
+; db/alt_synch_pipe_gcb.tdf        ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/alt_synch_pipe_gcb.tdf ;
+; db/dffpipe_ed9.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/dffpipe_ed9.tdf        ;
+; db/alt_synch_pipe_kc8.tdf        ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/alt_synch_pipe_kc8.tdf ;
+; db/dffpipe_fd9.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/dffpipe_fd9.tdf        ;
+; db/cmpr_n16.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/cmpr_n16.tdf           ;
+; db/mux_1u7.tdf                   ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/mux_1u7.tdf            ;
+; db/dcfifo_31m1.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/dcfifo_31m1.tdf        ;
+; db/a_gray2bin_acb.tdf            ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/a_gray2bin_acb.tdf     ;
+; db/a_graycounter_e86.tdf         ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/a_graycounter_e86.tdf  ;
+; db/a_graycounter_5fc.tdf         ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/a_graycounter_5fc.tdf  ;
+; db/a_graycounter_6fc.tdf         ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/a_graycounter_6fc.tdf  ;
+; db/altsyncram_bhu.tdf            ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/altsyncram_bhu.tdf     ;
+; db/dffpipe_adc.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/dffpipe_adc.tdf        ;
+; db/alt_synch_pipe_hcb.tdf        ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/alt_synch_pipe_hcb.tdf ;
+; db/dffpipe_gd9.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/dffpipe_gd9.tdf        ;
+; db/alt_synch_pipe_lc8.tdf        ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/alt_synch_pipe_lc8.tdf ;
+; db/dffpipe_hd9.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/dffpipe_hd9.tdf        ;
+; db/cmpr_o16.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/cmpr_o16.tdf           ;
+; db/cntr_gkj.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/cntr_gkj.tdf           ;
+; db/cmpr_a2i.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/cmpr_a2i.tdf           ;
+; db/altsyncram_pmk3.tdf           ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/altsyncram_pmk3.tdf    ;
+; sound.mif                        ; yes             ; Auto-Found Memory Initialization File  ; P:/project/Parking101-master/DE2Bot_Spr17/sound.mif                 ;
+; db/mult_m3t.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/mult_m3t.tdf           ;
+; db/mult_45t.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/mult_45t.tdf           ;
+; db/mult_q3t.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/mult_q3t.tdf           ;
+; lpm_divide.tdf                   ; yes             ; Megafunction                           ; c:/appl/altera/91/quartus/libraries/megafunctions/lpm_divide.tdf    ;
+; db/lpm_divide_ulo.tdf            ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/lpm_divide_ulo.tdf     ;
+; db/abs_divider_8dg.tdf           ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/abs_divider_8dg.tdf    ;
+; db/alt_u_div_s5f.tdf             ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/alt_u_div_s5f.tdf      ;
+; db/add_sub_lkc.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/add_sub_lkc.tdf        ;
+; db/add_sub_mkc.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/add_sub_mkc.tdf        ;
+; db/lpm_abs_2s9.tdf               ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/lpm_abs_2s9.tdf        ;
+; db/mult_25t.tdf                  ; yes             ; Auto-Generated Megafunction            ; P:/project/Parking101-master/DE2Bot_Spr17/db/mult_25t.tdf           ;
++----------------------------------+-----------------+----------------------------------------+---------------------------------------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -410,20 +417,20 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+-----------------------------------------------------+
 ; Resource                                    ; Usage                                               ;
 +---------------------------------------------+-----------------------------------------------------+
-; Estimated Total logic elements              ; 5,348                                               ;
+; Estimated Total logic elements              ; 5,350                                               ;
 ;                                             ;                                                     ;
-; Total combinational functions               ; 4573                                                ;
+; Total combinational functions               ; 4575                                                ;
 ; Logic element usage by number of LUT inputs ;                                                     ;
-;     -- 4 input functions                    ; 1718                                                ;
-;     -- 3 input functions                    ; 1647                                                ;
-;     -- <=2 input functions                  ; 1208                                                ;
+;     -- 4 input functions                    ; 1734                                                ;
+;     -- 3 input functions                    ; 1637                                                ;
+;     -- <=2 input functions                  ; 1204                                                ;
 ;                                             ;                                                     ;
 ; Logic elements by mode                      ;                                                     ;
-;     -- normal mode                          ; 3109                                                ;
+;     -- normal mode                          ; 3111                                                ;
 ;     -- arithmetic mode                      ; 1464                                                ;
 ;                                             ;                                                     ;
-; Total registers                             ; 2339                                                ;
-;     -- Dedicated logic registers            ; 2339                                                ;
+; Total registers                             ; 2340                                                ;
+;     -- Dedicated logic registers            ; 2340                                                ;
 ;     -- I/O registers                        ; 0                                                   ;
 ;                                             ;                                                     ;
 ; I/O pins                                    ; 182                                                 ;
@@ -431,9 +438,9 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; Embedded Multiplier 9-bit elements          ; 42                                                  ;
 ; Total PLLs                                  ; 2                                                   ;
 ; Maximum fan-out node                        ; I2C_INTERFACE:inst16|i2c_ctrl:inst14|data_out[15]~4 ;
-; Maximum fan-out                             ; 790                                                 ;
-; Total fan-out                               ; 23205                                               ;
-; Average fan-out                             ; 3.21                                                ;
+; Maximum fan-out                             ; 791                                                 ;
+; Total fan-out                               ; 23234                                               ;
+; Average fan-out                             ; 3.22                                                ;
 +---------------------------------------------+-----------------------------------------------------+
 
 
@@ -442,7 +449,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                        ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                     ; Library Name ;
 +---------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |DE2bot                                           ; 4573 (18)         ; 2339 (0)     ; 107264      ; 42           ; 2       ; 20        ; 182  ; 0            ; |DE2bot                                                                                                                                                 ; work         ;
+; |DE2bot                                           ; 4575 (18)         ; 2340 (0)     ; 107264      ; 42           ; 2       ; 20        ; 182  ; 0            ; |DE2bot                                                                                                                                                 ; work         ;
 ;    |ACC_CLK_GEN:inst60|                           ; 112 (112)         ; 94 (94)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ACC_CLK_GEN:inst60                                                                                                                              ;              ;
 ;    |CTIMER:inst21|                                ; 34 (34)           ; 33 (33)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|CTIMER:inst21                                                                                                                                   ;              ;
 ;    |DAC_BEEP:inst35|                              ; 164 (132)         ; 67 (35)      ; 8192        ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|DAC_BEEP:inst35                                                                                                                                 ;              ;
@@ -453,7 +460,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;    |DIG_IN:inst41|                                ; 0 (0)             ; 16 (16)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|DIG_IN:inst41                                                                                                                                   ;              ;
 ;    |DIG_IN:inst5|                                 ; 0 (0)             ; 16 (16)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|DIG_IN:inst5                                                                                                                                    ;              ;
 ;    |DIG_IN:inst6|                                 ; 0 (0)             ; 16 (16)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|DIG_IN:inst6                                                                                                                                    ;              ;
-;    |I2C_INTERFACE:inst16|                         ; 348 (190)         ; 125 (0)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|I2C_INTERFACE:inst16                                                                                                                            ;              ;
+;    |I2C_INTERFACE:inst16|                         ; 347 (189)         ; 125 (0)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|I2C_INTERFACE:inst16                                                                                                                            ;              ;
 ;       |i2c_ctrl:inst14|                           ; 60 (60)           ; 70 (70)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|I2C_INTERFACE:inst16|i2c_ctrl:inst14                                                                                                            ;              ;
 ;       |i2c_master:inst|                           ; 98 (98)           ; 55 (55)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|I2C_INTERFACE:inst16|i2c_master:inst                                                                                                            ;              ;
 ;    |IO_DECODER:inst24|                            ; 18 (18)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|IO_DECODER:inst24                                                                                                                               ;              ;
@@ -479,12 +486,12 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;          |lpm_shiftreg:lpm_shiftreg_component|    ; 0 (0)             ; 32 (32)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|IR_RCVR:inst44|ir_lpm_shiftreg0:inst25|lpm_shiftreg:lpm_shiftreg_component                                                                      ;              ;
 ;    |LEDS:inst58|                                  ; 0 (0)             ; 16 (16)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|LEDS:inst58                                                                                                                                     ; work         ;
 ;    |LEDS:inst59|                                  ; 0 (0)             ; 10 (10)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|LEDS:inst59                                                                                                                                     ; work         ;
-;    |ODOMETRY:inst53|                              ; 455 (136)         ; 129 (129)    ; 65536       ; 4            ; 0       ; 2         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53                                                                                                                                 ;              ;
+;    |ODOMETRY:inst53|                              ; 454 (136)         ; 129 (129)    ; 65536       ; 4            ; 0       ; 2         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53                                                                                                                                 ;              ;
 ;       |altsyncram:COS_LUT|                        ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|altsyncram:COS_LUT                                                                                                              ;              ;
 ;          |altsyncram_r5l3:auto_generated|         ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|altsyncram:COS_LUT|altsyncram_r5l3:auto_generated                                                                               ;              ;
 ;       |altsyncram:SIN_LUT|                        ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|altsyncram:SIN_LUT                                                                                                              ;              ;
 ;          |altsyncram_06l3:auto_generated|         ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|altsyncram:SIN_LUT|altsyncram_06l3:auto_generated                                                                               ;              ;
-;       |lpm_bustri:IO_BUS|                         ; 30 (30)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|lpm_bustri:IO_BUS                                                                                                               ;              ;
+;       |lpm_bustri:IO_BUS|                         ; 29 (29)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|lpm_bustri:IO_BUS                                                                                                               ;              ;
 ;       |lpm_divide:Mod0|                           ; 270 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|lpm_divide:Mod0                                                                                                                 ;              ;
 ;          |lpm_divide_ulo:auto_generated|          ; 270 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|lpm_divide:Mod0|lpm_divide_ulo:auto_generated                                                                                   ;              ;
 ;             |abs_divider_8dg:divider|             ; 270 (22)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|lpm_divide:Mod0|lpm_divide_ulo:auto_generated|abs_divider_8dg:divider                                                           ;              ;
@@ -502,7 +509,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;          |mult_h3o:auto_generated|                ; 0 (0)             ; 0 (0)        ; 0           ; 2            ; 0       ; 1         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|lpm_mult:MULTIPLIERX|mult_h3o:auto_generated                                                                                    ;              ;
 ;       |lpm_mult:MULTIPLIERY|                      ; 0 (0)             ; 0 (0)        ; 0           ; 2            ; 0       ; 1         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|lpm_mult:MULTIPLIERY                                                                                                            ;              ;
 ;          |mult_h3o:auto_generated|                ; 0 (0)             ; 0 (0)        ; 0           ; 2            ; 0       ; 1         ; 0    ; 0            ; |DE2bot|ODOMETRY:inst53|lpm_mult:MULTIPLIERY|mult_h3o:auto_generated                                                                                    ;              ;
-;    |OPTICAL_ENCODER:inst22|                       ; 71 (2)            ; 97 (0)       ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22                                                                                                                          ;              ;
+;    |OPTICAL_ENCODER:inst22|                       ; 73 (2)            ; 97 (0)       ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22                                                                                                                          ;              ;
 ;       |POSN_VEL:inst|                             ; 69 (0)            ; 97 (0)       ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22|POSN_VEL:inst                                                                                                            ;              ;
 ;          |QUADRATURE_DECODE:inst|                 ; 5 (5)             ; 11 (11)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22|POSN_VEL:inst|QUADRATURE_DECODE:inst                                                                                     ;              ;
 ;          |lpm_add_sub_oe0:inst15|                 ; 27 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_add_sub_oe0:inst15                                                                                     ;              ;
@@ -518,7 +525,9 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;          |lpm_mult_oe0:inst18|                    ; 5 (0)             ; 0 (0)        ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_mult_oe0:inst18                                                                                        ;              ;
 ;             |lpm_mult:lpm_mult_component|         ; 5 (0)             ; 0 (0)        ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_mult_oe0:inst18|lpm_mult:lpm_mult_component                                                            ;              ;
 ;                |mult_j2n:auto_generated|          ; 5 (5)             ; 0 (0)        ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_mult_oe0:inst18|lpm_mult:lpm_mult_component|mult_j2n:auto_generated                                    ;              ;
-;    |OPTICAL_ENCODER:inst27|                       ; 73 (4)            ; 97 (0)       ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst27                                                                                                                          ;              ;
+;       |lpm_bustri_oe0:inst4|                      ; 2 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22|lpm_bustri_oe0:inst4                                                                                                     ;              ;
+;          |lpm_bustri:lpm_bustri_component|        ; 2 (2)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst22|lpm_bustri_oe0:inst4|lpm_bustri:lpm_bustri_component                                                                     ;              ;
+;    |OPTICAL_ENCODER:inst27|                       ; 72 (3)            ; 97 (0)       ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst27                                                                                                                          ;              ;
 ;       |POSN_VEL:inst|                             ; 69 (0)            ; 97 (0)       ; 0           ; 3            ; 1       ; 1         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst27|POSN_VEL:inst                                                                                                            ;              ;
 ;          |QUADRATURE_DECODE:inst|                 ; 5 (5)             ; 11 (11)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst27|POSN_VEL:inst|QUADRATURE_DECODE:inst                                                                                     ;              ;
 ;          |lpm_add_sub_oe0:inst15|                 ; 27 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_add_sub_oe0:inst15                                                                                     ;              ;
@@ -545,9 +554,9 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;       |HEX_DISP:inst22|                           ; 7 (7)             ; 4 (4)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|QUAD_HEX:inst57|HEX_DISP:inst22                                                                                                                 ; work         ;
 ;       |HEX_DISP:inst27|                           ; 7 (7)             ; 4 (4)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|QUAD_HEX:inst57|HEX_DISP:inst27                                                                                                                 ;              ;
 ;    |SAFETY_ENABLE:inst4|                          ; 1 (1)             ; 2 (2)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SAFETY_ENABLE:inst4                                                                                                                             ;              ;
-;    |SCOMP:inst8|                                  ; 637 (555)         ; 336 (336)    ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SCOMP:inst8                                                                                                                                     ;              ;
+;    |SCOMP:inst8|                                  ; 640 (558)         ; 337 (337)    ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SCOMP:inst8                                                                                                                                     ;              ;
 ;       |altsyncram:MEMORY|                         ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SCOMP:inst8|altsyncram:MEMORY                                                                                                                   ;              ;
-;          |altsyncram_6du3:auto_generated|         ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SCOMP:inst8|altsyncram:MEMORY|altsyncram_6du3:auto_generated                                                                                    ;              ;
+;          |altsyncram_pss3:auto_generated|         ; 0 (0)             ; 0 (0)        ; 32768       ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SCOMP:inst8|altsyncram:MEMORY|altsyncram_pss3:auto_generated                                                                                    ;              ;
 ;       |lpm_bustri:IO_BUS|                         ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SCOMP:inst8|lpm_bustri:IO_BUS                                                                                                                   ;              ;
 ;       |lpm_clshift:SHIFTER|                       ; 81 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SCOMP:inst8|lpm_clshift:SHIFTER                                                                                                                 ;              ;
 ;          |lpm_clshift_fuc:auto_generated|         ; 81 (81)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|SCOMP:inst8|lpm_clshift:SHIFTER|lpm_clshift_fuc:auto_generated                                                                                  ;              ;
@@ -600,7 +609,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;                |mux_1u7:rdemp_eq_comp_msb_mux|    ; 4 (4)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|UART_INTERFACE:inst1|uart_dcfifo_out:inst14|dcfifo:dcfifo_component|dcfifo_31m1:auto_generated|mux_1u7:rdemp_eq_comp_msb_mux                    ;              ;
 ;                |mux_1u7:wrfull_eq_comp_lsb_mux|   ; 6 (6)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|UART_INTERFACE:inst1|uart_dcfifo_out:inst14|dcfifo:dcfifo_component|dcfifo_31m1:auto_generated|mux_1u7:wrfull_eq_comp_lsb_mux                   ;              ;
 ;                |mux_1u7:wrfull_eq_comp_msb_mux|   ; 4 (4)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|UART_INTERFACE:inst1|uart_dcfifo_out:inst14|dcfifo:dcfifo_component|dcfifo_31m1:auto_generated|mux_1u7:wrfull_eq_comp_msb_mux                   ;              ;
-;    |VEL_CONTROL:inst51|                           ; 751 (640)         ; 218 (206)    ; 0           ; 16           ; 0       ; 8         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst51                                                                                                                              ; work         ;
+;    |VEL_CONTROL:inst51|                           ; 753 (642)         ; 218 (206)    ; 0           ; 16           ; 0       ; 8         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst51                                                                                                                              ; work         ;
 ;       |lpm_compare:compare|                       ; 20 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst51|lpm_compare:compare                                                                                                          ;              ;
 ;          |cmpr_a2i:auto_generated|                ; 20 (20)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst51|lpm_compare:compare|cmpr_a2i:auto_generated                                                                                  ; work         ;
 ;       |lpm_counter:counter|                       ; 12 (0)            ; 12 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst51|lpm_counter:counter                                                                                                          ; work         ;
@@ -613,7 +622,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;          |mult_q3t:auto_generated|                ; 22 (22)           ; 0 (0)        ; 0           ; 4            ; 0       ; 2         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst51|lpm_mult:Mult2|mult_q3t:auto_generated                                                                                       ;              ;
 ;       |lpm_mult:Mult3|                            ; 17 (0)            ; 0 (0)        ; 0           ; 4            ; 0       ; 2         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst51|lpm_mult:Mult3                                                                                                               ;              ;
 ;          |mult_25t:auto_generated|                ; 17 (17)           ; 0 (0)        ; 0           ; 4            ; 0       ; 2         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst51|lpm_mult:Mult3|mult_25t:auto_generated                                                                                       ;              ;
-;    |VEL_CONTROL:inst52|                           ; 737 (626)         ; 219 (207)    ; 0           ; 16           ; 0       ; 8         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst52                                                                                                                              ;              ;
+;    |VEL_CONTROL:inst52|                           ; 735 (624)         ; 219 (207)    ; 0           ; 16           ; 0       ; 8         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst52                                                                                                                              ;              ;
 ;       |lpm_compare:compare|                       ; 20 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst52|lpm_compare:compare                                                                                                          ;              ;
 ;          |cmpr_a2i:auto_generated|                ; 20 (20)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst52|lpm_compare:compare|cmpr_a2i:auto_generated                                                                                  ;              ;
 ;       |lpm_counter:counter|                       ; 12 (0)            ; 12 (0)       ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |DE2bot|VEL_CONTROL:inst52|lpm_counter:counter                                                                                                          ;              ;
@@ -645,7 +654,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; DAC_BEEP:inst35|altsyncram:SOUND_LUT|altsyncram_pmk3:auto_generated|ALTSYNCRAM                                                    ; AUTO ; ROM              ; 512          ; 16           ; --           ; --           ; 8192  ; SOUND.mif     ;
 ; ODOMETRY:inst53|altsyncram:COS_LUT|altsyncram_r5l3:auto_generated|ALTSYNCRAM                                                      ; AUTO ; ROM              ; 2048         ; 16           ; --           ; --           ; 32768 ; COS_table.mif ;
 ; ODOMETRY:inst53|altsyncram:SIN_LUT|altsyncram_06l3:auto_generated|ALTSYNCRAM                                                      ; AUTO ; ROM              ; 2048         ; 16           ; --           ; --           ; 32768 ; SIN_table.mif ;
-; SCOMP:inst8|altsyncram:MEMORY|altsyncram_6du3:auto_generated|ALTSYNCRAM                                                           ; AUTO ; Single Port      ; 2048         ; 16           ; --           ; --           ; 32768 ; None          ;
+; SCOMP:inst8|altsyncram:MEMORY|altsyncram_pss3:auto_generated|ALTSYNCRAM                                                           ; AUTO ; Single Port      ; 2048         ; 16           ; --           ; --           ; 32768 ; Main.mif      ;
 ; UART_INTERFACE:inst1|uart_dcfifo_in:inst8|dcfifo:dcfifo_component|dcfifo_qtl1:auto_generated|altsyncram_9hu:fifo_ram|ALTSYNCRAM   ; AUTO ; Simple Dual Port ; 32           ; 8            ; 32           ; 8            ; 256   ; None          ;
 ; UART_INTERFACE:inst1|uart_dcfifo_out:inst14|dcfifo:dcfifo_component|dcfifo_31m1:auto_generated|altsyncram_bhu:fifo_ram|ALTSYNCRAM ; AUTO ; Simple Dual Port ; 64           ; 8            ; 64           ; 8            ; 512   ; None          ;
 +-----------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+-------+---------------+
@@ -952,7 +961,6 @@ Encoding Type:  One-Hot
 ; I2C_INTERFACE:inst16|i2c_master:inst|count[2]                                                                                ; Stuck at GND due to stuck port data_in                    ;
 ; VEL_CONTROL:inst51|CMD_VEL[1]                                                                                                ; Stuck at GND due to stuck port data_in                    ;
 ; VEL_CONTROL:inst52|CMD_VEL[1]                                                                                                ; Stuck at GND due to stuck port data_in                    ;
-; SCOMP:inst8|STATE.EX_CZERO                                                                                                   ; Lost fanout                                               ;
 ; oneshot_i2c:inst18|i2c_master:inst|state.rd                                                                                  ; Stuck at GND due to stuck port data_in                    ;
 ; oneshot_i2c:inst18|i2c_master:inst|state.mstr_ack                                                                            ; Stuck at GND due to stuck port data_in                    ;
 ; oneshot_i2c:inst18|i2c_master:inst|state.restart                                                                             ; Stuck at GND due to stuck port data_in                    ;
@@ -1023,7 +1031,7 @@ Encoding Type:  One-Hot
 ; OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst12|lpm_ff:lpm_ff_component|dffs[1]                                      ; Lost fanout                                               ;
 ; OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst14|lpm_ff:lpm_ff_component|dffs[0]                                      ; Lost fanout                                               ;
 ; OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst12|lpm_ff:lpm_ff_component|dffs[0]                                      ; Lost fanout                                               ;
-; Total Number of Removed Registers = 232                                                                                      ;                                                           ;
+; Total Number of Removed Registers = 231                                                                                      ;                                                           ;
 +------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------+
 
 
@@ -1124,10 +1132,10 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 2339  ;
+; Total registers                              ; 2340  ;
 ; Number of registers using Synchronous Clear  ; 152   ;
 ; Number of registers using Synchronous Load   ; 134   ;
-; Number of registers using Asynchronous Clear ; 1467  ;
+; Number of registers using Asynchronous Clear ; 1468  ;
 ; Number of registers using Asynchronous Load  ; 0     ;
 ; Number of registers using Clock Enable       ; 1010  ;
 ; Number of registers using Preset             ; 0     ;
@@ -1286,23 +1294,22 @@ Encoding Type:  One-Hot
 ; 6:1                ; 15 bits   ; 60 LEs        ; 15 LEs               ; 45 LEs                 ; Yes        ; |DE2bot|SONAR:inst54|SONAR_RESULT[3][7]                       ;
 ; 6:1                ; 15 bits   ; 60 LEs        ; 15 LEs               ; 45 LEs                 ; Yes        ; |DE2bot|SONAR:inst54|SONAR_RESULT[4][13]                      ;
 ; 6:1                ; 15 bits   ; 60 LEs        ; 15 LEs               ; 45 LEs                 ; Yes        ; |DE2bot|SONAR:inst54|SONAR_RESULT[5][13]                      ;
-; 6:1                ; 15 bits   ; 60 LEs        ; 15 LEs               ; 45 LEs                 ; Yes        ; |DE2bot|SONAR:inst54|SONAR_RESULT[6][6]                       ;
-; 6:1                ; 15 bits   ; 60 LEs        ; 15 LEs               ; 45 LEs                 ; Yes        ; |DE2bot|SONAR:inst54|SONAR_RESULT[7][11]                      ;
-; 14:1               ; 16 bits   ; 144 LEs       ; 112 LEs              ; 32 LEs                 ; Yes        ; |DE2bot|SCOMP:inst8|AC[4]                                     ;
+; 6:1                ; 15 bits   ; 60 LEs        ; 15 LEs               ; 45 LEs                 ; Yes        ; |DE2bot|SONAR:inst54|SONAR_RESULT[6][14]                      ;
+; 6:1                ; 15 bits   ; 60 LEs        ; 15 LEs               ; 45 LEs                 ; Yes        ; |DE2bot|SONAR:inst54|SONAR_RESULT[7][9]                       ;
+; 14:1               ; 16 bits   ; 144 LEs       ; 112 LEs              ; 32 LEs                 ; Yes        ; |DE2bot|SCOMP:inst8|AC[5]                                     ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |DE2bot|VEL_CONTROL:inst51|FF_CTRL                            ;
 ; 3:1                ; 23 bits   ; 46 LEs        ; 46 LEs               ; 0 LEs                  ; No         ; |DE2bot|VEL_CONTROL:inst51|FF_CTRL                            ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |DE2bot|VEL_CONTROL:inst52|FF_CTRL                            ;
 ; 3:1                ; 23 bits   ; 46 LEs        ; 46 LEs               ; 0 LEs                  ; No         ; |DE2bot|VEL_CONTROL:inst52|FF_CTRL                            ;
 ; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |DE2bot|VEL_CONTROL:inst51|VEL_ERR                            ;
 ; 3:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |DE2bot|VEL_CONTROL:inst52|VEL_ERR                            ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |DE2bot|SCOMP:inst8|STATE                                     ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |DE2bot|oneshot_i2c:inst18|i2c_master:inst|count              ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |DE2bot|I2C_INTERFACE:inst16|i2c_master:inst|count            ;
 ; 8:1                ; 6 bits    ; 30 LEs        ; 18 LEs               ; 12 LEs                 ; No         ; |DE2bot|ODOMETRY:inst53|Mux3                                  ;
 ; 8:1                ; 10 bits   ; 50 LEs        ; 40 LEs               ; 10 LEs                 ; No         ; |DE2bot|ODOMETRY:inst53|Mux11                                 ;
 ; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |DE2bot|VEL_CONTROL:inst51|CUM_VEL_ERR                        ;
 ; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |DE2bot|VEL_CONTROL:inst52|CUM_VEL_ERR                        ;
-; 32:1               ; 4 bits    ; 84 LEs        ; 8 LEs                ; 76 LEs                 ; No         ; |DE2bot|SCOMP:inst8|Mux24                                     ;
+; 32:1               ; 4 bits    ; 84 LEs        ; 8 LEs                ; 76 LEs                 ; No         ; |DE2bot|SCOMP:inst8|Mux25                                     ;
 ; 18:1               ; 8 bits    ; 96 LEs        ; 80 LEs               ; 16 LEs                 ; No         ; |DE2bot|SONAR:inst54|Mux4                                     ;
 ; 18:1               ; 8 bits    ; 96 LEs        ; 96 LEs               ; 0 LEs                  ; No         ; |DE2bot|SONAR:inst54|Mux14                                    ;
 ; 6:1                ; 30 bits   ; 120 LEs       ; 60 LEs               ; 60 LEs                 ; No         ; |DE2bot|VEL_CONTROL:inst51|CMD_VEL                            ;
@@ -1312,7 +1319,7 @@ Encoding Type:  One-Hot
 
 
 +-------------------------------------------------------------------------------------+
-; Source assignments for SCOMP:inst8|altsyncram:MEMORY|altsyncram_6du3:auto_generated ;
+; Source assignments for SCOMP:inst8|altsyncram:MEMORY|altsyncram_pss3:auto_generated ;
 +---------------------------------+--------------------+------+-----------------------+
 ; Assignment                      ; Value              ; From ; To                    ;
 +---------------------------------+--------------------+------+-----------------------+
@@ -2063,62 +2070,62 @@ Encoding Type:  One-Hot
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings Tables in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+-------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: SCOMP:inst8|altsyncram:MEMORY    ;
-+------------------------------------+-------------------------+----------------+
-; Parameter Name                     ; Value                   ; Type           ;
-+------------------------------------+-------------------------+----------------+
-; BYTE_SIZE_BLOCK                    ; 8                       ; Untyped        ;
-; AUTO_CARRY_CHAINS                  ; ON                      ; AUTO_CARRY     ;
-; IGNORE_CARRY_BUFFERS               ; OFF                     ; IGNORE_CARRY   ;
-; AUTO_CASCADE_CHAINS                ; ON                      ; AUTO_CASCADE   ;
-; IGNORE_CASCADE_BUFFERS             ; OFF                     ; IGNORE_CASCADE ;
-; WIDTH_BYTEENA                      ; 1                       ; Untyped        ;
-; OPERATION_MODE                     ; SINGLE_PORT             ; Untyped        ;
-; WIDTH_A                            ; 16                      ; Signed Integer ;
-; WIDTHAD_A                          ; 11                      ; Signed Integer ;
-; NUMWORDS_A                         ; 2048                    ; Signed Integer ;
-; OUTDATA_REG_A                      ; UNREGISTERED            ; Untyped        ;
-; ADDRESS_ACLR_A                     ; NONE                    ; Untyped        ;
-; OUTDATA_ACLR_A                     ; NONE                    ; Untyped        ;
-; WRCONTROL_ACLR_A                   ; NONE                    ; Untyped        ;
-; INDATA_ACLR_A                      ; NONE                    ; Untyped        ;
-; BYTEENA_ACLR_A                     ; NONE                    ; Untyped        ;
-; WIDTH_B                            ; 1                       ; Signed Integer ;
-; WIDTHAD_B                          ; 1                       ; Signed Integer ;
-; NUMWORDS_B                         ; 0                       ; Signed Integer ;
-; INDATA_REG_B                       ; CLOCK1                  ; Untyped        ;
-; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1                  ; Untyped        ;
-; RDCONTROL_REG_B                    ; CLOCK1                  ; Untyped        ;
-; ADDRESS_REG_B                      ; CLOCK1                  ; Untyped        ;
-; OUTDATA_REG_B                      ; UNREGISTERED            ; Untyped        ;
-; BYTEENA_REG_B                      ; CLOCK1                  ; Untyped        ;
-; INDATA_ACLR_B                      ; NONE                    ; Untyped        ;
-; WRCONTROL_ACLR_B                   ; NONE                    ; Untyped        ;
-; ADDRESS_ACLR_B                     ; NONE                    ; Untyped        ;
-; OUTDATA_ACLR_B                     ; NONE                    ; Untyped        ;
-; RDCONTROL_ACLR_B                   ; NONE                    ; Untyped        ;
-; BYTEENA_ACLR_B                     ; NONE                    ; Untyped        ;
-; WIDTH_BYTEENA_A                    ; 1                       ; Signed Integer ;
-; WIDTH_BYTEENA_B                    ; 1                       ; Signed Integer ;
-; RAM_BLOCK_TYPE                     ; AUTO                    ; Untyped        ;
-; BYTE_SIZE                          ; 8                       ; Signed Integer ;
-; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE               ; Untyped        ;
-; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ    ; Untyped        ;
-; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ    ; Untyped        ;
-; INIT_FILE                          ; StartingPoint_Spr17.mif ; Untyped        ;
-; INIT_FILE_LAYOUT                   ; PORT_A                  ; Untyped        ;
-; MAXIMUM_DEPTH                      ; 0                       ; Signed Integer ;
-; CLOCK_ENABLE_INPUT_A               ; NORMAL                  ; Untyped        ;
-; CLOCK_ENABLE_INPUT_B               ; NORMAL                  ; Untyped        ;
-; CLOCK_ENABLE_OUTPUT_A              ; NORMAL                  ; Untyped        ;
-; CLOCK_ENABLE_OUTPUT_B              ; NORMAL                  ; Untyped        ;
-; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN         ; Untyped        ;
-; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN         ; Untyped        ;
-; ENABLE_ECC                         ; FALSE                   ; Untyped        ;
-; DEVICE_FAMILY                      ; Cyclone II              ; Untyped        ;
-; CBXI_PARAMETER                     ; altsyncram_6du3         ; Untyped        ;
-+------------------------------------+-------------------------+----------------+
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: SCOMP:inst8|altsyncram:MEMORY ;
++------------------------------------+----------------------+----------------+
+; Parameter Name                     ; Value                ; Type           ;
++------------------------------------+----------------------+----------------+
+; BYTE_SIZE_BLOCK                    ; 8                    ; Untyped        ;
+; AUTO_CARRY_CHAINS                  ; ON                   ; AUTO_CARRY     ;
+; IGNORE_CARRY_BUFFERS               ; OFF                  ; IGNORE_CARRY   ;
+; AUTO_CASCADE_CHAINS                ; ON                   ; AUTO_CASCADE   ;
+; IGNORE_CASCADE_BUFFERS             ; OFF                  ; IGNORE_CASCADE ;
+; WIDTH_BYTEENA                      ; 1                    ; Untyped        ;
+; OPERATION_MODE                     ; SINGLE_PORT          ; Untyped        ;
+; WIDTH_A                            ; 16                   ; Signed Integer ;
+; WIDTHAD_A                          ; 11                   ; Signed Integer ;
+; NUMWORDS_A                         ; 2048                 ; Signed Integer ;
+; OUTDATA_REG_A                      ; UNREGISTERED         ; Untyped        ;
+; ADDRESS_ACLR_A                     ; NONE                 ; Untyped        ;
+; OUTDATA_ACLR_A                     ; NONE                 ; Untyped        ;
+; WRCONTROL_ACLR_A                   ; NONE                 ; Untyped        ;
+; INDATA_ACLR_A                      ; NONE                 ; Untyped        ;
+; BYTEENA_ACLR_A                     ; NONE                 ; Untyped        ;
+; WIDTH_B                            ; 1                    ; Signed Integer ;
+; WIDTHAD_B                          ; 1                    ; Signed Integer ;
+; NUMWORDS_B                         ; 0                    ; Signed Integer ;
+; INDATA_REG_B                       ; CLOCK1               ; Untyped        ;
+; WRCONTROL_WRADDRESS_REG_B          ; CLOCK1               ; Untyped        ;
+; RDCONTROL_REG_B                    ; CLOCK1               ; Untyped        ;
+; ADDRESS_REG_B                      ; CLOCK1               ; Untyped        ;
+; OUTDATA_REG_B                      ; UNREGISTERED         ; Untyped        ;
+; BYTEENA_REG_B                      ; CLOCK1               ; Untyped        ;
+; INDATA_ACLR_B                      ; NONE                 ; Untyped        ;
+; WRCONTROL_ACLR_B                   ; NONE                 ; Untyped        ;
+; ADDRESS_ACLR_B                     ; NONE                 ; Untyped        ;
+; OUTDATA_ACLR_B                     ; NONE                 ; Untyped        ;
+; RDCONTROL_ACLR_B                   ; NONE                 ; Untyped        ;
+; BYTEENA_ACLR_B                     ; NONE                 ; Untyped        ;
+; WIDTH_BYTEENA_A                    ; 1                    ; Signed Integer ;
+; WIDTH_BYTEENA_B                    ; 1                    ; Signed Integer ;
+; RAM_BLOCK_TYPE                     ; AUTO                 ; Untyped        ;
+; BYTE_SIZE                          ; 8                    ; Signed Integer ;
+; READ_DURING_WRITE_MODE_MIXED_PORTS ; DONT_CARE            ; Untyped        ;
+; READ_DURING_WRITE_MODE_PORT_A      ; NEW_DATA_NO_NBE_READ ; Untyped        ;
+; READ_DURING_WRITE_MODE_PORT_B      ; NEW_DATA_NO_NBE_READ ; Untyped        ;
+; INIT_FILE                          ; Main.mif             ; Untyped        ;
+; INIT_FILE_LAYOUT                   ; PORT_A               ; Untyped        ;
+; MAXIMUM_DEPTH                      ; 0                    ; Signed Integer ;
+; CLOCK_ENABLE_INPUT_A               ; NORMAL               ; Untyped        ;
+; CLOCK_ENABLE_INPUT_B               ; NORMAL               ; Untyped        ;
+; CLOCK_ENABLE_OUTPUT_A              ; NORMAL               ; Untyped        ;
+; CLOCK_ENABLE_OUTPUT_B              ; NORMAL               ; Untyped        ;
+; CLOCK_ENABLE_CORE_A                ; USE_INPUT_CLKEN      ; Untyped        ;
+; CLOCK_ENABLE_CORE_B                ; USE_INPUT_CLKEN      ; Untyped        ;
+; ENABLE_ECC                         ; FALSE                ; Untyped        ;
+; DEVICE_FAMILY                      ; Cyclone II           ; Untyped        ;
+; CBXI_PARAMETER                     ; altsyncram_pss3      ; Untyped        ;
++------------------------------------+----------------------+----------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings Tables in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -4443,9 +4450,10 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------+
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
-    Info: Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
-    Info: Processing started: Thu Mar 30 12:47:12 2017
+    Info: Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Full Version
+    Info: Processing started: Mon Apr 03 19:06:26 2017
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off DE2Bot -c DE2Bot
+Info: Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info: Found 1 design units, including 1 entities, in source file ir_rcvr.bdf
     Info: Found entity 1: IR_RCVR
 Info: Found 2 design units, including 1 entities, in source file acc_clk_gen.vhd
@@ -4666,7 +4674,7 @@ Info: Instantiated megafunction "SCOMP:inst8|altsyncram:MEMORY" with the followi
     Info: Parameter "indata_aclr_a" = "NONE"
     Info: Parameter "indata_aclr_b" = "NONE"
     Info: Parameter "indata_reg_b" = "CLOCK1"
-    Info: Parameter "init_file" = "StartingPoint_Spr17.mif"
+    Info: Parameter "init_file" = "Main.mif"
     Info: Parameter "init_file_layout" = "PORT_A"
     Info: Parameter "maximum_depth" = "0"
     Info: Parameter "numwords_a" = "2048"
@@ -4695,9 +4703,9 @@ Info: Instantiated megafunction "SCOMP:inst8|altsyncram:MEMORY" with the followi
     Info: Parameter "wrcontrol_wraddress_reg_b" = "CLOCK1"
     Info: Parameter "lpm_hint" = "ENABLE_RUNTIME_MOD=NO"
     Info: Parameter "lpm_type" = "altsyncram"
-Info: Found 1 design units, including 1 entities, in source file db/altsyncram_6du3.tdf
-    Info: Found entity 1: altsyncram_6du3
-Info: Elaborating entity "altsyncram_6du3" for hierarchy "SCOMP:inst8|altsyncram:MEMORY|altsyncram_6du3:auto_generated"
+Info: Found 1 design units, including 1 entities, in source file db/altsyncram_pss3.tdf
+    Info: Found entity 1: altsyncram_pss3
+Info: Elaborating entity "altsyncram_pss3" for hierarchy "SCOMP:inst8|altsyncram:MEMORY|altsyncram_pss3:auto_generated"
 Info: Elaborating entity "LPM_CLSHIFT" for hierarchy "SCOMP:inst8|LPM_CLSHIFT:SHIFTER"
 Info: Elaborated megafunction instantiation "SCOMP:inst8|LPM_CLSHIFT:SHIFTER"
 Info: Instantiated megafunction "SCOMP:inst8|LPM_CLSHIFT:SHIFTER" with the following parameter:
@@ -5496,7 +5504,7 @@ Critical Warning: Ignored Power-Up Level option on the following registers
     Critical Warning (18010): Register UART_INTERFACE:inst1|UART:inst2|uart_rx_bit will power up to High
     Critical Warning (18010): Register UART_INTERFACE:inst1|UART:inst2|uart_rx_filter[1] will power up to High
     Critical Warning (18010): Register UART_INTERFACE:inst1|UART:inst2|uart_rx_filter[0] will power up to High
-Info: 179 registers lost all their fanouts during netlist optimizations. The first 179 are displayed below.
+Info: 178 registers lost all their fanouts during netlist optimizations. The first 178 are displayed below.
     Info: Register "UART_INTERFACE:inst1|uart_dcfifo_out:inst14|dcfifo:dcfifo_component|dcfifo_31m1:auto_generated|dffpipe_adc:rs_bwp|dffe15a[6]" lost all its fanouts during netlist optimizations.
     Info: Register "UART_INTERFACE:inst1|uart_dcfifo_out:inst14|dcfifo:dcfifo_component|dcfifo_31m1:auto_generated|dffpipe_adc:rs_brp|dffe15a[6]" lost all its fanouts during netlist optimizations.
     Info: Register "OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst14|lpm_ff:lpm_ff_component|dffs[31]" lost all its fanouts during netlist optimizations.
@@ -5596,7 +5604,6 @@ Info: 179 registers lost all their fanouts during netlist optimizations. The fir
     Info: Register "OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_dff_oe0:inst11|lpm_ff:lpm_ff_component|dffs[27]" lost all its fanouts during netlist optimizations.
     Info: Register "OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_dff_oe0:inst10|lpm_ff:lpm_ff_component|dffs[27]" lost all its fanouts during netlist optimizations.
     Info: Register "VEL_CONTROL:inst52|SH_ACK" lost all its fanouts during netlist optimizations.
-    Info: Register "SCOMP:inst8|STATE.EX_CZERO" lost all its fanouts during netlist optimizations.
     Info: Register "DAC_BEEP:inst35|phase[11]" lost all its fanouts during netlist optimizations.
     Info: Register "DAC_BEEP:inst35|phase[12]" lost all its fanouts during netlist optimizations.
     Info: Register "DAC_BEEP:inst35|phase[13]" lost all its fanouts during netlist optimizations.
@@ -5676,18 +5683,18 @@ Info: 179 registers lost all their fanouts during netlist optimizations. The fir
     Info: Register "OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst12|lpm_ff:lpm_ff_component|dffs[1]" lost all its fanouts during netlist optimizations.
     Info: Register "OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst14|lpm_ff:lpm_ff_component|dffs[0]" lost all its fanouts during netlist optimizations.
     Info: Register "OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst12|lpm_ff:lpm_ff_component|dffs[0]" lost all its fanouts during netlist optimizations.
-Info: Implemented 5925 device resources after synthesis - the final resource count might be different
+Info: Implemented 5927 device resources after synthesis - the final resource count might be different
     Info: Implemented 45 input pins
     Info: Implemented 133 output pins
     Info: Implemented 4 bidirectional pins
-    Info: Implemented 5619 logic cells
+    Info: Implemented 5621 logic cells
     Info: Implemented 80 RAM segments
     Info: Implemented 2 PLLs
     Info: Implemented 42 DSP elements
 Info: Quartus II Analysis & Synthesis was successful. 0 errors, 121 warnings
-    Info: Peak virtual memory: 310 megabytes
-    Info: Processing ended: Thu Mar 30 12:47:37 2017
-    Info: Elapsed time: 00:00:25
-    Info: Total CPU time (on all processors): 00:00:25
+    Info: Peak virtual memory: 292 megabytes
+    Info: Processing ended: Mon Apr 03 19:06:55 2017
+    Info: Elapsed time: 00:00:29
+    Info: Total CPU time (on all processors): 00:00:20
 
 

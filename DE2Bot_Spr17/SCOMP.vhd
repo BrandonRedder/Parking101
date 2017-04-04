@@ -90,7 +90,7 @@ BEGIN
 		wrcontrol_aclr_a => "NONE",
 		address_aclr_a   => "NONE",
 		outdata_aclr_a   => "NONE",
-		init_file        => "StartingPoint_Spr17.mif",
+		init_file        => "Main.mif",
 		lpm_hint         => "ENABLE_RUNTIME_MOD=NO",
 		lpm_type         => "altsyncram"
 	)
@@ -241,6 +241,8 @@ BEGIN
 							STATE <= EX_RETI;
 						WHEN "10111" =>       -- LOADI
 							STATE <= EX_LOADI;
+						WHEN "11000" =>
+							STATE <= EX_CZERO;
 
 						WHEN OTHERS =>
 							STATE <= FETCH;      -- Invalid opcodes default to NOP
@@ -358,6 +360,7 @@ BEGIN
 					PC    <= PC_SAVED; -- restore saved registers
 					AC    <= AC_SAVED;
 					STATE <= FETCH;
+					
 				WHEN EX_CZERO =>
 					IF (AC = x"0000") THEN
 						FOR i IN 0 TO 18 LOOP
@@ -367,6 +370,7 @@ BEGIN
 						PC          <= IR(10 DOWNTO 0);
 					END IF;
 					STATE <= FETCH;
+					
 				WHEN OTHERS =>
 					STATE <= FETCH;          -- If an invalid state is reached, return to FETCH
 					

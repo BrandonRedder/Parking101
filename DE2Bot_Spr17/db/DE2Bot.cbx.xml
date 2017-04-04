@@ -36,7 +36,7 @@
 		<CBX_INST_ENTRY INSTANCE_NAME="|DE2bot|ODOMETRY:inst53|lpm_mult:MULTIPLIERT|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_5ch.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|DE2bot|OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_mult_oe0:inst18|lpm_mult:lpm_mult_component" CBX_FILE_NAME="mult_j2n.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|DE2bot|OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_counter_oe0:inst2|lpm_counter:lpm_counter_component" CBX_FILE_NAME="cntr_mrg.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|DE2bot|SCOMP:inst8|altsyncram:MEMORY" CBX_FILE_NAME="altsyncram_6du3.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE2bot|SCOMP:inst8|altsyncram:MEMORY" CBX_FILE_NAME="altsyncram_pss3.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|DE2bot|VEL_CONTROL:inst51|lpm_mult:Mult0" CBX_FILE_NAME="mult_m3t.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|DE2bot|ODOMETRY:inst53|altsyncram:COS_LUT" CBX_FILE_NAME="altsyncram_r5l3.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|DE2bot|ODOMETRY:inst53|lpm_mult:MULTIPLIERT|multcore:mult_core|mpar_add:padder|mpar_add:sub_par_add|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_9ch.tdf"/>

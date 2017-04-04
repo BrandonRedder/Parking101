@@ -687,281 +687,39 @@ dres16sR: DW 0 ; remainder result
 ; Requires Abs and Mult16s subroutines.
 ;*******************************************************************************
 L2Estimate:
-	; take abs() of each value, and find the largest one
-	LOAD   L2X
-	CALL   Abs
-	STORE  L2T1
-	LOAD   L2Y
-	CALL   Abs
-	SUB    L2T1
-	JNEG   GDSwap    ; swap if needed to get largest value in X
-	ADD    L2T1
-CalcDist:
-	; Calculation is max(X,Y)*0.961+min(X,Y)*0.406
-	STORE  m16sa
-	LOADI  246       ; max * 246
-	STORE  m16sB
-	CALL   Mult16s
-	LOAD   mres16sH
-	SHIFT  8
-	STORE  L2T2
-	LOAD   mres16sL
-	SHIFT  -8        ; / 256
-	AND    LowByte
-	OR     L2T2
-	STORE  L2T3
-	LOAD   L2T1
-	STORE  m16sa
-	LOADI  104       ; min * 104
-	STORE  m16sB
-	CALL   Mult16s
-	LOAD   mres16sH
-	SHIFT  8
-	STORE  L2T2
-	LOAD   mres16sL
-	SHIFT  -8        ; / 256
-	AND    LowByte
-	OR     L2T2
-	ADD    L2T3     ; sum
-	RETURN
-GDSwap: ; swaps the incoming X and Y
-	ADD    L2T1
-	STORE  L2T2
-	LOAD   L2T1
-	STORE  L2T3
-	LOAD   L2T2
-	STORE  L2T1
-	LOAD   L2T3
-	JUMP   CalcDist
-L2X:  DW 0
-L2Y:  DW 0
-L2T1: DW 0
-L2T2: DW 0
-L2T3: DW 0
-
-
-; Subroutine to wait (block) for 1 second
-Wait1:
-	OUT    TIMER
-Wloop:
-	IN     TIMER
-	OUT    XLEDS       ; User-feedback that a pause is occurring.
-	ADDI   -10         ; 1 second at 10Hz.
-	JNEG   Wloop
-	RETURN
-
-; Modified Subroutine to wait 2 seconds.
-Wait2:
-	OUT    TIMER
-Wloop2:
-	IN     TIMER
-	OUT    XLEDS       ; User-feedback that a pause is occurring.
-	ADDI   -20         ; 2 second at 10Hz.
-	JNEG   Wloop2
-	RETURN
-; This subroutine will get the battery voltage,
-; and stop program execution if it is too low.
-; SetupI2C must be executed prior to this.
-BattCheck:
-	CALL   GetBattLvl
-	JZERO  BattCheck   ; A/D hasn't had time to initialize
-	SUB    MinBatt
-	JNEG   DeadBatt
-	ADD    MinBatt     ; get original value back
-	RETURN
-; If the battery is too low, we want to make
-; sure that the user realizes it...
-DeadBatt:
-	LOADI  &H20
-	OUT    BEEP        ; start beep sound
-	CALL   GetBattLvl  ; get the battery level
-	OUT    SSEG1       ; display it everywhere
-	OUT    SSEG2
-	OUT    LCD
-	LOAD   Zero
-	ADDI   -1          ; 0xFFFF
-	OUT    LEDS        ; all LEDs on
-	OUT    XLEDS
-	CALL   Wait1       ; 1 second
-	LOADI  &H140       ; short, high-pitched beep
-	OUT    BEEP        ; stop beeping
-	LOAD   Zero
-	OUT    LEDS        ; LEDs off
-	OUT    XLEDS
-	CALL   Wait1       ; 1 second
-	JUMP   DeadBatt    ; repeat forever
-
-; Subroutine to read the A/D (battery voltage)
-; Assumes that SetupI2C has been run
-GetBattLvl:
-	LOAD   I2CRCmd     ; 0x0190 (write 0B, read 1B, addr 0x90)
-	OUT    I2C_CMD     ; to I2C_CMD
-	OUT    I2C_RDY     ; start the communication
-	CALL   BlockI2C    ; wait for it to finish
-	IN     I2C_DATA    ; get the returned data
-	RETURN
-
-; Subroutine to configure the I2C for reading batt voltage
-; Only needs to be done once after each reset.
-SetupI2C:
-	CALL   BlockI2C    ; wait for idle
-	LOAD   I2CWCmd     ; 0x1190 (write 1B, read 1B, addr 0x90)
-	OUT    I2C_CMD     ; to I2C_CMD register
-	LOAD   Zero        ; 0x0000 (A/D port 0, no increment)
-	OUT    I2C_DATA    ; to I2C_DATA register
-	OUT    I2C_RDY     ; start the communication
-	CALL   BlockI2C    ; wait for it to finish
-	RETURN
-
-; Subroutine to block until I2C device is idle
-BlockI2C:
-	LOAD   Zero
-	STORE  Temp        ; Used to check for timeout
-BI2CL:
-	LOAD   Temp
-	ADDI   1           ; this will result in ~0.1s timeout
-	STORE  Temp
-	JZERO  I2CError    ; Timeout occurred; error
-	IN     I2C_RDY     ; Read busy signal
-	JPOS   BI2CL       ; If not 0, try again
-	RETURN             ; Else return
-I2CError:
-	LOAD   Zero
-	ADDI   &H12C       ; "I2C"
-	OUT    SSEG1
-	OUT    SSEG2       ; display error message
-	JUMP   I2CError
-
-;***************************************************************
-;* Variables
-;***************************************************************
-Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
-Increment_Speed:	DW	10 ;Value used to make adjustments to position
-Increment_Angle:	DW	5  ;Value used to make adjustments to angle
-Spot:                   DW      0  ;Target spot
-Spot_Width:		DW	0  ;Width of each spot
-Auto_Perp_Distance:	DW	0  ;Distance that will bring the robot to the position for perpendicular parking in auto parking
-Perpendicular_Distance: DW      0  ;Distance that will park the robot from a specified position
-
-;***************************************************************
-;* Constants
-;* (though there is nothing stopping you from writing to these)
-;***************************************************************
-NegOne:   DW -1
-Zero:     DW 0
-One:      DW 1
-Two:      DW 2
-Three:    DW 3
-Four:     DW 4
-Five:     DW 5
-Six:      DW 6
-Seven:    DW 7
-Eight:    DW 8
-Nine:     DW 9
-Ten:      DW 10
-
-; Some bit masks.
-; Masks of multiple bits can be constructed by ORing these
-; 1-bit masks together.
-Mask0:    DW &B00000001
-Mask1:    DW &B00000010
-Mask2:    DW &B00000100
-Mask3:    DW &B00001000
-Mask4:    DW &B00010000
-Mask5:    DW &B00100000
-Mask6:    DW &B01000000
-Mask7:    DW &B10000000
-LowByte:  DW &HFF      ; binary 00000000 1111111
-LowNibl:  DW &HF       ; 0000 0000 0000 1111
-
-; some useful movement values
-OneMeter: DW 961       ; ~1m in 1.04mm units
-HalfMeter: DW 481      ; ~0.5m in 1.04mm units
-TwoFeet:  DW 586       ; ~2ft in 1.04mm units
-Deg90:    DW 90        ; 90 degrees in odometer units
-Deg180:   DW 180       ; 180
-Deg270:   DW 270       ; 270
-Deg360:   DW 360       ; can never actually happen; for math only
-FSlow:    DW 100       ; 100 is about the lowest velocity value that will move
-RSlow:    DW -100
-FMid:     DW 350       ; 350 is a medium speed
-RMid:     DW -350
-FFast:    DW 500       ; 500 is almost max speed (511 is max)
-RFast:    DW -500
-
-MinBatt:  DW 140       ; 14.0V - minimum safe battery voltage
-I2CWCmd:  DW &H1190    ; write one i2c byte, read one byte, addr 0x90
-I2CRCmd:  DW &H0190    ; write nothing, read one byte, addr 0x90
-
-;***************************************************************
-;* IO address space map
-;***************************************************************
-SWITCHES: EQU &H00  ; slide switches
-LEDS:     EQU &H01  ; red LEDs
-TIMER:    EQU &H02  ; timer, usually running at 10 Hz
-XIO:      EQU &H03  ; pushbuttons and some misc. inputs
-SSEG1:    EQU &H04  ; seven-segment display (4-digits only)
-SSEG2:    EQU &H05  ; seven-segment display (4-digits only)
-LCD:      EQU &H06  ; primitive 4-digit LCD display
-XLEDS:    EQU &H07  ; Green LEDs (and Red LED16+17)
-BEEP:     EQU &H0A  ; Control the beep
-CTIMER:   EQU &H0C  ; Configurable timer for interrupts
-LPOS:     EQU &H80  ; left wheel encoder position (read only)
-LVEL:     EQU &H82  ; current left wheel velocity (read only)
-LVELCMD:  EQU &H83  ; left wheel velocity command (write only)
-RPOS:     EQU &H88  ; same values for right wheel...
-RVEL:     EQU &H8A  ; ...
-RVELCMD:  EQU &H8B  ; ...
-I2C_CMD:  EQU &H90  ; I2C module's CMD register,
-I2C_DATA: EQU &H91  ; ... DATA register,
-I2C_RDY:  EQU &H92  ; ... and BUSY register
-UART_DAT: EQU &H98  ; UART data
-UART_RDY: EQU &H98  ; UART status
-SONAR:    EQU &HA0  ; base address for more than 16 registers....
-DIST0:    EQU &HA8  ; the eight sonar distance readings
-DIST1:    EQU &HA9  ; ...
-DIST2:    EQU &HAA  ; ...
-DIST3:    EQU &HAB  ; ...
-DIST4:    EQU &HAC  ; ...
-DIST5:    EQU &HAD  ; ...
-DIST6:    EQU &HAE  ; ...
-DIST7:    EQU &HAF  ; ...
-SONALARM: EQU &HB0  ; Write alarm distance; read alarm register
-SONARINT: EQU &HB1  ; Write mask for sonar interrupts
-SONAREN:  EQU &HB2  ; register to control which sonars are enabled
-XPOS:     EQU &HC0  ; Current X-position (read only)
-YPOS:     EQU &HC1  ; Y-position
-THETA:    EQU &HC2  ; Current rotational position of robot (0-359)
-RESETPOS: EQU &HC3  ; write anything here to reset odometry to 0
-RIN:      EQU &HC8
-LIN:      EQU &HC9
-IR_HI:    EQU &HD0  ; read the high word of the IR receiver (OUT will clear both words)
-IR_LO:    EQU &HD1  ; read the low word of the IR receiver (OUT will clear both words)
-
-;***************************************************************
-;* IR Differences
-;* The difference between the current value and the next value of possible commands (in order)
-;***************************************************************
-ORG 2000
-IR_Current_Val:	DW	&H0
-IR_Power:	DW	&H00FF
-IR_1:		DW	&H1FE0
-IR_Play:	DW	&H07F8
-IR_5:		DW	&H07F8
-IR_9:		DW	&H07F8
-IR_Enter:	DW	&H01FE
-IR_VolUp:	DW	&H05FA
-IR_RW:		DW	&H07F8
-IR_3:		DW	&H17E8
-IR_7:		DW	&H0FF0
-IR_Pause:	DW	&H17E8
-IR_2:		DW	&H17E8
-IR_6:		DW	&H0FF0
-IR_0:		DW	&H07F8
-IR_VolDwn:	DW	&H07F8
-IR_FF:		DW	&H07F8
-IR_4:		DW	&H17E8
-IR_8:		DW	&H0FF0
-IR_TV_VCR:	DW	&H0EF1
-Play_IR     DW  &H0014
-Stop_IR     DW  &H0010
+	; take abs"Ž6’eì(¢ô°ý„®Ÿ êÈa‘â±o>xSay¬\/wÈÖý(è}Æ¡d“½eU¢F2¾hxŸÿs¢,Õ:)v¬o5äçe¼\5‘|£¡m(m¼›™ãäËÔ¥­ñ/±qðBdÙNÓü‘Û’ -!¡pL„*væ1üX*ì¤Æ\dÎÈMÕ~ŽÌEhž@eòýÜÿýU%ŠtZ6Ÿö
+ÆAØ(PZü0ò:áz)2ã²Ü´áÙÖÖž7_W&~‹dÑÖÒN„_)®bÁsKÝXWòñ«Š^	4¿ƒÐûer¶ÐV£+lØw²ñ	ŽÎŽm¤]†x6$:ÌðjÄÙÎ÷àí-„„üÞX*úrYwl¿òKEDN†—Çg;ZÃÃÏxÕXí¬Û<2çÍ	<žª 62Œxr]„w¯ÞÎŠ2âWþÌ‹œh«Øns ÕzNt¢uL5†4'Ï	˜Êc¾Êã}f9é=¬5Ç »;¥Š#g°dC¾ª|¾©éá‡|ÌçÆ±ýÃ\”ÄO÷Ñ–çÑ?íC@×X·Ù`õ4ã¦o¤Kh0Þz6‡ ×Ú
+þ7!Š>q+8ÃßœîkÈßÜ±Áõ  ZçÑè‡Þöl$2
+Ì¡os%Þ½ÆR#ã¯°IY<–‘&œ/^>›¼¹ï›îÃçòƒ`ÓË–­œ§žDøíÇìú°ºv‹P•VâWPEXá¨.©²ŸæN¡]Â'csžR ì7¤Ä7à£¬¶î¹Î7ä³ ÿ=ã 	Ln©V‰‡™º­d­Ú—·¾Ãñ±ZO
+äçÚQìÇ õ²ÀÍ^gÂ™ÕT5Ò¬÷mË¾ÛÓ†)rþ°>$+õq&Ñ®˜u
+1zª%À`FöÄ¤Qq§r¥ý¶ÄÓ’môvç¼5gì)S4–:J3 œ áÕ¸×3à¢Y¿ÚÛ‘Pø³ýiPbd^Éµ	(È§›2™FªrüG4ÚÜœšêgoM*¿%T€ER+LXó#½š@HÎ›*/âx(0Wˆ†"¾SHÏ’OÖ;¶vPÛ˜KDX9ašÆƒ0Ô"oü¤‹I¢'_P6ÿ»MßïKØeÏã,íÚ$rü¦÷ ’Ô@kDUÍ²ÆÖU,\ÑE{óR‘T6	¦ˆÇ7xÏRµØÌ•#Ãl<>n¹±¾"4PÝ«ÚzÀ²ä¾ˆ1ŒZÀùÚö!w”æÌ˜x¼?Á›f±©É†!u´L§ðjUm$´¹?+"FÑë1œ!(º^à8®•o[í)ÜÚ¡Ó¸P—ÑŸ…,ŽžÒ™ù8þablÔœ®òµ-@ì:™ô<¡'ô£Ûiwùë "Ý5‘—Ä›
+j:ëNÆK­-‚µî“HNÁwà·¡Cô®PHÎ·jº‹a²¶Z^çï¤¹—œ }1A%¯86îf3’_¹¾¡÷²°ôÝ€lä¥ªèqýrEþoŠ%Ã#¦ƒú‘Z¤¶&á´­´•ÈYÕ±±&©º¨¿{Kx‘%€iÃÝ© ´¢È*ÛªúYêvÄ	Ô4ÕKŽèLí¤çþFód„ä-»­VÈú8(2*ýÇŸ‹Ó¤ŸF/H–@]¶ûv‰ÛÞ¨BÔ¡YHpýtJY†Å9@uŽÈ_2]9fRÓmÃ%ýMëþŒó€ÃÏÃiz9]ò/ž^&4÷™¼=J^#£ð"Ø0Ÿôí(ùÉ¡Z\æþŽx¯Ø†Ã3Ñc
+“Çî›šq%ËT‡)>­/«RÑÀNg4‡FÎƒÓ›5œÇŽúQêSÄ„¿%Þžq}WþÊ’o•6ÍðøG~ôŠ]gØç9JAsÐVžÏfí^ûN¶°º$/þLhZP€Õ!M>–~œ¥hò@ÜÐÄTÐðaæwKAqš£€\«±•V½Äë/yð‰w¯6Û‚´ÞäÁIÑ’ø^ˆpƒ68ŽYR7Ù ß»œjfcâ U±¶Õ@bIM\«…|!µY…1ˆÞJ1í%ú#j	mQ£ÖÊŸH¾Òî&zÝþx+.¢)ˆy¶á&zb{–¹ƒ :‡Þ‚w\Ó&±‹ø³€Ñ©H*žmô=§ÁâUðNBÿÊû8.?ÅøùãMªàrÀ¾fZÚÝju•5Ë Dúˆ¼Íå:7ª ð"¯>à¤µÛ€Ì	#êS`¨p„[ÆØÐ*þLT
+³•<óÐÁáÕ°Eî!8odªÛÚÉŸ‰²e_;5dk'ym½Ý4ÂÏè*À ¨qþ»èì¿ŠGj"ö÷¥hþ¨)À&=XP±»×ÛœÅœ¥‚™Æ³ÁéAéÃå¨rØ‘<á ˆ÷Ë¥3¸cª¢ý!h};ýxIGŠ#Ø2øäãNþ.£Ï=vVŸÓ=†jý\1Jn\Ä'Òµ|g×¢Q`F£úýqº2;–‘“ iOâÎ‚¦#ªæ®(Ý`6$)qµ¤‘ïmÈSf‘—½|@#¡x]Ãiõ]ôå-uƒt\ð/¢×Lˆ³×ô+ÂòÑØ¦yK%dÒŽ•Bœ_øúý7Ð4œgÈq‚‘eØ&ïƒ­$jZÿ²—AÂú€cCéÅ7E"ÑñÇêV·uŽŽPy$~Çõ0(rßäŽËQmAÝÑ}¾¼ùãY^‚á‚p^=ŽGLI¸\›£RÞÍÞÆ7é_ñ’ ,X[F‘þæ4é‚<§#ßùæq}|Owi­ª³9\·my$Ê³•Ùº@w|W÷&?I£‘Â À6ó’ŽQˆ”–¸Åiß9n¶Bòe¿5ïá·}:7’ÜÍ¹u]DAóøjxl‡^9eZ,üÑy„P÷‹ðsfÍ-ƒMëç·`R’~8!›®löd•†cr@Û1÷ia¦ƒ»|6~¯Ë9ë"üDžqçXÈÖüxQÉóžÐ4go7ÆúC’Ú©m6¤>Þ.…{ãòÊÍ‡yrô‘×ãGoÖ¸\Q¶çÒO©¥zwSxÜnç‰Ézì•TÞ·åfF»Žó=ßrXòÜ¯hþ?7Ðˆ¨ö,`‘è6¬ñ)¶Ë}µpv~œ®ôÒˆ¼>iqå7B§#ÏKU¿¦ì·jÊú «'Ø&’‰‹o|ÏÐ3Ž÷üÏ®T$ÒJ=À:`1¿þLt@%‘¿@,©sFÊœj—Èçà“Ã¤çˆìâ×ezá ÛA&qmí¿ò’i˜®`¥cÂ—x	›×,»ë×[Öûôñ§38&é"ƒ`ýY¤Ôñ)Ÿ²ÝqþçÝ%En ˆ!Ý.d“8íPc'ï)‰-)Ã?å³sì}ù…5·/ŽŽP¦€Ž)°ä¨¸wV¶·®Œ³À/Ó÷C*3½k·gfTÓºšë¼§õ°°ûÌÉ1ñ˜ ö¿ä¼ò3¨€™tw›Ÿº âÆ’}M´4{âòOQÂKm9*v}´Ç¡“\¯Åë]f.vº¼—&>ÑÎ™yˆôl@œœ#{ÉŸØ˜ë·µPÉó˜EºEZô–v¯i*„Â¶Sþ¼@ïâA[Å>û
+#nÜåœY¦<éÏÒÀ÷v
+2œiW|HUµU†e!B‚$¬hÝ*ûeD¨ÍDqw†œ+ýë[¤bcR3žÈzˆ‘­åòª%eÁã ÝŠ´$Uâ{<à×¾Ø¿¬S}dÐšô<­­°µEVtõüuÆ¿& /Õò~vÜ°ôEççxvÆgì$~% ¯ÿ\ºŠ­§’ôÑx
+¬ñÍwÖ'ËIµânµÿ¥ÏÂ½2gœp7†oïéøëUì=o8L\˜{õ±½nÜ×eÞRÈ–™¶³‹W-ÅßHð‘ø\Ê87Q¼q)U¥Æ€C×u¹G–ŠL! Î®”BjA4âw}Æ‡j§å½Í³2îèu3-^òûz"LÁ[[ð¼Ö9 èû½P´ÃŒ¤éí€w:¼ðpÛÌÕO†q,òŽúv¡_°“}A(ÉÚo´ò‚	ò>{ø‡·²wÀÈ+)"¹´aZ6g©>n6ØEÄó$A…X·ù† rûÜ¨ÄÏê(ntvüàã|%\õÞ"ªÁÓ’á¼¶ƒõ×Wj6[üöŽ{&u /[Q¸•6wÔUÇÁDÑ­ÅuísRš"rTl>“"©œ¿ëdG€W‘ý9Û}mœ‘Òœõ€à-#PÔ¿én“J‡8Ù&àlý0KûO±ýI*¦‰‚…fy	ýwÕ’ 6æ16—êõò‘¦[‡E;¦É±¹JÎ»¶) ¹¶ Jšö7I¾OâZBå¯\Ê«ª][ª°3®dD ü<¥ÈŸãÚTQ]lpm!«Hw"¸_ß˜Ã|œçˆ@– ýyŒ§wsÚÙ·—CÏ¬÷/Ùf*Š=†ZyÕ¼à‡`¢_„,dŒq£¯BSŠÌÖÖÓ¸Üÿwí1.øA%Ý|ZpÞ†HÁKÃ9`Z¢;SÌn6›/‡Ùu£“0¾¸9—ì¾V>§ŽýÛñcø2ãŸˆÑÝ«+	3	µv¿nmˆª“(´åó|d"\@Y£óÏêŒèR¢Øó‚þÛ{œªICTø›/©ÝEH&nŽßt<îÈ¢Z9}êg³åÔš‡8ðUòKônì]iPÏ ßA˜`û&y^3`BfcT£vQqYµ—wŽ¥ŸÓb›µEÝH¿ÅÀM=î®<S 4O:†¸înç±Âå~ÚOpŽC×iJ?TŠÂžãïNr7+Ñý/›²<T<Ñ£8€ Ý°%µQ¹ÝÞêÁ}îe ûu;Õ9†	N¥±á•êñz	¹1€$î!-ÖMÃÊOÔ¾<TŽv<N´Òù.ÓÉ”¸Jy¥7!QâPz,ñje£ß–Ü:–Èm%3Þ[’ žóœg\úè¶LÿƒÖãÓÚ}«f«±”F|})Õ¢F9lç8}¦0Li\j4-F¹<ìívÂXó·ÙvC‰Æç„3Ë$ûÕ|›+Â^SÌíºÃÜ²ôŠ80]IŒ*a‘ý‡C6ªbµ9 wa	×"[Ù¼ó~æ!lª-ÞbðøHIg6=KW«Ïx3dhg„.”w–×/™ž-gW[—*dHJ¨©ÕE,_MpÎÆým¸øx^+ÀºÕX_{v®,CØ94C.Ý¯S¬œeVr"íf¼!_Às*)yp=˜µ¯Ÿõl¸t;“òÿ˜`èÀíxºCjSÌ², ¡$ñÄiìr(hDÑ´sžù@Ê¦hÌ;oŠñ¤ãÐÞêkó– 8ÞÎhÝ
+|"æ›YÝ?è²­Æ‹È·"n®^ÎŒ$ÿ›8üo]îÙfÙX8X3$ …s¨Ö_ÿ¢­}:­úé„	²
+Ò^hù0 ²â“ëO2ß8rBÑ-•qAK`\¾éH
+pL;ä{°ÓýÊ·ØfÊ37¯WoÄñ±Ú#»}<hiÄgó@r#ý½™í¯&5/[~Mñïâ·üû¹¨®Ï‡/`â{Ö5|²OU/´Æ7gù-£ŽZºÆþ
+*<ÄöÂÒ6z·qpþ\wD|r,gÔÉ’	Ÿ#IB«¼*ëkJ=NÖúuQõ9ÀìülÇ|§«íéÌ¡‚%	ªø,­-[='·Ì&]h(UÿÖUÿ_œH¼$·l7”£r–»ÄX7z¶'líÁ:¯¨èíî•Aùx£Àq’Á}ÆÜûÖØ©ä®Î%òK
+º"Ä÷E]ÿ9Ž´âÁR¦4€åÛÞ†Qq[`Ê§¤º6%]s„bx?)¼-0,ÁP×ÿ­u¶fDÝzº]‰P[,tÎˆkVK@3Œg,l¹‰üf‰¢ŽÌMQc†àä(%M·Ÿ¾êVÝÏÒ0X;kG—Çw®†*1+ËÂ—ÃA,&â9Â: ÷R`f`ñéwOÃÛÇÒÔˆ˜gøÐDÂFT’'& ·0AX¿¯qïŠT;yÓi²5€EYëy[=o/—f%Ôü×ùj¯¼ñÆ$qêaœïtÊ_ÞT¢–|Pµò¹_yA`®çMzœQêL]×Ÿåëk—mb‰Þ-À@·Å?šÆŒTq½	+‚·gÊ¬.Aðzå=+0ÎªITYï{€ôÿùÛ*(£ÇõGt!½ð\è/ÛK#OQãå¤~®¦éw(¤ ºän´a3Z¦°“zÿ¸™t¾hªUÇ’•a`:S©…›Åâ×\ßÇ{:„ ç‹0ûP;€õþ9©B,¦DÔ"9½§%V¹ûÅè°buÁIfCÁ©yg`F”çI¥»¥‹P\eßÀ‡„Cn@,¬ÀCßiõ çˆ—Õ!’h	¼eRùÍŽ;A^>A&jé!‚¯ã«ç[Õpnódgƒ"¥I‚ÂŽö@G²AÓÐ€Ÿö ’r üÀ’¾lçÒJÑx¨‘¯
+uG^EûI¤íwå›ø°šQ–ìAóÏÝË†ýÞ…r˜=ÍðHàå²Ù*VÒ@®Ç•x•ØÀ[§x.Ø*èO ¯v®€ëòkDbRÉú(Ó½‹žÌ$îTá„çUH^‘Jµ!ëzE4×a—aþ]ò á| [¡\ß*/`³‘..ƒ}´¤ðz‘8›Ža Üò(#Î"á“to\g§‚ê#Š0œÑKÈÕœÕ"
+¹Ï¶ph$n~)Y@¸Ë†ÝPw1ËÍ‚‘0Ø°‘ªò—nxßˆWB36ùaZç€hãÅ··ú‹µÞiQ¯¯ËiVM41$‘
+jhóq6ËnB+YòdV‘¨ó¾$×ÜdÕ[Fò±rWøùËÉ‡í½ßsE¬ÅŸvŒ{QC>™Ãª·¡æ3û]a¦©ÒT|ü.|º5ÐÞLD²&¼8”ŽC*v‘QÇ1è4Dý
+}5Æfÿª÷ÐfÔ—å*(Ñï{™ÃR×·GKštßÙ$ùÝ’ÖŸ[©a1ö™ GM011Ý,]œ­xH/ 4„Ú²ÎÇ	= Ý±É™‡Ëì'ù¹.;Y«à£Ó góz¸Þ¯²Žnwk¹á$«öMyâ<uôH”¤‚lžN²Ì‘¨2dÄƒP'd7§™|ðÒƒa3²vØ Å6dm¹ Ž¹þT–õž¥i±šÔE›™FÃ‘óÚÉá¸â|¥EZ—ÅDü8J%õï·¸m1¨ “JãÚWÿl¬ä40&Â¼ò#ð°„?*½_¡0˜O°¬ í6ÞÖê	 ÞA[‘2Á&Š)öW…êëH¦Ñ9©H¦-ô™’X–ŠGäð ®SA¢ÏAàèºquj³ò9/ƒ²¢Çqè½ýpBV©D… 6°è(ß%ªCj¥>×|Uì–¸Ë¬u[<ÝÄŸñ $ÂELP‡çá¹P©Ê?P7‰hž¦ç]QïÀnq%56g ÐH7bù&‰‡YPx”j.ÊïyŠ§$¥mïRwü]Çóã	é4‹Uük¶:o:ÖÑá\p”	ÚV6e“ŽW›.±ôÝß¡@ñe3UpR6-^“Ô0‡_ƒáª¨B )‚$6G‰Aßª8YŒ…qÖF½{%ï´'²˜ºtMk„ÑëÉð9·ŽÑñÃ©oäÎÖ¼íž¹ ‡G”@*Ä?-Ñ?Z… —Ö=i|H	Q®J’žjJ*F
+¼%o£®é8}ˆrßD½tŠ»NSÃ¢j×§Åbui1"a™ÁðF@<#ªÿ<{8^;øÒ¯nº"N‘áˆt.C‹ ÈõêÙ¹µÎÚ©=]°ÑŒjÕ×KfžÅ‘›OÚ}/c®l"b&Òë@ŽÉ Ù9óXSÆà1ÓckY2½5U"L|†µÆH~V³H´i6å·4
+òJFícjû@†Škí¢²gÈA¸M¡ääÅQ¸¬ùü×KX›áO¥m­¡ìcO"Q
+Ý‰«Š`g¸ë]’Ä"}=gA×†Â^Êlólªyþd“8zE#’Nl¼¦²'-¥ãÄKµ\ŸRrïN²O—.–}‰‚Žö>ª	•´²Ç
+d=Œ¸¼V‘x\t²ì7Kñ!G•5AïY¯k5ãAMÂ,8¯Øú® 4DJQî+âcY03Ë{Ävl®^B÷ÞA³éPºY
+á"¦0c‚‡Êxµ3kçÁ~«ò¯,xŒÎL!–<”1ƒ¤‘÷{b«&Ç X¸aÏcÄh}K)
+¦hß)x¶lÃ†hg·_=œ¡ÐÞ°£pÉ!ÙïP¸}ŒYÈyñ:ÁW\?~$óÎÑi‚FÔþ.ÿQ²°dÍ':¦4ÃÓÁÍH×µ*QÓ«‡{áJ@Še&Ow¯‰4Ë™ìü3ü*œO³ˆŒŠö˜‘±“byñtYÛÍ7Ø ïF„øªÜMuÎDçvèþËÚé#Í˜)î<( ãôm	MœÞ $ÙÍ°ËYéVÄ†½P@¾4ºÔ}øƒÁÜ2ÂËM-¢t ÷Û?/8Wø8÷!»oXýr“GøNîÿ{òŸ	#p0÷MNlì@Sgq§È`;bSÜr‚¨fCe¢ù}O}A°«v¹ã¤6)&ÇÜìóÔ¿­^u—’ö£m4&9g¿ƒr\êñ -5šLÒ†fðÔ¾ì
+çŒÇ ûâùë$kã•†ó¤ ¥¬f¹•zd³1N?é?å@~Œ"œ¿Xbô~v/ ½Tb4­ uOvu|SI»vë5#?û–å0¹øáÅ"}Ywÿåf¯â#nk—"¯DaÂ¥E]Ywæœ€CêÝ‡Ÿ]c~j?ª™*ÈÍÑ±µ"ï¹çîå-…<Â	IW‚ Å³Wƒ;D$AûÑ’–Räs»Ò0O'cŸÇ
+‹gòaä]QÒÄ+ &×þµàÝJš{ ÆL‹œÐÛÞšÓc—]¿„ßsUˆ&ÅD¨ÓŠ±‘˜™À}À´QCe»æ@àºñmgªƒKP/wÃª?žQÚNÈ –`è» <.™BR7›Üß¢„bjÂ­îz\M¸b÷ª_vM6Ö#VšæÄƒº‡)½»ÃìÚ91#¾ŸŒo™L3ßW
+¼×î• 2åb7<¾±ÛáqÁ_Xj«­S}‰*uxÏ0A™?ØÄÖØJ[ˆYÝiÍŠÔû€¦AàbB@¯ZYü,Ax.íÆ±ù¿˜¸b'Qša·fb²å<lòT¿R”Rý°Å]ö»»D‰m®‡ŽsÖíoqªu)ùÙçÈ4b%”öèÔã¸§5¡ð¾Bú•2¢z4‹–Ç
+òT5©ÔÇÏÊõbÚ 8ðÌ­ÐU~ô‚U/ãKYÞÇE`ãø­Pž€v»
+œÇœèÓ©ÃØEÖ¬ÓÐÚ}UFéÔÚˆÆsä‚Ð)¾b[0pÔÈþ—¥²¹$c"Qø}°Aâ£š¡dÆõ­g$ì#1c}áó[¼Óÿ‹á­Ñ«Sµ´ëäµ˜Å[rùÉ7ºäRõ‹Yüíëý¨cô;±!D”a;X€B˜±ÌáÆ(íÊ€Ö}ž_¶ðÕX©§¸>Q…’´0&ßå6V—étxqðËáM™³Š†¿®7W33æç6]SH#ô:¤H–.&¯%€hºB‰ÆÐdV€(aÙ¨C vEúY¡¢Ô83Y6=PKù’1Z3¡ÔD^#°v5ÖG:Å™®ºú¿wü´J¬‹zY|EiÜõíhwZŽ°ó åt?¿¥iþ/Ž¨¥ì/ŒÆ¬)q¥¤Uö´€)³V/läY°Ç”ü~½Ø/ì•ñž¶Ä7gnD@Úê¤À%ì®Öÿ	)çËB^€{Ô]…5>7’d§É¨¶ÍE‰Ö!KŽœæÆÈIªŸGJ†Yùë{¨Æ1I"x·‹ˆôwÜ®VbíøÛ:]' «§[ëOYÅ`ýÅMÑ¥¼Ÿö£ÚIÍèˆvy|À«ü ,õ}æÃ3°)_?í£R@š>\°
+Ý
+Û?kGOþ©RÝ(tPÃûI.t"êo‘ØgúH´0útCWä3Þ*:uQhÒÑK­Ì\~¤5NT^mîfÀ¿/L¼M‰£e*ôèB€É$ÄŒœQÏá·N-òæ`Œ,£—'GÂ''ÚÝ=ÖcÝ´	–¿}ND(Û·ÙõŽ¦R‚[ãŽy ]0öO7Ú}®ß´‘±C?ü&?ä}wÝ^Nš‡Ô@Š÷ßz°x:Òñ;úÚ´žžéÌø5ºuÇ!¶¥ñè­&0H'½g<=ÈÓûpâ'i«E<þÑ‡@Ú%‚ÿ‰P”Î=`mÉé
+#ª`Ú ‹în[W‹‘8n#ŠOÄØhsšÅÖ°`‡5N÷„ˆ™:Mw:—‘³Èy˜{2‡@}WíTû(Öv¿÷ÔlùÒ«¿Aq(Øã¥ë÷KC/C¹ÒÃØ¢+iïÏ•]9ó´›$Eïw|u	Q"5|†»9ñ½ÓÎV¿£Mr’ã2Â¡â~ey¶Ó™uÏPwÁ¬"ßéž±ú@?e–ÝòN3yüzïïHÃÍ-ânÁ±mõû•Ôœä]75uK4n‹!‘8ñï­k§ÔÛÖ¬Ï–YÀ³óIµ2=6QÓÝ4U¥î"[`OŒ	h¼¶¾ˆ	g{aŠ²Ö"Îš¸7“U=ï@!¦2i¶‰µß_oEÄ˜Þ=i¶äµ,Ÿû¨:#9à;õµÈ€/'.
+6Ÿi‰ïWSh—'Û‡]ó?òÓ2|¡¬áUi^5€Î`t2ÔG™ÂŸÛ[÷}&"q3ZR{•ŠN$¡àžø¿öž¾á›Šˆ{~:ÚÐ9fÁlzÈªeãÍyÅ‡XZŒe*ýŒ‰kÂÊÜA¢£ò4ƒd,^ª’{6f$ºÓf+b©R6‚€vÔb7ï›ë,;¹nºíUÒæ‹)ÕÂÓö±Ÿ5øíA[¢££c7ŠpH³qà—Yíš5X#8Pªâ/‹›`ÞSõì'ïõ¥;¨Ï5´Å&×ÖõFàu0#Éµ);È˜úÙ¹.›{-‰! îÖ´õ¨5TTMóöó

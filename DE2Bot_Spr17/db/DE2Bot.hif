@@ -1,5 +1,5 @@
 Quartus II
-Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
+Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Full Version
 11
 1000
 OFF
@@ -27,7 +27,7 @@ db|DE2Bot.(0).cnf
 # case_insensitive
 # source_file
 de2bot.bdf
-1ef08941b6b2771d7530ee2a03af1b3
+1142e760134ac2a8ae81d24f6e8ec989
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -51,7 +51,7 @@ ON
 # case_insensitive
 # source_file
 slcd.vhd
-e6645f6126b5df789ba6e1f75cc4a04e
+e21576703054c27e7263f4541344e24
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -67,7 +67,7 @@ ON
 SLCD:inst55
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -84,7 +84,7 @@ ON
 # case_insensitive
 # source_file
 acc_clk_gen.vhd
-8aba4f3c31c61f746721fbd61e32970
+bf277a638257a2127aa2ed7129c6a6f
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -100,7 +100,7 @@ ON
 ACC_CLK_GEN:inst60
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -117,7 +117,7 @@ ON
 # case_insensitive
 # source_file
 altpll0.vhd
-84deedcff7537c28d1c5e8ea23a192c
+ff5f98cf404334c4d53eb431a3ec3592
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -133,7 +133,7 @@ ON
 altpll0:inst
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -145,7 +145,7 @@ db|DE2Bot.(4).cnf
 db|DE2Bot.(4).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|altpll.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|altpll.tdf
 2ba9eb5c4b9bddd84f6c12efd8fd6af
 7
 # user_parameter {
@@ -1647,7 +1647,7 @@ ON
 # case_insensitive
 # source_file
 io_decoder.vhd
-c56a5f983c3ca5e93725a831d1cbd248
+6c3c4fd1866c466b1d5164ba54c4d922
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -1663,7 +1663,7 @@ ON
 IO_DECODER:inst24
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -1675,7 +1675,7 @@ db|DE2Bot.(7).cnf
 db|DE2Bot.(7).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|altsyncram.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|altsyncram.tdf
 67d9a3902c8a461c1d5750189e124f2
 7
 # user_parameter {
@@ -2017,9 +2017,6 @@ address_a0
 -1
 3
 }
-# hierarchies {
-SCOMP:inst8|altsyncram:MEMORY
-}
 # macro_sequence
 
 # end
@@ -2031,7 +2028,7 @@ db|DE2Bot.(8).cnf
 # case_insensitive
 # source_file
 db|altsyncram_6du3.tdf
-bcd7bae7e526f8f12c453d5fb0c078
+aeeab0509fa28e4387233f88c5fa2f
 7
 # used_port {
 wren_a
@@ -2174,9 +2171,6 @@ address_a0
 startingpoint_spr17.mif
 0
 }
-# hierarchies {
-SCOMP:inst8|altsyncram:MEMORY|altsyncram_6du3:auto_generated
-}
 # macro_sequence
 
 # end
@@ -2187,7 +2181,7 @@ db|DE2Bot.(9).cnf
 db|DE2Bot.(9).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_clshift.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_clshift.tdf
 b55d7ad93e318db1e98fe32aeaa8b4d
 7
 # user_parameter {
@@ -2339,7 +2333,7 @@ db|DE2Bot.(10).cnf
 # case_insensitive
 # source_file
 db|lpm_clshift_fuc.tdf
-d5f982dbb9ba1bef554e6994b9cb6b1
+a82da9552e52d1967a2ace72cb726d6
 7
 # used_port {
 result9
@@ -2467,7 +2461,7 @@ db|DE2Bot.(11).cnf
 db|DE2Bot.(11).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_bustri.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_bustri.tdf
 8143c11353809b678e4994d13be28a
 7
 # user_parameter {
@@ -2602,7 +2596,7 @@ ON
 # case_insensitive
 # source_file
 dig_in.vhd
-b7a59251c67eea4524a330f5f9d5b4f
+26adc41d45b4eabf3aa4cde7bd5be2
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -2621,7 +2615,7 @@ DIG_IN:inst41
 DIG_IN:inst38
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -2634,7 +2628,7 @@ db|DE2Bot.(13).cnf
 # case_insensitive
 # source_file
 safety_enable.bdf
-d3463312071b0eba2b4caac4a2510fb
+4a842c7b7f8427cab27486575dbf2b0
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -2658,7 +2652,7 @@ ON
 # case_insensitive
 # source_file
 timer.vhd
-78abc8ff108d74f7e5164f411ee5645
+bf8a18bd68c690822d5cd28d82e856f2
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -2674,7 +2668,7 @@ ON
 TIMER:inst20
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -2687,7 +2681,7 @@ db|DE2Bot.(15).cnf
 # case_insensitive
 # source_file
 i2c_interface.bdf
-558dfdfee97cdc91d78c9efcba379839
+1b242f1ac661cfdd5feb30bbdcf33957
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -2711,7 +2705,7 @@ ON
 # case_insensitive
 # source_file
 i2c_master.vhd
-a50e917cafdfc27cb2351def3b1de8c
+e5251ad637a3a537589c5cb5bb17811b
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -2738,7 +2732,7 @@ I2C_INTERFACE:inst16|i2c_master:inst
 oneshot_i2c:inst18|i2c_master:inst
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -2755,7 +2749,7 @@ ON
 # case_insensitive
 # source_file
 i2c_ctrl.vhd
-e15ce8ac57b69a8f8c14f2ebdf7c83
+d6691fb621e021f217b2d6b278858d50
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -2771,7 +2765,7 @@ ON
 I2C_INTERFACE:inst16|i2c_ctrl:inst14
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -2784,7 +2778,7 @@ db|DE2Bot.(18).cnf
 # case_insensitive
 # source_file
 ir_rcvr.bdf
-3640744f5f7bae67cb14f6cf1daf020
+a162da1affc7254d6edcb67884f676b
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -2808,7 +2802,7 @@ ON
 # case_insensitive
 # source_file
 ir_lpm_counter0.vhd
-e1af1164402f75728691378689a7b332
+54a8cd2932713bdb1c45ebbe7d1efc6
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -2825,7 +2819,7 @@ IR_RCVR:inst44|ir_lpm_counter0:inst18
 IR_RCVR:inst44|ir_lpm_counter0:inst16
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -2837,7 +2831,7 @@ db|DE2Bot.(20).cnf
 db|DE2Bot.(20).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_counter.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_counter.tdf
 151f75e8fcf5e87e72b7df6bb2ea
 7
 # user_parameter {
@@ -2985,7 +2979,7 @@ db|DE2Bot.(21).cnf
 # case_insensitive
 # source_file
 db|cntr_7ji.tdf
-5d5126926daf73cb9f957e5514c8227f
+1133b3c74ce76e5162cc168d82bc329
 7
 # used_port {
 q9
@@ -3062,7 +3056,7 @@ ON
 # case_insensitive
 # source_file
 ir_lpm_compare0.vhd
-9933ac449f41ecb147d92fe1dcd116d0
+ba81f7c22c8d59c222c45b85e52a669
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -3080,7 +3074,7 @@ IR_RCVR:inst44|ir_lpm_compare0:inst
 IR_RCVR:inst44|ir_lpm_compare0:inst20
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -3092,7 +3086,7 @@ db|DE2Bot.(23).cnf
 db|DE2Bot.(23).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_compare.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_compare.tdf
 6fe57e55c2d8e254bfe73d8fff3f219
 7
 # user_parameter {
@@ -3271,7 +3265,7 @@ db|DE2Bot.(24).cnf
 # case_insensitive
 # source_file
 db|cmpr_h0h.tdf
-90935142c679fcf06ad754d9b38680
+d3201f8094c7dd1e361eb63eda8bc7b0
 7
 # used_port {
 datab9
@@ -3391,7 +3385,7 @@ ON
 # case_insensitive
 # source_file
 ir_lpm_constant2.vhd
-fee68cc931718176326156f5280509e
+dafa65b99bd41d137995865dedefdac5
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -3407,7 +3401,7 @@ ON
 IR_RCVR:inst44|ir_lpm_constant2:inst23
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -3419,7 +3413,7 @@ db|DE2Bot.(26).cnf
 db|DE2Bot.(26).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_constant.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_constant.tdf
 20a173884457e9df4e4d620451461d
 7
 # user_parameter {
@@ -3505,7 +3499,7 @@ ON
 # case_insensitive
 # source_file
 ir_lpm_dff9.vhd
-c631cb6ac08da552723513443a1ab0ff
+71fd51f5a57450a7995de84ae649e
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -3521,7 +3515,7 @@ ON
 IR_RCVR:inst44|ir_lpm_dff9:inst3
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -3533,7 +3527,7 @@ db|DE2Bot.(28).cnf
 db|DE2Bot.(28).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_ff.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_ff.tdf
 6f1796a38d8b519cf7b8f38b5da1ac5b
 7
 # user_parameter {
@@ -3804,7 +3798,7 @@ ON
 # case_insensitive
 # source_file
 ir_lpm_counter1.vhd
-2f83c9984f3b21382976ffb77316ef33
+fb9c15708b443710174f96b11a3bf7cc
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -3820,7 +3814,7 @@ ON
 IR_RCVR:inst44|ir_lpm_counter1:inst24
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -3832,7 +3826,7 @@ db|DE2Bot.(30).cnf
 db|DE2Bot.(30).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_counter.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_counter.tdf
 151f75e8fcf5e87e72b7df6bb2ea
 7
 # user_parameter {
@@ -3949,7 +3943,7 @@ db|DE2Bot.(31).cnf
 # case_insensitive
 # source_file
 db|cntr_7ij.tdf
-b93040463591f79635b946db306a3920
+62a91868a7cf896f11ff552127a5fa2
 7
 # used_port {
 sset
@@ -3995,7 +3989,7 @@ ON
 # case_insensitive
 # source_file
 ir_lpm_constant0.vhd
-9bc9bf788ee324c6cbeee7f136fd4b
+43aecddc886b6bbddb8a24813b4a54a
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -4011,7 +4005,7 @@ ON
 IR_RCVR:inst44|ir_lpm_constant0:inst22
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -4023,7 +4017,7 @@ db|DE2Bot.(33).cnf
 db|DE2Bot.(33).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_constant.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_constant.tdf
 20a173884457e9df4e4d620451461d
 7
 # user_parameter {
@@ -4109,7 +4103,7 @@ ON
 # case_insensitive
 # source_file
 ir_lpm_shiftreg0.vhd
-95dd78829d2c031adc35e7f4e1f6fab
+1f8ee524da357ebe401f95b47fa12ef
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -4125,7 +4119,7 @@ ON
 IR_RCVR:inst44|ir_lpm_shiftreg0:inst25
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -4137,7 +4131,7 @@ db|DE2Bot.(35).cnf
 db|DE2Bot.(35).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_shiftreg.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_shiftreg.tdf
 da99a65952a97e3c68facd67112efbfd
 7
 # user_parameter {
@@ -4300,7 +4294,7 @@ ON
 # case_insensitive
 # source_file
 ir_lpm_constant1.vhd
-06f98729af911e37627fe35318233e0
+55f3aa60b6becd5366e624bdfadca35
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -4316,7 +4310,7 @@ ON
 IR_RCVR:inst44|ir_lpm_constant1:inst21
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -4328,7 +4322,7 @@ db|DE2Bot.(37).cnf
 db|DE2Bot.(37).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_constant.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_constant.tdf
 20a173884457e9df4e4d620451461d
 7
 # user_parameter {
@@ -4410,7 +4404,7 @@ db|DE2Bot.(38).cnf
 # case_insensitive
 # source_file
 optical_encoder.bdf
-53647e12df862247a32ce0c9bca4d161
+70ba5a761fe1b3843ea5e787977c2f8
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -4431,7 +4425,7 @@ db|DE2Bot.(39).cnf
 # case_insensitive
 # source_file
 posn_vel.bdf
-6bec94bc1c23d5b83af34c9bdb260fb
+db888eaafbae331a5217e75488482
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -4456,7 +4450,7 @@ ON
 # case_insensitive
 # source_file
 lpm_add_sub_oe0.vhd
-f1f67b1adc7dc2e345f1799cf518bf
+c356dca66dd51d79bb9cb02edb4b3e3b
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -4475,7 +4469,7 @@ OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_add_sub_oe0:inst16
 OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_add_sub_oe0:inst15
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -4487,7 +4481,7 @@ db|DE2Bot.(41).cnf
 db|DE2Bot.(41).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_add_sub.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_add_sub.tdf
 74821f847e545ce9ad847cbce0ef11
 7
 # user_parameter {
@@ -4875,7 +4869,7 @@ db|DE2Bot.(42).cnf
 # case_insensitive
 # source_file
 db|add_sub_nfh.tdf
-569c352cfa2116474b82a8f099902661
+dca52e2e1b9ab243de1a139e0223745
 7
 # used_port {
 result9
@@ -5188,7 +5182,7 @@ ON
 # case_insensitive
 # source_file
 lpm_dff_oe0.vhd
-5dcd4e844218826bb0352ff7f955e2b8
+f34461469536852c51cd68b88b8793db
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -5211,7 +5205,7 @@ OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst11
 OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_dff_oe0:inst14
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -5228,7 +5222,7 @@ ON
 # case_insensitive
 # source_file
 lpm_counter_oe0.vhd
-105153a31c6d626225499259698fa8f
+13db465aa8f2db689e5844e9cbd054
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -5245,7 +5239,7 @@ OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_counter_oe0:inst2
 OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_counter_oe0:inst2
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -5257,7 +5251,7 @@ db|DE2Bot.(45).cnf
 db|DE2Bot.(45).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_counter.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_counter.tdf
 151f75e8fcf5e87e72b7df6bb2ea
 7
 # user_parameter {
@@ -5456,7 +5450,7 @@ db|DE2Bot.(46).cnf
 # case_insensitive
 # source_file
 db|cntr_mrg.tdf
-5959dc9a6dc5469aa3c9f8a2bb3ff667
+6e16ba8134c5db4811669b37891bed6b
 7
 # used_port {
 updown
@@ -5580,7 +5574,7 @@ db|DE2Bot.(47).cnf
 # case_insensitive
 # source_file
 quadrature_decode.bdf
-9a7a978ee367bbf69dd630a3db6390de
+6ebc74a03bdc9acaeac84979df528d70
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -5605,7 +5599,7 @@ ON
 # case_insensitive
 # source_file
 lpm_mult_oe0.vhd
-3dd08a5f9dcf355b54cde91cbc22d1fc
+20f63d50c8c2adc350359bfcfd5a7646
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -5622,7 +5616,7 @@ OPTICAL_ENCODER:inst22|POSN_VEL:inst|lpm_mult_oe0:inst18
 OPTICAL_ENCODER:inst27|POSN_VEL:inst|lpm_mult_oe0:inst18
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -5634,7 +5628,7 @@ db|DE2Bot.(49).cnf
 db|DE2Bot.(49).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_mult.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_mult.tdf
 6ec8d746e6da2f4aae33fe9d4e4dfb1
 7
 # user_parameter {
@@ -5952,7 +5946,7 @@ db|DE2Bot.(50).cnf
 # case_insensitive
 # source_file
 db|mult_j2n.tdf
-fde4ba89836e9f7748ac51dad0ccfc
+f425b86dab6931bc213ced79aa0c970
 7
 # used_port {
 result9
@@ -6167,7 +6161,7 @@ ON
 # case_insensitive
 # source_file
 lpm_constant_oe0.vhd
-f89e4f3853a4964e4a2ef457ca6a415
+a65e27d43d627257d723369369fc19c
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -6184,7 +6178,7 @@ OPTICAL_ENCODER:inst22|lpm_constant_oe0:inst8
 OPTICAL_ENCODER:inst27|lpm_constant_oe0:inst8
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -6196,7 +6190,7 @@ db|DE2Bot.(52).cnf
 db|DE2Bot.(52).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_constant.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_constant.tdf
 20a173884457e9df4e4d620451461d
 7
 # user_parameter {
@@ -6253,7 +6247,7 @@ ON
 # case_insensitive
 # source_file
 lpm_bustri_oe0.vhd
-b1e52a0591530ae6a94893efbbc44
+9ee44a9dd6ce9b3a8a8a949bc12aea9
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -6276,7 +6270,7 @@ lpm_bustri_oe0:inst31
 lpm_bustri_oe0:inst37
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -6288,7 +6282,7 @@ db|DE2Bot.(54).cnf
 db|DE2Bot.(54).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_bustri.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_bustri.tdf
 8143c11353809b678e4994d13be28a
 7
 # user_parameter {
@@ -6425,7 +6419,7 @@ ON
 # case_insensitive
 # source_file
 odometry.vhd
-3ca4b9c3d3a61c475545d81c0379983
+743ae8b0d1be664a706636a9f15332dc
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -6441,7 +6435,7 @@ ON
 ODOMETRY:inst53
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -6453,7 +6447,7 @@ db|DE2Bot.(56).cnf
 db|DE2Bot.(56).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|altsyncram.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|altsyncram.tdf
 67d9a3902c8a461c1d5750189e124f2
 7
 # user_parameter {
@@ -6758,7 +6752,7 @@ db|DE2Bot.(57).cnf
 # case_insensitive
 # source_file
 db|altsyncram_06l3.tdf
-6dbc5368bb3f892733dcf5baa2495a85
+75f6e55bcc7fd4d0892e4cb39845385
 7
 # used_port {
 q_a9
@@ -6848,7 +6842,7 @@ address_a0
 }
 # memory_file {
 sin_table.mif
-caa48e2501cadb02983742664cbf7c
+e37e4f4e189d7225fae3aa8a07a3055
 }
 # hierarchies {
 ODOMETRY:inst53|altsyncram:SIN_LUT|altsyncram_06l3:auto_generated
@@ -6863,7 +6857,7 @@ db|DE2Bot.(58).cnf
 db|DE2Bot.(58).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|altsyncram.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|altsyncram.tdf
 67d9a3902c8a461c1d5750189e124f2
 7
 # user_parameter {
@@ -7168,7 +7162,7 @@ db|DE2Bot.(59).cnf
 # case_insensitive
 # source_file
 db|altsyncram_r5l3.tdf
-d0803e99bf152851869afef7ca4e0a9
+3fb68e6d3feb52eb3637ce9673c484
 7
 # used_port {
 q_a9
@@ -7258,7 +7252,7 @@ address_a0
 }
 # memory_file {
 cos_table.mif
-cee8b9a9fbbb2a583f19d51691c437e
+93245f7235c0b66b103759671a80fd33
 }
 # hierarchies {
 ODOMETRY:inst53|altsyncram:COS_LUT|altsyncram_r5l3:auto_generated
@@ -7273,7 +7267,7 @@ db|DE2Bot.(60).cnf
 db|DE2Bot.(60).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_mult.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_mult.tdf
 6ec8d746e6da2f4aae33fe9d4e4dfb1
 7
 # user_parameter {
@@ -7591,7 +7585,7 @@ db|DE2Bot.(61).cnf
 # case_insensitive
 # source_file
 db|mult_h3o.tdf
-d19c9a6dfa80e38bc997abd7a09b82d
+63a27d5b7ff3c4dab718d23b4777412
 7
 # used_port {
 result9
@@ -7801,7 +7795,7 @@ db|DE2Bot.(62).cnf
 db|DE2Bot.(62).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_mult.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_mult.tdf
 6ec8d746e6da2f4aae33fe9d4e4dfb1
 7
 # user_parameter {
@@ -8015,7 +8009,7 @@ db|DE2Bot.(63).cnf
 db|DE2Bot.(63).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|multcore.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|multcore.tdf
 1564b1a46b204e94cfd2b2e084ea47
 7
 # user_parameter {
@@ -8223,7 +8217,7 @@ db|DE2Bot.(64).cnf
 db|DE2Bot.(64).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|mpar_add.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|mpar_add.tdf
 7cbf24afda73e2f88a1def44e2e3f4c0
 7
 # user_parameter {
@@ -8477,7 +8471,7 @@ db|DE2Bot.(65).cnf
 db|DE2Bot.(65).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_add_sub.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_add_sub.tdf
 74821f847e545ce9ad847cbce0ef11
 7
 # user_parameter {
@@ -8700,7 +8694,7 @@ db|DE2Bot.(66).cnf
 # case_insensitive
 # source_file
 db|add_sub_5ch.tdf
-ece39981b9ad0e03164314bd8d7dda
+7c943fe5bedf1bfddac91ba34eaa16
 7
 # used_port {
 result9
@@ -8843,7 +8837,7 @@ db|DE2Bot.(67).cnf
 db|DE2Bot.(67).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|mpar_add.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|mpar_add.tdf
 7cbf24afda73e2f88a1def44e2e3f4c0
 7
 # user_parameter {
@@ -9085,7 +9079,7 @@ db|DE2Bot.(68).cnf
 db|DE2Bot.(68).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_add_sub.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_add_sub.tdf
 74821f847e545ce9ad847cbce0ef11
 7
 # user_parameter {
@@ -9344,7 +9338,7 @@ db|DE2Bot.(69).cnf
 # case_insensitive
 # source_file
 db|add_sub_9ch.tdf
-ce3faf6bf244e3b373a6d8e91330642e
+4f538d38ffef1a87955cd5b050a14bbd
 7
 # used_port {
 result9
@@ -9523,7 +9517,7 @@ db|DE2Bot.(70).cnf
 db|DE2Bot.(70).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|altshift.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|altshift.tdf
 f9c48e01ed05093ffb6fc0cfdb46bd
 7
 # user_parameter {
@@ -9672,7 +9666,7 @@ db|DE2Bot.(71).cnf
 # case_insensitive
 # source_file
 uart_interface.bdf
-69b6cc8c6e8ca8cbe3c1aec06a21edc7
+d7e61db877b9b9e2a6227f6e959f17c
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -9696,7 +9690,7 @@ ON
 # case_insensitive
 # source_file
 uart.vhd
-1eaf756989f4d09de759c4db40bd4ba1
+d99ac29bcebeac3293263ed7eea114cb
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -9722,7 +9716,7 @@ USR
 UART_INTERFACE:inst1|UART:inst2
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -9739,7 +9733,7 @@ ON
 # case_insensitive
 # source_file
 uart_dcfifo_in.vhd
-d1c1f31fe1b0dc2c2f756d7a1c8d10df
+e397fc4e4bec51ea3d9bb7a3dab41f
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -9755,7 +9749,7 @@ ON
 UART_INTERFACE:inst1|uart_dcfifo_in:inst8
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -9767,7 +9761,7 @@ db|DE2Bot.(74).cnf
 db|DE2Bot.(74).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|dcfifo.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|dcfifo.tdf
 cfbc26efcc24dbca1d95391a1b8354d
 7
 # user_parameter {
@@ -9949,7 +9943,7 @@ db|DE2Bot.(75).cnf
 # case_insensitive
 # source_file
 db|dcfifo_qtl1.tdf
-78bd4ea35aaff87d14e2896d1b31788c
+384bb4f0ecf977de72908252a74b6dae
 7
 # used_port {
 wrreq
@@ -10036,7 +10030,7 @@ db|DE2Bot.(76).cnf
 # case_insensitive
 # source_file
 db|a_graycounter_d86.tdf
-4990d38b18dbd7db2b6df6b72cf1dd4
+3f25aed7980b29340f25ee2913cad9a
 7
 # used_port {
 q5
@@ -10081,7 +10075,7 @@ db|DE2Bot.(77).cnf
 # case_insensitive
 # source_file
 db|a_graycounter_4fc.tdf
-b8b2cf53dc7dbe5080789821a8b7db98
+f1bd16721b144cd2ad646326ff183c1
 7
 # used_port {
 q5
@@ -10126,7 +10120,7 @@ db|DE2Bot.(78).cnf
 # case_insensitive
 # source_file
 db|a_graycounter_3fc.tdf
-2c4d2193f63d67504f693de33d31259
+55ea7d52eac034fc54b457403b533f8
 7
 # used_port {
 q5
@@ -10171,7 +10165,7 @@ db|DE2Bot.(79).cnf
 # case_insensitive
 # source_file
 db|altsyncram_9hu.tdf
-991f75cde6c545b1a25e9b9f4192f261
+1bbb2a5ce5e6fd15a1db52ac83428c
 7
 # used_port {
 wren_a
@@ -10279,7 +10273,7 @@ db|DE2Bot.(80).cnf
 # case_insensitive
 # source_file
 db|dffpipe_ngh.tdf
-ff97efb44bddf8c7887f3a83dd1bf6e4
+b79624d7909dbad2ee20bc3a818cec
 7
 # used_port {
 q0
@@ -10310,7 +10304,7 @@ db|DE2Bot.(81).cnf
 # case_insensitive
 # source_file
 db|alt_synch_pipe_gcb.tdf
-f29bfa52c7a8da86364ebc78f73134ab
+189fca98d04c70eab9f466af8fd7fdb
 7
 # used_port {
 q5
@@ -10370,7 +10364,7 @@ db|DE2Bot.(82).cnf
 # case_insensitive
 # source_file
 db|dffpipe_ed9.tdf
-e3d3fd9e4ea74ab7f52d524aae12068
+fa34cf8af01d39674019e04d540d0fa
 7
 # used_port {
 q5
@@ -10430,7 +10424,7 @@ db|DE2Bot.(83).cnf
 # case_insensitive
 # source_file
 db|alt_synch_pipe_kc8.tdf
-3292e2331518ea84477ab3febb46d679
+392d8249e22e57824e70c1eb5735db2b
 7
 # used_port {
 q5
@@ -10490,7 +10484,7 @@ db|DE2Bot.(84).cnf
 # case_insensitive
 # source_file
 db|dffpipe_fd9.tdf
-8651d92133a5c6a8b8c834cbfabf79d
+e58177e9b14aa3b9476fa65032d9f330
 7
 # used_port {
 q5
@@ -10550,7 +10544,7 @@ db|DE2Bot.(85).cnf
 # case_insensitive
 # source_file
 db|cmpr_n16.tdf
-ec689a2f8ed033672a6a975f9657de
+7058c3fbc7808bf136da63c91e36f25
 7
 # used_port {
 datab2
@@ -10600,7 +10594,7 @@ db|DE2Bot.(86).cnf
 # case_insensitive
 # source_file
 db|mux_1u7.tdf
-ecaf644eb689b3f165ab8383ce45e63b
+eac92c2b5cd49ad98d6f752afda9e57
 7
 # used_port {
 sel0
@@ -10641,7 +10635,7 @@ ON
 # case_insensitive
 # source_file
 uart_limiter.vhd
-a7f34a43fa375384dad0734d40f28
+1687c07a27cb93965d68d2e434ac011
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -10657,7 +10651,7 @@ ON
 UART_INTERFACE:inst1|UART_LIMITER:inst11
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -10674,7 +10668,7 @@ ON
 # case_insensitive
 # source_file
 uart_dcfifo_out.vhd
-51a2866234b66ed2e44d4a729f43c76
+e1e9e0641677d1573aed1363f8d214b5
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -10690,7 +10684,7 @@ ON
 UART_INTERFACE:inst1|uart_dcfifo_out:inst14
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -10702,7 +10696,7 @@ db|DE2Bot.(89).cnf
 db|DE2Bot.(89).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|dcfifo.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|dcfifo.tdf
 cfbc26efcc24dbca1d95391a1b8354d
 7
 # user_parameter {
@@ -10899,7 +10893,7 @@ db|DE2Bot.(90).cnf
 # case_insensitive
 # source_file
 db|dcfifo_31m1.tdf
-7397dcb971b0e76286e3378f86321a82
+14f2a5d3cefc60e14fa1c6454445c77d
 7
 # used_port {
 wrreq
@@ -11001,7 +10995,7 @@ db|DE2Bot.(91).cnf
 # case_insensitive
 # source_file
 db|a_gray2bin_acb.tdf
-843badf4d73f8529e67bf280e21a264
+1797d4c49963161c41bf18b9713ec6e0
 7
 # used_port {
 gray6
@@ -11062,7 +11056,7 @@ db|DE2Bot.(92).cnf
 # case_insensitive
 # source_file
 db|a_graycounter_e86.tdf
-ef4c29729c75693077c7584ad391e1b8
+d22fa63f7e408f559fea3959caf36799
 7
 # used_port {
 q6
@@ -11110,7 +11104,7 @@ db|DE2Bot.(93).cnf
 # case_insensitive
 # source_file
 db|a_graycounter_5fc.tdf
-8c32ff20c3b2dac1ab898669f79a23e1
+e6ba2df5347331725d7615ff3169f0
 7
 # used_port {
 q6
@@ -11158,7 +11152,7 @@ db|DE2Bot.(94).cnf
 # case_insensitive
 # source_file
 db|a_graycounter_6fc.tdf
-16a1718880c31c1c9be7e8795c1c63d3
+edf3b5fe5e212850d0f7f335da488155
 7
 # used_port {
 q6
@@ -11206,7 +11200,7 @@ db|DE2Bot.(95).cnf
 # case_insensitive
 # source_file
 db|altsyncram_bhu.tdf
-a13b1f949428a4fb59c992e3f21fab4c
+afd8b9e99664728571f54beb88d3467
 7
 # used_port {
 wren_a
@@ -11320,7 +11314,7 @@ db|DE2Bot.(96).cnf
 # case_insensitive
 # source_file
 db|dffpipe_adc.tdf
-1882c7c9a536d343573d462c7adc4b4
+dbb2453a79a208a57c42be3233327c
 7
 # used_port {
 q6
@@ -11387,7 +11381,7 @@ db|DE2Bot.(97).cnf
 # case_insensitive
 # source_file
 db|alt_synch_pipe_hcb.tdf
-744f47e0f928e2c0cd92c0142bc6918a
+28391b3d33e1ac32f1678d46c3b12a
 7
 # used_port {
 q6
@@ -11453,7 +11447,7 @@ db|DE2Bot.(98).cnf
 # case_insensitive
 # source_file
 db|dffpipe_gd9.tdf
-1527de51766cd4c8bd6d1c39f8344ab
+7adeda1810e495f68122d983d57be25
 7
 # used_port {
 q6
@@ -11519,7 +11513,7 @@ db|DE2Bot.(99).cnf
 # case_insensitive
 # source_file
 db|alt_synch_pipe_lc8.tdf
-c62e61e3674de76314752b1682f3e
+b3487156c8ea5fd3c4329c8f18171f8
 7
 # used_port {
 q6
@@ -11585,7 +11579,7 @@ db|DE2Bot.(100).cnf
 # case_insensitive
 # source_file
 db|dffpipe_hd9.tdf
-f0f3b9c44011823258048c111aa2426
+9e34bd59cbced0c8951f2e3165bebab2
 7
 # used_port {
 q6
@@ -11651,7 +11645,7 @@ db|DE2Bot.(101).cnf
 # case_insensitive
 # source_file
 db|cmpr_o16.tdf
-44407fda416cf0ab95e939493c5b9c42
+c155568a2c2c8da99159be1aa077a7fc
 7
 # used_port {
 datab3
@@ -11703,7 +11697,7 @@ ON
 # case_insensitive
 # source_file
 lpm_bustri_uart0.vhd
-d1affbf3c3eaf664eeea457257a2a93
+43b6c53c23c67cbfdf32e7db31dbf9cb
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -11720,7 +11714,7 @@ UART_INTERFACE:inst1|lpm_bustri_uart0:inst
 UART_INTERFACE:inst1|lpm_bustri_uart0:inst10
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -11737,7 +11731,7 @@ ON
 # case_insensitive
 # source_file
 lpm_dff_uart0.vhd
-d1e69149f8fe977b9f22d955adb2ccdf
+af37665534c6566aea8ca530909c42
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -11754,7 +11748,7 @@ UART_INTERFACE:inst1|lpm_dff_uart0:inst4
 UART_INTERFACE:inst1|lpm_dff_uart0:inst15
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -11766,7 +11760,7 @@ db|DE2Bot.(104).cnf
 db|DE2Bot.(104).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_ff.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_ff.tdf
 6f1796a38d8b519cf7b8f38b5da1ac5b
 7
 # user_parameter {
@@ -11931,7 +11925,7 @@ ON
 # case_insensitive
 # source_file
 altpll1.vhd
-fa7b46d62eda27fd4d2271236fb928a
+22c06ec18f4acd5e3b71b287f87e33
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -11947,7 +11941,7 @@ ON
 altpll1:inst11
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -11959,7 +11953,7 @@ db|DE2Bot.(106).cnf
 db|DE2Bot.(106).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|altpll.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|altpll.tdf
 2ba9eb5c4b9bddd84f6c12efd8fd6af
 7
 # user_parameter {
@@ -13452,7 +13446,7 @@ ON
 # case_insensitive
 # source_file
 sonar.vhd
-6e2128853ce9cd0948f2df8d79a729
+ab6e41de47373f57a66644e139d0d0
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -13468,7 +13462,7 @@ ON
 SONAR:inst54
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -13485,7 +13479,7 @@ ON
 # case_insensitive
 # source_file
 vel_control.vhd
-a03eb8c39bd2e9328eb568e7d43549
+d09f1247c1eb40f156263c3ad6329c32
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -13502,7 +13496,7 @@ VEL_CONTROL:inst51
 VEL_CONTROL:inst52
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -13514,7 +13508,7 @@ db|DE2Bot.(109).cnf
 db|DE2Bot.(109).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_counter.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_counter.tdf
 151f75e8fcf5e87e72b7df6bb2ea
 7
 # user_parameter {
@@ -13647,7 +13641,7 @@ db|DE2Bot.(110).cnf
 # case_insensitive
 # source_file
 db|cntr_gkj.tdf
-e2f93412f6dcb4e614bf6037b815b099
+a28df1e942dcd5158821dfce9cc3980
 7
 # used_port {
 q9
@@ -13704,7 +13698,7 @@ db|DE2Bot.(111).cnf
 db|DE2Bot.(111).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_compare.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_compare.tdf
 6fe57e55c2d8e254bfe73d8fff3f219
 7
 # user_parameter {
@@ -13861,7 +13855,7 @@ db|DE2Bot.(112).cnf
 # case_insensitive
 # source_file
 db|cmpr_a2i.tdf
-9294aafbde2e23e34b5e3beeeb92419
+acb4aa27f8db2ae5b4d263f354048a
 7
 # used_port {
 datab9
@@ -13959,7 +13953,7 @@ ON
 # case_insensitive
 # source_file
 ctimer.vhd
-17bf3e6f3b8d2a20a3217be610a1eb1
+5379baf3991271bbded5e97e87171
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -13975,7 +13969,7 @@ ON
 CTIMER:inst21
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -13992,7 +13986,7 @@ ON
 # case_insensitive
 # source_file
 dac_beep.vhd
-243a019698bf563f52942f2af56223
+61e1a065dff3ba3a5ba08aeadaa451d7
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -14008,7 +14002,7 @@ ON
 DAC_BEEP:inst35
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -14020,7 +14014,7 @@ db|DE2Bot.(115).cnf
 db|DE2Bot.(115).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|altsyncram.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|altsyncram.tdf
 67d9a3902c8a461c1d5750189e124f2
 7
 # user_parameter {
@@ -14319,7 +14313,7 @@ db|DE2Bot.(116).cnf
 # case_insensitive
 # source_file
 db|altsyncram_pmk3.tdf
-486880b52b1eedb92160b6edec961323
+598ceb6df7341ca4578c5b58a6cc1b1
 7
 # used_port {
 q_a9
@@ -14403,7 +14397,7 @@ address_a0
 }
 # memory_file {
 sound.mif
-f651fe09a7416fa2339319afbfacd6
+3d1b7397f0d3de73ca1e99b58cc18e3
 }
 # hierarchies {
 DAC_BEEP:inst35|altsyncram:SOUND_LUT|altsyncram_pmk3:auto_generated
@@ -14418,7 +14412,7 @@ db|DE2Bot.(117).cnf
 db|DE2Bot.(117).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_shiftreg.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_shiftreg.tdf
 da99a65952a97e3c68facd67112efbfd
 7
 # user_parameter {
@@ -14580,7 +14574,7 @@ db|DE2Bot.(118).cnf
 # case_insensitive
 # source_file
 oneshot_i2c.bdf
-94fdf7b5573019425831db92b25c15d
+dc15b5dbb365839692df60ac3a93ba7e
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -14604,7 +14598,7 @@ ON
 # case_insensitive
 # source_file
 i2c_oneshot_ctrl.vhd
-6a1c3e23a6a3df7e1f26b59bfab469b
+c084d2967f6c45741263c5fb8b935
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -14620,7 +14614,7 @@ ON
 oneshot_i2c:inst18|i2c_oneshot_ctrl:inst3
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -14633,7 +14627,7 @@ db|DE2Bot.(120).cnf
 # case_insensitive
 # source_file
 quad_hex.bdf
-b166327ebab8a8b379e7c9436c1b89
+8571ee4b19ab97674cc4d131a48f543
 26
 # internal_option {
 BLOCK_DESIGN_NAMING
@@ -14658,7 +14652,7 @@ ON
 # case_insensitive
 # source_file
 hex_disp.vhd
-8fb393422d56ba7c4a12d869b7dcb14
+433e47edbde41de7cd9474779d996
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -14681,7 +14675,7 @@ QUAD_HEX:inst56|HEX_DISP:inst21
 QUAD_HEX:inst56|HEX_DISP:inst15
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -14698,7 +14692,7 @@ ON
 # case_insensitive
 # source_file
 leds.vhd
-13fff8a7731d2d2e9138de9aa35f63c
+aa27a994b9635d2195338a90b911b7e6
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -14715,7 +14709,7 @@ LEDS:inst59
 LEDS:inst58
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
@@ -14727,7 +14721,7 @@ db|DE2Bot.(123).cnf
 db|DE2Bot.(123).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_mult.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_mult.tdf
 6ec8d746e6da2f4aae33fe9d4e4dfb1
 7
 # user_parameter {
@@ -15056,7 +15050,7 @@ db|DE2Bot.(124).cnf
 # case_insensitive
 # source_file
 db|mult_m3t.tdf
-84f54b26c234646f5f0f6541a61f62
+bd21af4b88f7a485d85b3519fa33a2d
 7
 # used_port {
 result9
@@ -15292,7 +15286,7 @@ db|DE2Bot.(125).cnf
 db|DE2Bot.(125).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_mult.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_mult.tdf
 6ec8d746e6da2f4aae33fe9d4e4dfb1
 7
 # user_parameter {
@@ -15639,7 +15633,7 @@ db|DE2Bot.(126).cnf
 # case_insensitive
 # source_file
 db|mult_45t.tdf
-9a1b85b711f5942265e4c63c12f8a546
+946b773dcbd5abdae48d413fc1d8a12
 7
 # used_port {
 result9
@@ -15923,7 +15917,7 @@ db|DE2Bot.(127).cnf
 db|DE2Bot.(127).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_mult.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_mult.tdf
 6ec8d746e6da2f4aae33fe9d4e4dfb1
 7
 # user_parameter {
@@ -16246,7 +16240,7 @@ db|DE2Bot.(128).cnf
 # case_insensitive
 # source_file
 db|mult_q3t.tdf
-d2a080ebf418c1ff2fb80af53c5bfde
+778c60988c132895feed58d23925f3c
 7
 # used_port {
 result9
@@ -16494,7 +16488,7 @@ db|DE2Bot.(129).cnf
 db|DE2Bot.(129).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_divide.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_divide.tdf
 54966f81ff8a917b1dc9b9ad1a09648
 7
 # user_parameter {
@@ -16697,7 +16691,7 @@ db|DE2Bot.(130).cnf
 # case_insensitive
 # source_file
 db|lpm_divide_ulo.tdf
-994ccb5df45e6ede279b6eeeabfc7
+d45d1ba85fe2ea4587ac9549f8bba694
 7
 # used_port {
 remain9
@@ -16856,7 +16850,7 @@ db|DE2Bot.(131).cnf
 # case_insensitive
 # source_file
 db|abs_divider_8dg.tdf
-bf4232f24c751dd1b653d3c58a996e2
+e2f01f4e96b35ea1b36c35d6fddbac63
 7
 # used_port {
 remainder9
@@ -17063,7 +17057,7 @@ db|DE2Bot.(132).cnf
 # case_insensitive
 # source_file
 db|alt_u_div_s5f.tdf
-dfb20528759cebb36698fad3d185fd2
+12a9299d5b4c39bfa2949156aa69622b
 7
 # used_port {
 remainder9
@@ -17270,7 +17264,7 @@ db|DE2Bot.(133).cnf
 # case_insensitive
 # source_file
 db|add_sub_lkc.tdf
-b2a1251a432948d540b9ad92d3593
+c770979b39754bc0ec8c8d2376617019
 7
 # used_port {
 result0
@@ -17297,7 +17291,7 @@ db|DE2Bot.(134).cnf
 # case_insensitive
 # source_file
 db|add_sub_mkc.tdf
-57177a76ef9543d7eb6282b9a890a9
+c316fa45bbd7e654c320cc3ac016adf7
 7
 # used_port {
 result1
@@ -17333,7 +17327,7 @@ db|DE2Bot.(135).cnf
 # case_insensitive
 # source_file
 db|lpm_abs_2s9.tdf
-1bb453ef2dfa7ffbd18adf2ed8edc9c6
+0dc3319abbcdecbaf1e6f64b1ae659
 7
 # used_port {
 result9
@@ -17443,7 +17437,7 @@ db|DE2Bot.(136).cnf
 db|DE2Bot.(136).cnf
 # case_insensitive
 # source_file
-|altera|91sp2|quartus|libraries|megafunctions|lpm_mult.tdf
+c:|appl|altera|91|quartus|libraries|megafunctions|lpm_mult.tdf
 6ec8d746e6da2f4aae33fe9d4e4dfb1
 7
 # user_parameter {
@@ -17766,7 +17760,7 @@ db|DE2Bot.(137).cnf
 # case_insensitive
 # source_file
 db|mult_25t.tdf
-20558c2f8945c30ea76cb377bcf7037
+66d358de5d4c61f67ab71d6b68baabd
 7
 # used_port {
 result9
@@ -18038,6 +18032,518 @@ dataa0
 
 # end
 # entity
+altsyncram
+# storage
+db|DE2Bot.(138).cnf
+db|DE2Bot.(138).cnf
+# case_insensitive
+# source_file
+c:|appl|altera|91|quartus|libraries|megafunctions|altsyncram.tdf
+67d9a3902c8a461c1d5750189e124f2
+7
+# user_parameter {
+BYTE_SIZE_BLOCK
+8
+PARAMETER_UNKNOWN
+DEF
+AUTO_CARRY_CHAINS
+ON
+AUTO_CARRY
+USR
+IGNORE_CARRY_BUFFERS
+OFF
+IGNORE_CARRY
+USR
+AUTO_CASCADE_CHAINS
+ON
+AUTO_CASCADE
+USR
+IGNORE_CASCADE_BUFFERS
+OFF
+IGNORE_CASCADE
+USR
+WIDTH_BYTEENA
+1
+PARAMETER_UNKNOWN
+DEF
+OPERATION_MODE
+SINGLE_PORT
+PARAMETER_UNKNOWN
+USR
+WIDTH_A
+16
+PARAMETER_SIGNED_DEC
+USR
+WIDTHAD_A
+11
+PARAMETER_SIGNED_DEC
+USR
+NUMWORDS_A
+2048
+PARAMETER_SIGNED_DEC
+USR
+OUTDATA_REG_A
+UNREGISTERED
+PARAMETER_UNKNOWN
+USR
+ADDRESS_ACLR_A
+NONE
+PARAMETER_UNKNOWN
+USR
+OUTDATA_ACLR_A
+NONE
+PARAMETER_UNKNOWN
+USR
+WRCONTROL_ACLR_A
+NONE
+PARAMETER_UNKNOWN
+USR
+INDATA_ACLR_A
+NONE
+PARAMETER_UNKNOWN
+USR
+BYTEENA_ACLR_A
+NONE
+PARAMETER_UNKNOWN
+DEF
+WIDTH_B
+1
+PARAMETER_SIGNED_DEC
+USR
+WIDTHAD_B
+1
+PARAMETER_SIGNED_DEC
+USR
+NUMWORDS_B
+0
+PARAMETER_SIGNED_DEC
+USR
+INDATA_REG_B
+CLOCK1
+PARAMETER_UNKNOWN
+USR
+WRCONTROL_WRADDRESS_REG_B
+CLOCK1
+PARAMETER_UNKNOWN
+USR
+RDCONTROL_REG_B
+CLOCK1
+PARAMETER_UNKNOWN
+USR
+ADDRESS_REG_B
+CLOCK1
+PARAMETER_UNKNOWN
+USR
+OUTDATA_REG_B
+UNREGISTERED
+PARAMETER_UNKNOWN
+USR
+BYTEENA_REG_B
+CLOCK1
+PARAMETER_UNKNOWN
+USR
+INDATA_ACLR_B
+NONE
+PARAMETER_UNKNOWN
+USR
+WRCONTROL_ACLR_B
+NONE
+PARAMETER_UNKNOWN
+USR
+ADDRESS_ACLR_B
+NONE
+PARAMETER_UNKNOWN
+USR
+OUTDATA_ACLR_B
+NONE
+PARAMETER_UNKNOWN
+USR
+RDCONTROL_ACLR_B
+NONE
+PARAMETER_UNKNOWN
+USR
+BYTEENA_ACLR_B
+NONE
+PARAMETER_UNKNOWN
+USR
+WIDTH_BYTEENA_A
+1
+PARAMETER_SIGNED_DEC
+USR
+WIDTH_BYTEENA_B
+1
+PARAMETER_SIGNED_DEC
+USR
+RAM_BLOCK_TYPE
+AUTO
+PARAMETER_UNKNOWN
+USR
+BYTE_SIZE
+8
+PARAMETER_SIGNED_DEC
+USR
+READ_DURING_WRITE_MODE_MIXED_PORTS
+DONT_CARE
+PARAMETER_UNKNOWN
+USR
+READ_DURING_WRITE_MODE_PORT_A
+NEW_DATA_NO_NBE_READ
+PARAMETER_UNKNOWN
+USR
+READ_DURING_WRITE_MODE_PORT_B
+NEW_DATA_NO_NBE_READ
+PARAMETER_UNKNOWN
+USR
+INIT_FILE
+Main.mif
+PARAMETER_UNKNOWN
+USR
+INIT_FILE_LAYOUT
+PORT_A
+PARAMETER_UNKNOWN
+USR
+MAXIMUM_DEPTH
+0
+PARAMETER_SIGNED_DEC
+USR
+CLOCK_ENABLE_INPUT_A
+NORMAL
+PARAMETER_UNKNOWN
+USR
+CLOCK_ENABLE_INPUT_B
+NORMAL
+PARAMETER_UNKNOWN
+USR
+CLOCK_ENABLE_OUTPUT_A
+NORMAL
+PARAMETER_UNKNOWN
+USR
+CLOCK_ENABLE_OUTPUT_B
+NORMAL
+PARAMETER_UNKNOWN
+USR
+CLOCK_ENABLE_CORE_A
+USE_INPUT_CLKEN
+PARAMETER_UNKNOWN
+USR
+CLOCK_ENABLE_CORE_B
+USE_INPUT_CLKEN
+PARAMETER_UNKNOWN
+USR
+ENABLE_ECC
+FALSE
+PARAMETER_UNKNOWN
+USR
+DEVICE_FAMILY
+Cyclone II
+PARAMETER_UNKNOWN
+USR
+CBXI_PARAMETER
+altsyncram_pss3
+PARAMETER_UNKNOWN
+USR
+}
+# used_port {
+wren_a
+-1
+3
+q_a9
+-1
+3
+q_a8
+-1
+3
+q_a7
+-1
+3
+q_a6
+-1
+3
+q_a5
+-1
+3
+q_a4
+-1
+3
+q_a3
+-1
+3
+q_a2
+-1
+3
+q_a15
+-1
+3
+q_a14
+-1
+3
+q_a13
+-1
+3
+q_a12
+-1
+3
+q_a11
+-1
+3
+q_a10
+-1
+3
+q_a1
+-1
+3
+q_a0
+-1
+3
+data_a9
+-1
+3
+data_a8
+-1
+3
+data_a7
+-1
+3
+data_a6
+-1
+3
+data_a5
+-1
+3
+data_a4
+-1
+3
+data_a3
+-1
+3
+data_a2
+-1
+3
+data_a15
+-1
+3
+data_a14
+-1
+3
+data_a13
+-1
+3
+data_a12
+-1
+3
+data_a11
+-1
+3
+data_a10
+-1
+3
+data_a1
+-1
+3
+data_a0
+-1
+3
+clock0
+-1
+3
+address_a9
+-1
+3
+address_a8
+-1
+3
+address_a7
+-1
+3
+address_a6
+-1
+3
+address_a5
+-1
+3
+address_a4
+-1
+3
+address_a3
+-1
+3
+address_a2
+-1
+3
+address_a10
+-1
+3
+address_a1
+-1
+3
+address_a0
+-1
+3
+}
+# hierarchies {
+SCOMP:inst8|altsyncram:MEMORY
+}
+# macro_sequence
+
+# end
+# entity
+altsyncram_pss3
+# storage
+db|DE2Bot.(139).cnf
+db|DE2Bot.(139).cnf
+# case_insensitive
+# source_file
+db|altsyncram_pss3.tdf
+369de765d0033629f0c290c0b64693
+7
+# used_port {
+wren_a
+-1
+3
+q_a9
+-1
+3
+q_a8
+-1
+3
+q_a7
+-1
+3
+q_a6
+-1
+3
+q_a5
+-1
+3
+q_a4
+-1
+3
+q_a3
+-1
+3
+q_a2
+-1
+3
+q_a15
+-1
+3
+q_a14
+-1
+3
+q_a13
+-1
+3
+q_a12
+-1
+3
+q_a11
+-1
+3
+q_a10
+-1
+3
+q_a1
+-1
+3
+q_a0
+-1
+3
+data_a9
+-1
+3
+data_a8
+-1
+3
+data_a7
+-1
+3
+data_a6
+-1
+3
+data_a5
+-1
+3
+data_a4
+-1
+3
+data_a3
+-1
+3
+data_a2
+-1
+3
+data_a15
+-1
+3
+data_a14
+-1
+3
+data_a13
+-1
+3
+data_a12
+-1
+3
+data_a11
+-1
+3
+data_a10
+-1
+3
+data_a1
+-1
+3
+data_a0
+-1
+3
+clock0
+-1
+3
+address_a9
+-1
+3
+address_a8
+-1
+3
+address_a7
+-1
+3
+address_a6
+-1
+3
+address_a5
+-1
+3
+address_a4
+-1
+3
+address_a3
+-1
+3
+address_a2
+-1
+3
+address_a10
+-1
+3
+address_a1
+-1
+3
+address_a0
+-1
+3
+}
+# memory_file {
+main.mif
+7cb556bb5f22c54b383b5eb1625ba79
+}
+# hierarchies {
+SCOMP:inst8|altsyncram:MEMORY|altsyncram_pss3:auto_generated
+}
+# macro_sequence
+
+# end
+# entity
 SCOMP
 # storage
 db|DE2Bot.(6).cnf
@@ -18049,7 +18555,7 @@ ON
 # case_insensitive
 # source_file
 scomp.vhd
-2830fe5d281ec5b39f854b961cc43a8
+7112fdc9d6c28374a4d8bfa445421ca7
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
@@ -18065,7 +18571,7 @@ ON
 SCOMP:inst8
 }
 # lmf
-|altera|91sp2|quartus|lmf|maxplus2.lmf
+c:|appl|altera|91|quartus|lmf|maxplus2.lmf
 a36c8ec425c8a2589af98b2d4daabc3
 # macro_sequence
 
