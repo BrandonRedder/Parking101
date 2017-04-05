@@ -24,24 +24,24 @@ CONTENT
            00B : 823E;  -- 	CALL   BattCheck   ; Get battery voltage (and end if too low).
            00C : 9806;  -- 	OUT    LCD         ; Display battery voltage (hex, tenths of volts)
            00D : 9003;  -- 	IN     XIO         ; XIO contains SAFETY signal
-           00E : 4A89;  -- 	AND    Mask4       ; SAFETY signal is bit 4
+           00E : 4A8B;  -- 	AND    Mask4       ; SAFETY signal is bit 4
            00F : 3815;  -- 	JPOS   WaitForUser ; If ready, jump to wait for PB3
            010 : 9002;  -- 	IN     TIMER       ; We'll use the timer value to
-           011 : 4A86;  -- 	AND    Mask1       ;  blink LED17 as a reminder to toggle SW17
+           011 : 4A88;  -- 	AND    Mask1       ;  blink LED17 as a reminder to toggle SW17
            012 : 6008;  -- 	SHIFT  8           ; Shift over to LED17
            013 : 9807;  -- 	OUT    XLEDS       ; LED17 blinks at 2.5Hz (10Hz/4)
            014 : 280D;  -- 	JUMP   WaitForSafety
            015 : B814;  -- 	LOADI	20
            016 : 9804;  -- 	OUT		SSEG1
            017 : 9002;  -- 	IN     TIMER       ; We'll blink the LEDs above PB3
-           018 : 4A86;  -- 	AND    Mask1
+           018 : 4A88;  -- 	AND    Mask1
            019 : 6005;  -- 	SHIFT  5           ; Both LEDG6 and LEDG7
            01A : 1272;  -- 	STORE  Temp        ; (overkill, but looks nice)
            01B : 6001;  -- 	SHIFT  1
            01C : 5272;  -- 	OR     Temp
            01D : 9807;  -- 	OUT    XLEDS
            01E : 9003;  -- 	IN     XIO         ; XIO contains KEYs
-           01F : 4A87;  -- 	AND    Mask2       ; KEY3 mask (KEY0 is reset and can't be read)
+           01F : 4A89;  -- 	AND    Mask2       ; KEY3 mask (KEY0 is reset and can't be read)
            020 : 3815;  -- 	JPOS   WaitForUser ; not ready (KEYs are active-low, hence JPOS)
            021 : 0A7A;  -- 	LOAD   Zero
            022 : 9807;  -- 	OUT    XLEDS       ; clear LEDs once ready to continue
@@ -86,10 +86,10 @@ CONTENT
            049 : 27D2;  -- 	SUB		IR_Pause				;Do stuff to back up
            04A : 407A;  -- 	JZERO	Move_Backward
            04B : 0A76;  -- 	LOAD    IR_Current_Val			;Turn in place left 90
-           04C : 27D5;  -- 	SUB		IR_CH_UP
+           04C : 27E3;  -- 	SUB		IR_8
            04D : C086;  -- 	CZERO   Turn_Left90
            04E : 0A76;  -- 	LOAD    IR_Current_Val			;Turn in place right 90
-           04F : 27D6;  -- 	SUB		IR_STOP
+           04F : 27E4;  -- 	SUB		IR_9
            050 : C08A;  -- 	CZERO   Turn_Right90
            051 : 0A76;  -- 	LOAD    IR_Current_Val
            052 : 27D4;  -- 	SUB		IR_TV_VCR
@@ -191,7 +191,7 @@ CONTENT
            0B2 : 0FF0;  -- GoSeven: LOAD OffSeven
            0B3 : 28B4;  -- 	JUMP Goto_Spot
            0B4 : 17E9;  -- 	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
-           0B5 : 80C1;  -- 	CALL	Goto_Init_Pos1
+           0B5 : 80CA;  -- 	CALL	Goto_Init_Pos2
            0B6 : 0FE9;  -- 	LOAD	SpotOff
            0B7 : 80E6;  -- 	CALL	Go_Forward2
            0B8 : 28F2;  -- 	JUMP    Perpendicular
@@ -203,7 +203,7 @@ CONTENT
            0BE : B800;  -- 	LOADI	0
            0BF : 110A;  -- 	STORE	DTHETA
            0C0 : 8800;  -- 	RETURN
-           0C1 : 0A98;  -- 	LOAD	FMID		; 350 is MID velocity
+           0C1 : 0A9A;  -- 	LOAD	FMID		; 350 is MID velocity
            0C2 : 110B;  -- 	STORE	Dvel
            0C3 : 808A;  -- 	CALL	Turn_Right90
            0C4 : 8102;  -- 	CALL   	Wait2
@@ -244,7 +244,7 @@ CONTENT
            0E7 : 98C3;  -- 	OUT    	RESETPOS
            0E8 : 90C2;  -- 	IN		THETA
            0E9 : 110A;  -- 	STORE	DTHETA
-           0EA : 0A96;  -- 	LOAD	FSLOW
+           0EA : 0A98;  -- 	LOAD	FSLOW
            0EB : 110B;  -- 	STORE	DVEL
            0EC : 90C0;  -- 	IN		XPOS
            0ED : 2273;  -- 	SUB		Travel_Distance
@@ -405,7 +405,7 @@ CONTENT
            188 : 11CF;  -- 	STORE  mres16sH
            189 : 09CE;  -- 	LOAD   mres16sL
            18A : 6018;  -- 	SHIFT  -8           ; move low word of result down 8 bits
-           18B : 4A8D;  -- 	AND    LowByte
+           18B : 4A8F;  -- 	AND    LowByte
            18C : 51CF;  -- 	OR     mres16sH     ; combine high and low words of result
            18D : 8800;  -- 	RETURN
            18E : B809;  -- 	LOADI  9            ; loop 8 times (256 = 2^8)
@@ -548,7 +548,7 @@ CONTENT
            217 : 1236;  -- 	STORE  L2T2
            218 : 09CE;  -- 	LOAD   mres16sL
            219 : 6018;  -- 	SHIFT  -8        ; / 256
-           21A : 4A8D;  -- 	AND    LowByte
+           21A : 4A8F;  -- 	AND    LowByte
            21B : 5236;  -- 	OR     L2T2
            21C : 1237;  -- 	STORE  L2T3
            21D : 0A35;  -- 	LOAD   L2T1
@@ -561,7 +561,7 @@ CONTENT
            224 : 1236;  -- 	STORE  L2T2
            225 : 09CE;  -- 	LOAD   mres16sL
            226 : 6018;  -- 	SHIFT  -8        ; / 256
-           227 : 4A8D;  -- 	AND    LowByte
+           227 : 4A8F;  -- 	AND    LowByte
            228 : 5236;  -- 	OR     L2T2
            229 : 1A37;  -- 	ADD    L2T3     ; sum
            22A : 8800;  -- 	RETURN
@@ -586,9 +586,9 @@ CONTENT
            23D : 8800;  -- 	RETURN
            23E : 8256;  -- 	CALL   GetBattLvl
            23F : 423E;  -- 	JZERO  BattCheck   ; A/D hasn't had time to initialize
-           240 : 229C;  -- 	SUB    MinBatt
+           240 : 229E;  -- 	SUB    MinBatt
            241 : 3244;  -- 	JNEG   DeadBatt
-           242 : 1A9C;  -- 	ADD    MinBatt     ; get original value back
+           242 : 1A9E;  -- 	ADD    MinBatt     ; get original value back
            243 : 8800;  -- 	RETURN
            244 : B820;  -- 	LOADI  &H20
            245 : 980A;  -- 	OUT    BEEP        ; start beep sound
@@ -608,14 +608,14 @@ CONTENT
            253 : 9807;  -- 	OUT    XLEDS
            254 : 8238;  -- 	CALL   Wait1       ; 1 second
            255 : 2A44;  -- 	JUMP   DeadBatt    ; repeat forever
-           256 : 0A9E;  -- 	LOAD   I2CRCmd     ; 0x0190 (write 0B, read 1B, addr 0x90)
+           256 : 0AA0;  -- 	LOAD   I2CRCmd     ; 0x0190 (write 0B, read 1B, addr 0x90)
            257 : 9890;  -- 	OUT    I2C_CMD     ; to I2C_CMD
            258 : 9892;  -- 	OUT    I2C_RDY     ; start the communication
            259 : 8264;  -- 	CALL   BlockI2C    ; wait for it to finish
            25A : 9091;  -- 	IN     I2C_DATA    ; get the returned data
            25B : 8800;  -- 	RETURN
            25C : 8264;  -- 	CALL   BlockI2C    ; wait for idle
-           25D : 0A9D;  -- 	LOAD   I2CWCmd     ; 0x1190 (write 1B, read 1B, addr 0x90)
+           25D : 0A9F;  -- 	LOAD   I2CWCmd     ; 0x1190 (write 1B, read 1B, addr 0x90)
            25E : 9890;  -- 	OUT    I2C_CMD     ; to I2C_CMD register
            25F : 0A7A;  -- 	LOAD   Zero        ; 0x0000 (A/D port 0, no increment)
            260 : 9891;  -- 	OUT    I2C_DATA    ; to I2C_DATA register
@@ -655,37 +655,39 @@ CONTENT
            282 : 0008;  -- Eight:    DW 8
            283 : 0009;  -- Nine:     DW 9
            284 : 000A;  -- Ten:      DW 10
-           285 : 0001;  -- Mask0:    DW &B00000001
-           286 : 0002;  -- Mask1:    DW &B00000010
-           287 : 0004;  -- Mask2:    DW &B00000100
-           288 : 0008;  -- Mask3:    DW &B00001000
-           289 : 0010;  -- Mask4:    DW &B00010000
-           28A : 0020;  -- Mask5:    DW &B00100000
-           28B : 0040;  -- Mask6:    DW &B01000000
-           28C : 0080;  -- Mask7:    DW &B10000000
-           28D : 00FF;  -- LowByte:  DW &HFF      ; binary 00000000 1111111
-           28E : 000F;  -- LowNibl:  DW &HF       ; 0000 0000 0000 1111
-           28F : 03C1;  -- OneMeter: DW 961       ; ~1m in 1.04mm units
-           290 : 01E1;  -- HalfMeter: DW 481      ; ~0.5m in 1.04mm units
-           291 : 024A;  -- TwoFeet:  DW 586       ; ~2ft in 1.04mm units
-           292 : 005A;  -- Deg90:    DW 90        ; 90 degrees in odometer units
-           293 : 00B4;  -- Deg180:   DW 180       ; 180
-           294 : 010E;  -- Deg270:   DW 270       ; 270
-           295 : 0168;  -- Deg360:   DW 360       ; can never actually happen; for math only
-           296 : 0064;  -- FSlow:    DW 100       ; 100 is about the lowest velocity value that will move
-           297 : FF9C;  -- RSlow:    DW -100
-           298 : 015E;  -- FMid:     DW 350       ; 350 is a medium speed
-           299 : FEA2;  -- RMid:     DW -350
-           29A : 01F4;  -- FFast:    DW 500       ; 500 is almost max speed (511 is max)
-           29B : FE0C;  -- RFast:    DW -500
-           29C : 008C;  -- MinBatt:  DW 140       ; 14.0V - minimum safe battery voltage
-           29D : 1190;  -- I2CWCmd:  DW &H1190    ; write one i2c byte, read one byte, addr 0x90
-           29E : 0190;  -- I2CRCmd:  DW &H0190    ; write nothing, read one byte, addr 0x90
+           285 : 005A;  -- Ninety:	  DW 90
+           286 : FFA6;  -- MinusNinety:  DW -90
+           287 : 0001;  -- Mask0:    DW &B00000001
+           288 : 0002;  -- Mask1:    DW &B00000010
+           289 : 0004;  -- Mask2:    DW &B00000100
+           28A : 0008;  -- Mask3:    DW &B00001000
+           28B : 0010;  -- Mask4:    DW &B00010000
+           28C : 0020;  -- Mask5:    DW &B00100000
+           28D : 0040;  -- Mask6:    DW &B01000000
+           28E : 0080;  -- Mask7:    DW &B10000000
+           28F : 00FF;  -- LowByte:  DW &HFF      ; binary 00000000 1111111
+           290 : 000F;  -- LowNibl:  DW &HF       ; 0000 0000 0000 1111
+           291 : 03C1;  -- OneMeter: DW 961       ; ~1m in 1.04mm units
+           292 : 01E1;  -- HalfMeter: DW 481      ; ~0.5m in 1.04mm units
+           293 : 024A;  -- TwoFeet:  DW 586       ; ~2ft in 1.04mm units
+           294 : 005A;  -- Deg90:    DW 90        ; 90 degrees in odometer units
+           295 : 00B4;  -- Deg180:   DW 180       ; 180
+           296 : 010E;  -- Deg270:   DW 270       ; 270
+           297 : 0168;  -- Deg360:   DW 360       ; can never actually happen; for math only
+           298 : 00C8;  -- FSlow:    DW 200       ; 100 is about the lowest velocity value that will move
+           299 : FF9C;  -- RSlow:    DW -100
+           29A : 015E;  -- FMid:     DW 350       ; 350 is a medium speed
+           29B : FEA2;  -- RMid:     DW -350
+           29C : 01F4;  -- FFast:    DW 500       ; 500 is almost max speed (511 is max)
+           29D : FE0C;  -- RFast:    DW -500
+           29E : 008C;  -- MinBatt:  DW 140       ; 14.0V - minimum safe battery voltage
+           29F : 1190;  -- I2CWCmd:  DW &H1190    ; write one i2c byte, read one byte, addr 0x90
+           2A0 : 0190;  -- I2CRCmd:  DW &H0190    ; write nothing, read one byte, addr 0x90
            7D0 : 00FF;  -- IR_Power:	DW	&H00FF
            7D1 : 28D7;  -- IR_Play:	DW	&H28D7
            7D2 : 8877;  -- IR_Pause:	DW	&H8877
            7D3 : 3AC5;  -- IR_Enter:	DW	&H3AC5
-           7D4 : FF00;  -- IR_TV_VCR:	DW	&HFF00
+           7D4 : 10EF;  -- IR_TV_VCR:	DW	&H10EF
            7D5 : 8074;  -- IR_CH_UP:	DW	&H8074
            7D6 : 08F7;  -- IR_STOP:	DW	&H08F7
            7D7 : 40BF;  -- IR_VolUp:	DW	&H40BF
@@ -702,10 +704,10 @@ CONTENT
            7E2 : 708F;  -- IR_7:		DW	&H708F
            7E3 : F00F;  -- IR_8:		DW	&HF00F
            7E4 : 38C7;  -- IR_9:		DW	&H38C7
-           7E5 : 0190;  -- PerpendicularDist:  DW	400
-           7E6 : 00FA;  -- ParallelDist:  		DW	250
-           7E7 : 012C;  -- InitDist1:	DW	&H012C	; 300mm
-           7E8 : 02BC;  -- InitDist2:	DW	&H02BC	; 700mm
+           7E5 : 01EA;  -- PerpendicularDist:  DW	490
+           7E6 : 00F7;  -- ParallelDist:  		DW	247
+           7E7 : 0192;  -- InitDist1:	DW	&H0192	; 300mm
+           7E8 : 036F;  -- InitDist2:	DW	&H036F	; 700mm
            7E9 : 0000;  -- SpotOff:	DW	&H0000
            7EA : 00C2;  -- OffOne:		DW	&H00C2
            7EB : 022B;  -- OffTwo:		DW	&H022B

@@ -121,11 +121,11 @@ Main:
 	JZERO	Move_Backward
 
 	LOAD    IR_Current_Val			;Turn in place left 90
-	SUB		IR_CH_UP
+	SUB		IR_8
 	CZERO   Turn_Left90
 
 	LOAD    IR_Current_Val			;Turn in place right 90
-	SUB		IR_STOP
+	SUB		IR_9
 	CZERO   Turn_Right90
 
 	LOAD    IR_Current_Val
@@ -282,7 +282,7 @@ GoSeven: LOAD OffSeven
 
 Goto_Spot:						;Go to specific spot specified by offset value in AC
 	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
-	CALL	Goto_Init_Pos1
+	CALL	Goto_Init_Pos2
 	LOAD	SpotOff
 	CALL	Go_Forward2
 	JUMP    Perpendicular
@@ -950,6 +950,8 @@ Seven:    DW 7
 Eight:    DW 8
 Nine:     DW 9
 Ten:      DW 10
+Ninety:	  DW 90
+MinusNinety:  DW -90
 
 ; **Some bit masks.
 ; **Masks of multiple bits can be constructed by ORing these
@@ -973,7 +975,7 @@ Deg90:    DW 90        ; 90 degrees in odometer units
 Deg180:   DW 180       ; 180
 Deg270:   DW 270       ; 270
 Deg360:   DW 360       ; can never actually happen; for math only
-FSlow:    DW 100       ; 100 is about the lowest velocity value that will move
+FSlow:    DW 200       ; 100 is about the lowest velocity value that will move
 RSlow:    DW -100
 FMid:     DW 350       ; 350 is a medium speed
 RMid:     DW -350
@@ -1033,7 +1035,7 @@ IR_Power:	DW	&H00FF
 IR_Play:	DW	&H28D7
 IR_Pause:	DW	&H8877
 IR_Enter:	DW	&H3AC5
-IR_TV_VCR:	DW	&HFF00
+IR_TV_VCR:	DW	&H10EF
 IR_CH_UP:	DW	&H8074
 IR_STOP:	DW	&H08F7
 IR_VolUp:	DW	&H40BF
@@ -1052,10 +1054,10 @@ IR_8:		DW	&HF00F
 IR_9:		DW	&H38C7
 
 ;** Constants for Fully Autonomous
-PerpendicularDist:  DW	400
-ParallelDist:  		DW	250
-InitDist1:	DW	&H012C	; 300mm
-InitDist2:	DW	&H02BC	; 700mm
+PerpendicularDist:  DW	440
+ParallelDist:  		DW	247
+InitDist1:	DW	&H0192	; 300mm
+InitDist2:	DW	&H036F	; 700mm
 SpotOff:	DW	&H0000
 OffOne:		DW	&H00C2
 OffTwo:		DW	&H022B
