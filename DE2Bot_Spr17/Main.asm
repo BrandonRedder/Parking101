@@ -123,10 +123,8 @@ Main:
 	CZERO   Turn_Left90
 
 	LOAD    IR_Current_Val			;Turn in place right 90
-	SUB		IR_CH_DW
+	SUB		IR_STOP
 	CZERO   Turn_Right90
-
-
 
 	LOAD    IR_Current_Val
 	SUB		IR_TV_VCR
@@ -138,13 +136,11 @@ Main:
 
 	LOAD    IR_Current_Val
 	SUB		IR_1
-	;JZERO   GoOne
-	CZERO   Turn_Left90
+	JZERO   GoOne
 
 	LOAD    IR_Current_Val
 	SUB		IR_2
-	;JZERO   GoTwo
-	CZERO   Turn_Right90
+	JZERO   GoTwo
 
 	LOAD    IR_Current_Val
 	SUB		IR_3
@@ -286,7 +282,7 @@ Goto_Spot:						;Go to specific spot specified by offset value in AC
 	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
 	CALL	Goto_Init_Pos1
 	LOAD	SpotOff
-	CALL	Go_Forward
+	CALL	Go_Forward2
 	JUMP    Perpendicular
 
 Err_Correct:
@@ -1037,7 +1033,7 @@ IR_Pause:	DW	&H8877
 IR_Enter:	DW	&H3AC5
 IR_TV_VCR:	DW	&HFF00
 IR_CH_UP:	DW	&H8074
-IR_CH_DW:	DW	&H40BF
+IR_STOP:	DW	&H08F7
 IR_VolUp:	DW	&H40BF
 IR_VolDwn:	DW	&HC03F
 IR_RW:		DW	&H48B7
@@ -1056,8 +1052,6 @@ IR_9:		DW	&H38C7
 ;** Constants for Fully Autonomous
 PerpendicularDist:  DW	400
 ParallelDist:  		DW	250
-SpaceInc:   DW
-SpaceIncMult
 InitDist1:	DW	&H012C	; 300mm
 InitDist2:	DW	&H02BC	; 700mm
 SpotOff:	DW	&H0000

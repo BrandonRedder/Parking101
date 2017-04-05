@@ -63,58 +63,58 @@ CONTENT
            032 : 0A75;  -- 	LOAD    IR_Current_Val
            033 : 27D0;  -- 	SUB		IR_Power				;Check if power button (E-Stop)
            034 : 406C;  -- 	JZERO	Die
-           035 : 0A75;  -- 	LOAD    IR_Current_Val	
+           035 : 0A75;  -- 	LOAD    IR_Current_Val
            036 : 27D7;  -- 	SUB		IR_VolUp				;Increase the increment in motion and angle
            037 : 408D;  -- 	JZERO	Increase_Increment
-           038 : 0A75;  -- 	LOAD    IR_Current_Val	
+           038 : 0A75;  -- 	LOAD    IR_Current_Val
            039 : 27D8;  -- 	SUB		IR_VolDwn				;Decrease the increment in motion and angle
            03A : 4094;  -- 	JZERO	Decrease_Increment
-           03B : 0A75;  -- 	LOAD    IR_Current_Val	
+           03B : 0A75;  -- 	LOAD    IR_Current_Val
            03C : 27D1;  -- 	SUB		IR_Play					;Check if it is pause button (Stop motion)
            03D : 40A0;  -- 	JZERO	Pause_Motion
-           03E : 0A75;  -- 	LOAD    IR_Current_Val	
+           03E : 0A75;  -- 	LOAD    IR_Current_Val
            03F : 27DA;  -- 	SUB		IR_FF					;Do stuff to turn right
            040 : C081;  -- 	CZERO	Turn_Right
-           041 : 0A75;  -- 	LOAD    IR_Current_Val	
+           041 : 0A75;  -- 	LOAD    IR_Current_Val
            042 : 27D9;  -- 	SUB		IR_RW					;Do stuff to turn left
-           043 : C07D;  -- 	CZERO	Turn_Left	
-           044 : 0A75;  -- 	LOAD    IR_Current_Val	
+           043 : C07D;  -- 	CZERO	Turn_Left
+           044 : 0A75;  -- 	LOAD    IR_Current_Val
            045 : 27DB;  -- 	SUB		IR_0					;Do stuff to go forward
            046 : 4075;  -- 	JZERO	Move_Forward
-           047 : 0A75;  -- 	LOAD    IR_Current_Val	
+           047 : 0A75;  -- 	LOAD    IR_Current_Val
            048 : 27D2;  -- 	SUB		IR_Pause				;Do stuff to back up
            049 : 4079;  -- 	JZERO	Move_Backward
            04A : 0A75;  -- 	LOAD    IR_Current_Val			;Turn in place left 90
            04B : 27D5;  -- 	SUB		IR_CH_UP
            04C : C085;  -- 	CZERO   Turn_Left90
            04D : 0A75;  -- 	LOAD    IR_Current_Val			;Turn in place right 90
-           04E : 27D6;  -- 	SUB		IR_CH_DW
+           04E : 27D6;  -- 	SUB		IR_STOP
            04F : C089;  -- 	CZERO   Turn_Right90
-           050 : 0A75;  -- 	LOAD    IR_Current_Val	
+           050 : 0A75;  -- 	LOAD    IR_Current_Val
            051 : 27D4;  -- 	SUB		IR_TV_VCR
            052 : C0F1;  -- 	CZERO   Perpendicular
-           053 : 0A75;  -- 	LOAD    IR_Current_Val	
+           053 : 0A75;  -- 	LOAD    IR_Current_Val
            054 : 27D3;  -- 	SUB		IR_Enter
            055 : C0F6;  -- 	CZERO   Parallel
-           056 : 0A75;  -- 	LOAD    IR_Current_Val	
+           056 : 0A75;  -- 	LOAD    IR_Current_Val
            057 : 27DC;  -- 	SUB		IR_1
-           058 : C085;  -- 	CZERO   Turn_Left90 
-           059 : 0A75;  -- 	LOAD    IR_Current_Val	
+           058 : 40A5;  -- 	JZERO   GoOne
+           059 : 0A75;  -- 	LOAD    IR_Current_Val
            05A : 27DD;  -- 	SUB		IR_2
-           05B : C089;  -- 	CZERO   Turn_Right90 
+           05B : 40A7;  -- 	JZERO   GoTwo
            05C : 0A75;  -- 	LOAD    IR_Current_Val
            05D : 27DE;  -- 	SUB		IR_3
            05E : 40A9;  -- 	JZERO   GoThree
-           05F : 0A75;  -- 	LOAD    IR_Current_Val	
+           05F : 0A75;  -- 	LOAD    IR_Current_Val
            060 : 27DF;  -- 	SUB		IR_4
            061 : 40AB;  -- 	JZERO   GoFour
-           062 : 0A75;  -- 	LOAD    IR_Current_Val	
+           062 : 0A75;  -- 	LOAD    IR_Current_Val
            063 : 27E0;  -- 	SUB		IR_5
            064 : 40AD;  -- 	JZERO   GoFive
-           065 : 0A75;  -- 	LOAD    IR_Current_Val	
+           065 : 0A75;  -- 	LOAD    IR_Current_Val
            066 : 27E1;  -- 	SUB		IR_6
            067 : 40AF;  -- 	JZERO   GoSix
-           068 : 0A75;  -- 	LOAD    IR_Current_Val	
+           068 : 0A75;  -- 	LOAD    IR_Current_Val
            069 : 27E2;  -- 	SUB		IR_7
            06A : 40B1;  -- 	JZERO   GoSeven
            06B : 282E;  -- 	JUMP	Main					        ;Match not found, return to begining
@@ -190,17 +190,17 @@ CONTENT
            0B1 : 0FF0;  -- GoSeven: LOAD OffSeven
            0B2 : 28B3;  -- 	JUMP Goto_Spot
            0B3 : 17E9;  -- 	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
-           0B4 : 80C0;  -- 	CALL	Goto_Init_Pos1					
+           0B4 : 80C0;  -- 	CALL	Goto_Init_Pos1
            0B5 : 0FE9;  -- 	LOAD	SpotOff
-           0B6 : 80D2;  -- 	CALL	Go_Forward
+           0B6 : 80E5;  -- 	CALL	Go_Forward2
            0B7 : 28F1;  -- 	JUMP    Perpendicular
            0B8 : 8123;  -- 	CALL   	GetThetaErr ; get the heading error
-           0B9 : 813D;  -- 	CALL   	Abs	
+           0B9 : 813D;  -- 	CALL   	Abs
            0BA : 6FFB;  -- 	ADDI   	-5          ; check if within 5 degrees
            0BB : 38B8;  -- 	JPOS  	Err_Correct	; if not, keep testing
            0BC : 98C3;  -- 	OUT    	RESETPOS
            0BD : B800;  -- 	LOADI	0
-           0BE : 1109;  -- 	STORE	DTHETA	
+           0BE : 1109;  -- 	STORE	DTHETA
            0BF : 8800;  -- 	RETURN
            0C0 : 0A97;  -- 	LOAD	FMID		; 350 is MID velocity
            0C1 : 110A;  -- 	STORE	Dvel
@@ -209,8 +209,8 @@ CONTENT
            0C4 : 8085;  -- 	CALL	Turn_Left90
            0C5 : 8101;  -- 	CALL   	Wait2
            0C6 : B800;  -- 	LOADI	0
-           0C7 : 110A;  -- 	STORE	Dvel		
-           0C8 : 8800;  -- 	RETURN							
+           0C7 : 110A;  -- 	STORE	Dvel
+           0C8 : 8800;  -- 	RETURN
            0C9 : 0FE7;  -- 	LOAD 	InitDist1
            0CA : 80E5;  -- 	CALL	Go_Forward2
            0CB : 8089;  -- 	CALL 	Turn_Right90
@@ -250,7 +250,7 @@ CONTENT
            0ED : 30EB;  -- 	JNEG	GF_Check2
            0EE : B800;  -- 	LOADI	0
            0EF : 110A;  -- 	STORE	DVEL
-           0F0 : 8800;  -- 	RETURN	
+           0F0 : 8800;  -- 	RETURN
            0F1 : 8089;  --     CALL	Turn_Right90
            0F2 : 8101;  -- 	CALL   	Wait2
            0F3 : 0FE5;  --    	LOAD	PerpendicularDist
@@ -345,7 +345,7 @@ CONTENT
            14C : 8800;  -- 	RETURN              ; Return raw value if in octant 1
            14D : 6968;  -- 	ADDI   360          ; Add 360 if we are in octant 8
            14E : 8800;  -- 	RETURN
-           14F : 8161;  -- 	CALL   A2_calc      ; Octants 4, 5            
+           14F : 8161;  -- 	CALL   A2_calc      ; Octants 4, 5
            150 : 68B4;  -- 	ADDI   180          ; theta' = theta + 180
            151 : 8800;  -- 	RETURN
            152 : 09A1;  -- 	LOAD   AtanY        ; Swap input arguments
@@ -436,10 +436,10 @@ CONTENT
            1A7 : 11CB;  -- 	STORE  m16sc        ; clear carry
            1A8 : 11CE;  -- 	STORE  mres16sH     ; clear result
            1A9 : B810;  -- 	LOADI  16           ; load 16 to counter
-           1AA : 11CC;  -- 	STORE  mcnt16s      
+           1AA : 11CC;  -- 	STORE  mcnt16s
            1AB : 09CB;  -- 	LOAD   m16sc        ; check the carry (from previous iteration)
            1AC : 41B0;  -- 	JZERO  Mult16s_noc  ; if no carry, move on
-           1AD : 09CE;  -- 	LOAD   mres16sH     ; if a carry, 
+           1AD : 09CE;  -- 	LOAD   mres16sH     ; if a carry,
            1AE : 19C9;  -- 	ADD    m16sA        ;  add multiplicand to result H
            1AF : 11CE;  -- 	STORE  mres16sH
            1B0 : 09CA;  -- 	LOAD   m16sB
@@ -521,7 +521,7 @@ CONTENT
            1FC : 0A06;  -- 	LOAD   dres16sQ     ; need to negate the result
            1FD : 813E;  -- 	CALL   Neg
            1FE : 1206;  -- 	STORE  dres16sQ
-           1FF : 8800;  -- 	RETURN	
+           1FF : 8800;  -- 	RETURN
            200 : 0000;  -- d16sN: DW 0 ; numerator
            201 : 0000;  -- d16sD: DW 0 ; denominator
            202 : 0000;  -- d16sS: DW 0 ; sign value
@@ -686,7 +686,7 @@ CONTENT
            7D3 : 3AC5;  -- IR_Enter:	DW	&H3AC5
            7D4 : FF00;  -- IR_TV_VCR:	DW	&HFF00
            7D5 : 8074;  -- IR_CH_UP:	DW	&H8074
-           7D6 : 40BF;  -- IR_CH_DW:	DW	&H40BF
+           7D6 : 08F7;  -- IR_STOP:	DW	&H08F7
            7D7 : 40BF;  -- IR_VolUp:	DW	&H40BF
            7D8 : C03F;  -- IR_VolDwn:	DW	&HC03F
            7D9 : 48B7;  -- IR_RW:		DW	&H48B7
@@ -706,11 +706,11 @@ CONTENT
            7E7 : 012C;  -- InitDist1:	DW	&H012C	; 300mm
            7E8 : 02BC;  -- InitDist2:	DW	&H02BC	; 700mm
            7E9 : 0000;  -- SpotOff:	DW	&H0000
-           7EA : 01F4;  -- OffOne:		DW	&H01F4  ; 500mm
-           7EB : 0000;  -- OffTwo:		DW	&H0000
-           7EC : 0000;  -- OffThree:	DW	&H0000
-           7ED : 0000;  -- OffFour:	DW	&H0000
-           7EE : 0000;  -- OffFive:	DW	&H0000
-           7EF : 0000;  -- OffSix:		DW	&H0000
-           7F0 : 0000;  -- OffSeven:	DW	&H0000
+           7EA : 00C2;  -- OffOne:		DW	&H00C2
+           7EB : 022B;  -- OffTwo:		DW	&H022B
+           7EC : 0394;  -- OffThree:	DW	&H0394
+           7ED : 04FE;  -- OffFour:	DW	&H04FE
+           7EE : 0667;  -- OffFive:	DW	&H0667
+           7EF : 07D3;  -- OffSix:		DW	&H07D3
+           7F0 : 093E;  -- OffSeven:	DW	&H093E
   END;
