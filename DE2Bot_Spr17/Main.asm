@@ -71,6 +71,8 @@ WaitForUser:
 	LOADI  10          ; 10ms * 10 = 0.1s rate, or 10Hz.
 	OUT    CTIMER      ; turn on timer peripheral
 	SEI    &B0010
+	
+	CALL	Reset_IR
 ;***************************************************************
 ;* Main code
 ;***************************************************************
