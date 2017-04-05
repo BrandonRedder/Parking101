@@ -303,9 +303,9 @@ Goto_Init_Pos1:			;Facing towards the further wall, not spots
 	LOAD	FMID		; 350 is MID velocity
 	STORE	Dvel
 	CALL	Turn_Right90
-	CALL   	Err_Correct
+	CALL   	Wait2
 	CALL	Turn_Left90
-	CALL   	Err_Correct
+	CALL   	Wait2
 	LOADI	0
 	STORE	Dvel
 	RETURN
@@ -346,6 +346,8 @@ GF_Check:
 Go_Forward2:						;Logic to go forward by the specified amount***
 	STORE	Travel_Distance
 	OUT    	RESETPOS
+	IN		THETA
+	STORE	DTHETA
 	LOAD	FSLOW
 	STORE	DVEL
 GF_Check2:
@@ -358,18 +360,18 @@ GF_Check2:
 
 Perpendicular:
     CALL	Turn_Right90
-	CALL   	Err_Correct
+	CALL   	Wait2
    	LOAD	PerpendicularDist
    	CALL	Go_Forward2
 	JUMP Die
 
 Parallel:
    	CALL	Turn_Right90
-	CALL   	Err_Correct
+	CALL   	Wait2
     LOAD 	ParallelDist
     CALL	Go_Forward2
     CALL	Turn_Left90
-	CALL   	Err_Correct
+	CALL   	Wait2
 	JUMP Die
 
 ;***************************************************************
