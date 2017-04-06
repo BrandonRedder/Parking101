@@ -214,14 +214,16 @@ Turn_Right:							;Manually turn bot to right by increment
 
 Turn_Left90:							;Manually turn bot to left by 90 degrees
 	IN    	THETA
-	ADDI	88
+	ADDI	90
 	STORE 	DTheta
+	CALL	Err_Correct
 	RETURN
 
 Turn_Right90:							;Manually turn bot to right by 90 degrees
 	IN    	THETA
-	ADDI	-88
+	ADDI	-90
 	STORE 	DTheta
+	CALL	Err_Correct
 	RETURN
 
 Increase_Increment:						;Increase linear and angular increment for manual adjustments
@@ -294,23 +296,11 @@ Goto_Spot:						;Go to specific spot specified by offset value in AC
 Err_Correct:
 	CALL   	GetThetaErr ; get the heading error
 	CALL   	Abs
-	ADDI   	-5          ; check if within 5 degrees
+	ADDI   	-3          ; check if within 5 degrees
 	JPOS  	Err_Correct	; if not, keep testing
 	OUT    	RESETPOS
 	LOADI	0
 	STORE	DTHETA
-	RETURN
-
-Goto_Init_Pos1:			;Facing towards the further wall, not spots
-	LOAD	FMID		; 350 is MID velocity
-	STORE	Dvel
-	CALL	Wait2
-	CALL	Turn_Right90
-	CALL   	Wait2
-	CALL	Turn_Left90
-	CALL   	Wait2
-	LOADI	0
-	STORE	Dvel
 	RETURN
 
 Goto_Init_Pos2:			;Facing towards the further wall, not spots
@@ -318,12 +308,10 @@ Goto_Init_Pos2:			;Facing towards the further wall, not spots
 	CALL	Go_Forward2
 	CALL	Wait2
 	CALL 	Turn_Right90
-	CALL   	Wait2
 	LOAD 	InitDist2
 	CALL	Go_Forward2
 	CALL	Wait2
 	CALL 	Turn_Left90
-	CALL   	Wait2
 	RETURN
 
 Go_Forward:						;Logic to go forward by the specified amount***
@@ -370,7 +358,6 @@ GF_Check2:
 Perpendicular:
 	CALL	Wait2
     CALL	Turn_Right90
-	CALL   	Wait2
    	LOAD	PerpendicularDist
    	CALL	Go_Forward2
 	JUMP Die
@@ -378,7 +365,6 @@ Perpendicular:
 Parallel:
    	CALL	Wait2
 	CALL	Turn_Right90
-	CALL   	Wait2
     LOAD 	ParallelDist
     CALL	Go_Forward2
     CALL	Wait2
