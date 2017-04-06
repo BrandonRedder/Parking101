@@ -121,46 +121,46 @@ Main:
 	JZERO	Move_Backward
 
 	LOAD    IR_Current_Val			;Turn in place left 90
-	SUB		IR_8
+	SUB		IR_ENTER
 	CZERO   Turn_Left90
 
 	LOAD    IR_Current_Val			;Turn in place right 90
-	SUB		IR_9
+	SUB		IR_TV_VCR
 	CZERO   Turn_Right90
 
-	LOAD    IR_Current_Val
-	SUB		IR_TV_VCR
+	LOAD    IR_Current_Val			;Perpendicular
+	SUB		IR_9
 	CZERO   Perpendicular
 
-	LOAD    IR_Current_Val
-	SUB		IR_Enter
+	LOAD    IR_Current_Val			;Parallel
+	SUB		IR_8
 	CZERO   Parallel
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val			;Go to spot one
 	SUB		IR_1
 	JZERO   GoOne
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val			;Go to spot two
 	SUB		IR_2
 	JZERO   GoTwo
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val			;Go to spot three
 	SUB		IR_3
 	JZERO   GoThree
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val			;Go to spot four
 	SUB		IR_4
 	JZERO   GoFour
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val			;Go to spot five
 	SUB		IR_5
 	JZERO   GoFive
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val		  ;Go to spot six
 	SUB		IR_6
 	JZERO   GoSix
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val		;Go to spot seven
 	SUB		IR_7
 	JZERO   GoSeven
 

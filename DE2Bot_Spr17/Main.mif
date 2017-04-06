@@ -86,36 +86,36 @@ CONTENT
            049 : 27D2;  -- 	SUB		IR_Pause				;Do stuff to back up
            04A : 407A;  -- 	JZERO	Move_Backward
            04B : 0A84;  -- 	LOAD    IR_Current_Val			;Turn in place left 90
-           04C : 27E3;  -- 	SUB		IR_8
+           04C : 27D3;  -- 	SUB		IR_ENTER
            04D : C086;  -- 	CZERO   Turn_Left90
            04E : 0A84;  -- 	LOAD    IR_Current_Val			;Turn in place right 90
-           04F : 27E4;  -- 	SUB		IR_9
+           04F : 27D4;  -- 	SUB		IR_TV_VCR
            050 : C08A;  -- 	CZERO   Turn_Right90
-           051 : 0A84;  -- 	LOAD    IR_Current_Val
-           052 : 27D4;  -- 	SUB		IR_TV_VCR
+           051 : 0A84;  -- 	LOAD    IR_Current_Val			;Perpendicular
+           052 : 27E4;  -- 	SUB		IR_9
            053 : C0FD;  -- 	CZERO   Perpendicular
-           054 : 0A84;  -- 	LOAD    IR_Current_Val
-           055 : 27D3;  -- 	SUB		IR_Enter
+           054 : 0A84;  -- 	LOAD    IR_Current_Val			;Parallel
+           055 : 27E3;  -- 	SUB		IR_8
            056 : C103;  -- 	CZERO   Parallel
-           057 : 0A84;  -- 	LOAD    IR_Current_Val
+           057 : 0A84;  -- 	LOAD    IR_Current_Val			;Go to spot one
            058 : 27DC;  -- 	SUB		IR_1
            059 : 40A6;  -- 	JZERO   GoOne
-           05A : 0A84;  -- 	LOAD    IR_Current_Val
+           05A : 0A84;  -- 	LOAD    IR_Current_Val			;Go to spot two
            05B : 27DD;  -- 	SUB		IR_2
            05C : 40A8;  -- 	JZERO   GoTwo
-           05D : 0A84;  -- 	LOAD    IR_Current_Val
+           05D : 0A84;  -- 	LOAD    IR_Current_Val			;Go to spot three
            05E : 27DE;  -- 	SUB		IR_3
            05F : 40AA;  -- 	JZERO   GoThree
-           060 : 0A84;  -- 	LOAD    IR_Current_Val
+           060 : 0A84;  -- 	LOAD    IR_Current_Val			;Go to spot four
            061 : 27DF;  -- 	SUB		IR_4
            062 : 40AC;  -- 	JZERO   GoFour
-           063 : 0A84;  -- 	LOAD    IR_Current_Val
+           063 : 0A84;  -- 	LOAD    IR_Current_Val			;Go to spot five
            064 : 27E0;  -- 	SUB		IR_5
            065 : 40AE;  -- 	JZERO   GoFive
-           066 : 0A84;  -- 	LOAD    IR_Current_Val
+           066 : 0A84;  -- 	LOAD    IR_Current_Val		  ;Go to spot six
            067 : 27E1;  -- 	SUB		IR_6
            068 : 40B0;  -- 	JZERO   GoSix
-           069 : 0A84;  -- 	LOAD    IR_Current_Val
+           069 : 0A84;  -- 	LOAD    IR_Current_Val		;Go to spot seven
            06A : 27E2;  -- 	SUB		IR_7
            06B : 40B2;  -- 	JZERO   GoSeven
            06C : 282F;  -- 	JUMP	Main					        ;Match not found, return to begining
