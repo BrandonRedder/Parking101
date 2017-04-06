@@ -722,7 +722,7 @@ CONTENT
            7E6 : 00F7;  -- ParallelDist:  		DW	247
            7E7 : 00D0;  -- Start_Offset: DW	&H00D0  ;C2
            7E8 : 0192;  -- InitDist1:	DW	&H0192	; 300mm
-           7E9 : 0380;  -- InitDist2:	DW	&H0380	; 700mm
+           7E9 : 0390;  -- InitDist2:	DW	&H0390	; 700mm
            7EA : 0000;  -- SpotOff:	DW	&H0000
            7EB : 00C2;  -- OffOne:		DW	&H00C2
            7EC : 022B;  -- OffTwo:		DW	&H022B

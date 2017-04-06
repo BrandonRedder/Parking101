@@ -1072,7 +1072,7 @@ PerpendicularDist:  DW	&H0172
 ParallelDist:  		DW	247
 Start_Offset: DW	&H00D0  ;C2
 InitDist1:	DW	&H0192	; 300mm
-InitDist2:	DW	&H0380	; 700mm
+InitDist2:	DW	&H0390	; 700mm
 SpotOff:	DW	&H0000
 OffOne:		DW	&H00C2
 OffTwo:		DW	&H022B
