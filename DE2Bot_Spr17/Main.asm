@@ -214,13 +214,13 @@ Turn_Right:							;Manually turn bot to right by increment
 
 Turn_Left90:							;Manually turn bot to left by 90 degrees
 	IN    	THETA
-	ADDI	90
+	ADDI	88
 	STORE 	DTheta
 	RETURN
 
 Turn_Right90:							;Manually turn bot to right by 90 degrees
 	IN    	THETA
-	ADDI	-90
+	ADDI	-88
 	STORE 	DTheta
 	RETURN
 
@@ -281,10 +281,14 @@ GoSeven: LOAD OffSeven
 	JUMP Goto_Spot
 
 Goto_Spot:						;Go to specific spot specified by offset value in AC
+	ADD		Start_Offset
 	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
 	CALL	Goto_Init_Pos2
 	LOAD	SpotOff
 	CALL	Go_Forward2
+	IN		YPOS
+	ADD		PerpendicularDist
+	STORE	PerpendicularDist
 	JUMP    Perpendicular
 
 Err_Correct:
@@ -300,6 +304,7 @@ Err_Correct:
 Goto_Init_Pos1:			;Facing towards the further wall, not spots
 	LOAD	FMID		; 350 is MID velocity
 	STORE	Dvel
+	CALL	Wait2
 	CALL	Turn_Right90
 	CALL   	Wait2
 	CALL	Turn_Left90
@@ -311,12 +316,14 @@ Goto_Init_Pos1:			;Facing towards the further wall, not spots
 Goto_Init_Pos2:			;Facing towards the further wall, not spots
 	LOAD 	InitDist1
 	CALL	Go_Forward2
+	CALL	Wait2
 	CALL 	Turn_Right90
-	CALL   	Err_Correct
+	CALL   	Wait2
 	LOAD 	InitDist2
 	CALL	Go_Forward2
+	CALL	Wait2
 	CALL 	Turn_Left90
-	CALL   	Err_Correct
+	CALL   	Wait2
 	RETURN
 
 Go_Forward:						;Logic to go forward by the specified amount***
@@ -349,6 +356,10 @@ Go_Forward2:						;Logic to go forward by the specified amount***
 	LOAD	FSLOW
 	STORE	DVEL
 GF_Check2:
+	IN		YPOS
+	OUT		SSEG2
+	IN		THETA
+	OUT		SSEG1
 	IN		XPOS
 	SUB		Travel_Distance
 	JNEG	GF_Check2
@@ -357,6 +368,7 @@ GF_Check2:
 	RETURN
 
 Perpendicular:
+	CALL	Wait2
     CALL	Turn_Right90
 	CALL   	Wait2
    	LOAD	PerpendicularDist
@@ -364,10 +376,12 @@ Perpendicular:
 	JUMP Die
 
 Parallel:
-   	CALL	Turn_Right90
+   	CALL	Wait2
+	CALL	Turn_Right90
 	CALL   	Wait2
     LOAD 	ParallelDist
     CALL	Go_Forward2
+    CALL	Wait2
     CALL	Turn_Left90
 	CALL   	Wait2
 	JUMP Die
@@ -1054,10 +1068,11 @@ IR_8:		DW	&HF00F
 IR_9:		DW	&H38C7
 
 ;** Constants for Fully Autonomous
-PerpendicularDist:  DW	440
+PerpendicularDist:  DW	&H0172
 ParallelDist:  		DW	247
+Start_Offset: DW	&H00D0  ;C2
 InitDist1:	DW	&H0192	; 300mm
-InitDist2:	DW	&H036F	; 700mm
+InitDist2:	DW	&H0380	; 700mm
 SpotOff:	DW	&H0000
 OffOne:		DW	&H00C2
 OffTwo:		DW	&H022B
