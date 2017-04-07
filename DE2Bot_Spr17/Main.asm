@@ -20,7 +20,9 @@ Init:
 	OUT    RVELCMD
 	OUT    SONAREN     ; Disable sonar (optional)
 	OUT    BEEP        ; Stop any beeping (optional)
-
+	OUT	   RESETPOS		;>>>added
+	Call    Reset_IR				;Reset IR to not read same value twice
+	
 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
 	CALL   BattCheck   ; Get battery voltage (and end if too low).
 	OUT    LCD         ; Display battery voltage (hex, tenths of volts)
@@ -37,11 +39,12 @@ WaitForSafety:
 	SHIFT  8           ; Shift over to LED17
 	OUT    XLEDS       ; LED17 blinks at 2.5Hz (10Hz/4)
 	JUMP   WaitForSafety
-
+	
 WaitForUser:
 	; This loop will wait for the user to press PB3, to ensure that
 	; they have a chance to prepare for any movement in the main code.
 	LOADI	20
+	OUT	   RESETPOS		;>>>added
 	OUT		SSEG1
 	IN     TIMER       ; We'll blink the LEDs above PB3
 	AND    Mask1
@@ -71,55 +74,50 @@ WaitForUser:
 	LOADI  10          ; 10ms * 10 = 0.1s rate, or 10Hz.
 	OUT    CTIMER      ; turn on timer peripheral
 	SEI    &B0010
-	
-	CALL	Reset_IR
 ;***************************************************************
 ;* Main code
 ;***************************************************************
-Main:
-	;IN      IR_HI                      ; get the high word
-	;OUT     SSEG1						; display the high word
+Main:				
 	IN      IR_LO                       ; get the low word
-	;OUT     SSEG2						; display the low word
 
     JZERO	Main					;If zero, no new value, check again
 	STORE	IR_Current_Val	        ;Else, store new value and start down tree
 	Call    Reset_IR				;Reset IR to not read same value twice
-
+	
 	LOAD    IR_Current_Val
 	SUB		IR_Power				;Check if power button (E-Stop)
 	JZERO	Die
-
-	LOAD    IR_Current_Val
+	
+	LOAD    IR_Current_Val	
 	SUB		IR_VolUp				;Increase the increment in motion and angle
 	JZERO	Increase_Increment
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val	
 	SUB		IR_VolDwn				;Decrease the increment in motion and angle
 	JZERO	Decrease_Increment
 
 
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val	
 	SUB		IR_Play					;Check if it is pause button (Stop motion)
 	JZERO	Pause_Motion
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val	
 	SUB		IR_FF					;Do stuff to turn right
 	CZERO	Turn_Right
-
-	LOAD    IR_Current_Val
+	
+	LOAD    IR_Current_Val	
 	SUB		IR_RW					;Do stuff to turn left
-	CZERO	Turn_Left
+	CZERO	Turn_Left	
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val	
 	SUB		IR_0					;Do stuff to go forward
 	JZERO	Move_Forward
 
-	LOAD    IR_Current_Val
+	LOAD    IR_Current_Val	
 	SUB		IR_Pause				;Do stuff to back up
 	JZERO	Move_Backward
-
+	
 	LOAD    IR_Current_Val			;Turn in place left 90
 	SUB		IR_ENTER
 	CZERO   Turn_Left90
@@ -127,43 +125,45 @@ Main:
 	LOAD    IR_Current_Val			;Turn in place right 90
 	SUB		IR_TV_VCR
 	CZERO   Turn_Right90
+	
 
-	LOAD    IR_Current_Val			;Perpendicular
-	SUB		IR_9
-	CZERO   Perpendicular
-
-	LOAD    IR_Current_Val			;Parallel
-	SUB		IR_8
-	CZERO   Parallel
-
-	LOAD    IR_Current_Val			;Go to spot one
+	
+	LOAD    IR_Current_Val	
 	SUB		IR_1
 	JZERO   GoOne
 
-	LOAD    IR_Current_Val			;Go to spot two
+	LOAD    IR_Current_Val	
 	SUB		IR_2
 	JZERO   GoTwo
-
-	LOAD    IR_Current_Val			;Go to spot three
+	
+	LOAD    IR_Current_Val
 	SUB		IR_3
 	JZERO   GoThree
 
-	LOAD    IR_Current_Val			;Go to spot four
+	LOAD    IR_Current_Val	
 	SUB		IR_4
 	JZERO   GoFour
 
-	LOAD    IR_Current_Val			;Go to spot five
+	LOAD    IR_Current_Val	
 	SUB		IR_5
 	JZERO   GoFive
 
-	LOAD    IR_Current_Val		  ;Go to spot six
+	LOAD    IR_Current_Val	
 	SUB		IR_6
 	JZERO   GoSix
 
-	LOAD    IR_Current_Val		;Go to spot seven
+	LOAD    IR_Current_Val	
 	SUB		IR_7
 	JZERO   GoSeven
-
+	
+	LOAD    IR_Current_Val	
+	SUB		IR_8
+	CZERO   Parallel	
+	
+	LOAD    IR_Current_Val	
+	SUB		IR_9
+	CZERO   Perpendicular	
+	
 	JUMP	Main					        ;Match not found, return to begining
 
 Die:
@@ -193,34 +193,44 @@ Move_Forward:							;Manually move bot forward, by increment
 	ADD		Increment_Speed
 	STORE	DVel
 	JUMP	Main
-
+	
 Move_Backward:							;Manually move bot back my increment
 	LOADI	0
 	SUB		Increment_Speed
 	STORE	DVel
 	JUMP	Main
-
+	
 Turn_Left:							;Manually turn bot to left by increment
 	IN    	THETA
 	ADD		Increment_Angle
 	STORE 	DTheta
 	RETURN
-
+	
 Turn_Right:							;Manually turn bot to right by increment
 	IN    	THETA
 	SUB		Increment_Angle
 	STORE 	DTheta
 	RETURN
-
-Turn_Left90:							;Manually turn bot to left by 90 degrees
+	
+Turn_Left90:							;Manually turn bot to left by increment
 	IN    	THETA
-	ADDI	88
+	ADDI	90
 	STORE 	DTheta
 	RETURN
-
-Turn_Right90:							;Manually turn bot to right by 90 degrees
+	
+Turn_Right90:							;Manually turn bot to right by increment
 	IN    	THETA
-	ADDI	-88
+	ADDI	-90
+	STORE 	DTheta
+	RETURN	
+	
+FaceForward:						;Manually turn bot to left by 90 degrees
+	LOADI	0
+	STORE 	DTheta
+	RETURN
+	
+FaceRight:							;Manually turn bot to left by 90 degrees
+	LOADI	270
 	STORE 	DTheta
 	RETURN
 
@@ -241,7 +251,7 @@ Decrease_Increment:						;Decrease linear and angular increment for manual adjus
 	STORE	Increment_Speed
 	OUT		SSEG1
 	JUMP	Main
-
+	
 Fix_Increment:							;Return Increments to Positive, non-zero, values
 	LOADI	60
 	STORE 	Increment_Speed
@@ -259,73 +269,66 @@ Pause_Motion:							;Pause motion from motors
 ;***************************************************************
 ;** Autonomous Control Subroutines
 ;***************************************************************
-GoOne:	LOAD OffOne
+GoOne:	LOAD CoordOne
 	JUMP Goto_Spot
 
-GoTwo:  LOAD OffTwo
+GoTwo:  LOAD CoordTwo
 	JUMP Goto_Spot
 
-GoThree: LOAD OffThree
+GoThree: LOAD CoordThree
 	JUMP Goto_Spot
 
-GoFour: LOAD OffFour
+GoFour: LOAD CoordFour
 	JUMP Goto_Spot
-
-GoFive: LOAD OffFive
+	
+GoFive: LOAD CoordFive
 	JUMP Goto_Spot
-
-GoSix:  LOAD OffSix
+	
+GoSix:  LOAD CoordSix
 	JUMP Goto_Spot
-
-GoSeven: LOAD OffSeven
+	
+GoSeven: LOAD CoordSeven
 	JUMP Goto_Spot
 
 Goto_Spot:						;Go to specific spot specified by offset value in AC
-	ADD		Start_Offset
-	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
-	CALL	Goto_Init_Pos2
-	LOAD	SpotOff
-	CALL	Go_Forward2
-	IN		YPOS
-	ADD		PerpendicularDist
-	STORE	PerpendicularDist
+	STORE   SpotCoord			;Spot offset is calculated from the init pos in the next line
+	CALL	Goto_Init_Pos2					
+	LOAD	SpotCoord
+	CALL	GoCoordX
 	JUMP    Perpendicular
 
 Err_Correct:
+	IN 		THETA
+	OUT 	LCD	
 	CALL   	GetThetaErr ; get the heading error
-	CALL   	Abs
-	ADDI   	-5          ; check if within 5 degrees
+	CALL   	Abs	
+	ADDI   	-2          ; check if within 5 degrees
 	JPOS  	Err_Correct	; if not, keep testing
-	OUT    	RESETPOS
-	LOADI	0
-	STORE	DTHETA
 	RETURN
-
+	
 Goto_Init_Pos1:			;Facing towards the further wall, not spots
 	LOAD	FMID		; 350 is MID velocity
 	STORE	Dvel
-	CALL	Wait2
-	CALL	Turn_Right90
-	CALL   	Wait2
-	CALL	Turn_Left90
-	CALL   	Wait2
+	CALL	FaceRight
+	CALL   	Err_Correct
+	CALL	FaceForward
+	CALL   	Err_Correct
 	LOADI	0
-	STORE	Dvel
-	RETURN
-
+	STORE	Dvel		
+	RETURN							
+	
 Goto_Init_Pos2:			;Facing towards the further wall, not spots
-	LOAD 	InitDist1
-	CALL	Go_Forward2
-	CALL	Wait2
-	CALL 	Turn_Right90
-	CALL   	Wait2
-	LOAD 	InitDist2
-	CALL	Go_Forward2
-	CALL	Wait2
-	CALL 	Turn_Left90
-	CALL   	Wait2
+	LOAD 	InitCoord1
+	CALL	GoCoordX
+	CALL 	FaceRight
+	CALL   	Err_Correct
+	LOAD 	InitCoord2
+	CALL	GoCoordY
+	CALL	Wait1
+	CALL 	FaceForward
+	CALL   	Err_Correct
 	RETURN
-
+	
 Go_Forward:						;Logic to go forward by the specified amount***
 	STORE	Travel_Distance
 	IN		XPOS
@@ -347,45 +350,62 @@ GF_Check:
 	SUB		Travel_Distance
 	JNEG	GF_Check
 	RETURN
-
+	
 Go_Forward2:						;Logic to go forward by the specified amount***
 	STORE	Travel_Distance
 	OUT    	RESETPOS
-	IN		THETA
-	STORE	DTHETA
 	LOAD	FSLOW
 	STORE	DVEL
 GF_Check2:
-	IN		YPOS
-	OUT		SSEG2
-	IN		THETA
-	OUT		SSEG1
 	IN		XPOS
 	SUB		Travel_Distance
 	JNEG	GF_Check2
 	LOADI	0
 	STORE	DVEL
-	RETURN
+	RETURN	
+	
+GoCoordX:						;Logic to go forward by the specified amount***
+	STORE	TravelCoord
+	LOAD	FMID
+	STORE	DVEL
+GX:
+	IN		Xpos
+	OUT     SSEG1
+	SUB		TravelCoord
+	JNEG	GX
+	LOADI	0
+	STORE	DVEL
+	RETURN	
+
+GoCoordY:						;Logic to go forward by the specified amount***
+	STORE	TravelCoord
+	LOAD	FMID
+	STORE	DVEL
+GY:
+	IN		YPOS
+	OUT     SSEG2       
+	ADD		TravelCoord
+	JPOS	GY
+	LOADI	0
+	STORE	DVEL
+	RETURN	
 
 Perpendicular:
-	CALL	Wait2
-    CALL	Turn_Right90
-	CALL   	Wait2
-   	LOAD	PerpendicularDist
-   	CALL	Go_Forward2
-	JUMP Die
+    CALL	FaceRight
+   	CALL   	Err_Correct
+   	LOAD	PerpendicularCoord
+   	CALL	GoCoordY
+	JUMP Die	
 
 Parallel:
-   	CALL	Wait2
-	CALL	Turn_Right90
-	CALL   	Wait2
-    LOAD 	ParallelDist
-    CALL	Go_Forward2
-    CALL	Wait2
-    CALL	Turn_Left90
-	CALL   	Wait2
+   	CALL	FaceRight
+	CALL   	Err_Correct
+    LOAD 	ParallelCoord
+    CALL	GoCoordY
+    CALL	FaceForward
+	CALL   	Err_Correct
 	JUMP Die
-
+	
 ;***************************************************************
 ;** Other Subroutines
 ;***************************************************************
@@ -394,7 +414,7 @@ Reset_IR:			   ; Return IR value to zero (Function Call)
 	OUT     IR_HI
 	OUT     IR_LO
 	RETURN
-
+	
 Wait2:				   ; Modified Subroutine to wait 2 seconds.
 	OUT    TIMER
 Wloop2:
@@ -413,8 +433,8 @@ Wloop2:
 CTimer_ISR:
 	CALL   ControlMovement
 	RETI   ; return from ISR
-
-
+	
+	
 ; Control code.  If called repeatedly, this code will attempt
 ; to control the robot to face the angle specified in DTheta
 ; and match the speed specified in DVel
@@ -434,7 +454,7 @@ ControlMovement:
 	ADD    CMAErr
 	STORE  CMAErr
 
-
+	
 	; For this basic control method, simply take the
 	; desired forward velocity and add a differential
 	; velocity for each wheel when turning is needed.
@@ -451,7 +471,7 @@ ControlMovement:
 	ADD    DVel
 	CALL   CapValue
 	OUT    LVELCMD
-
+	
 	RETURN
 	CMAErr: DW 0       ; holds angle error velocity
 
@@ -553,10 +573,10 @@ A2_R1n: ; region 1 negative
 	ADDI   360          ; Add 360 if we are in octant 8
 	RETURN
 A2_R3: ; region 3
-	CALL   A2_calc      ; Octants 4, 5
+	CALL   A2_calc      ; Octants 4, 5            
 	ADDI   180          ; theta' = theta + 180
 	RETURN
-A2_sw: ; switch arguments; octants 2, 3, 6, 7
+A2_sw: ; switch arguments; octants 2, 3, 6, 7 
 	LOAD   AtanY        ; Swap input arguments
 	STORE  AtanT
 	LOAD   AtanX
@@ -667,10 +687,10 @@ Mult16s:
 	STORE  mres16sH     ; clear result
 	LOADI  16           ; load 16 to counter
 Mult16s_loop:
-	STORE  mcnt16s
+	STORE  mcnt16s      
 	LOAD   m16sc        ; check the carry (from previous iteration)
 	JZERO  Mult16s_noc  ; if no carry, move on
-	LOAD   mres16sH     ; if a carry,
+	LOAD   mres16sH     ; if a carry, 
 	ADD    m16sA        ;  add multiplicand to result H
 	STORE  mres16sH
 Mult16s_noc: ; no carry
@@ -770,7 +790,7 @@ Div16s_neg:
 	LOAD   dres16sQ     ; need to negate the result
 	CALL   Neg
 	STORE  dres16sQ
-	RETURN
+	RETURN	
 d16sN: DW 0 ; numerator
 d16sD: DW 0 ; denominator
 d16sS: DW 0 ; sign value
@@ -887,7 +907,7 @@ DeadBatt:
 	OUT    XLEDS
 	CALL   Wait1       ; 1 second
 	JUMP   DeadBatt    ; repeat forever
-
+	
 ; Subroutine to read the A/D (battery voltage)
 ; Assumes that SetupI2C has been run
 GetBattLvl:
@@ -909,7 +929,7 @@ SetupI2C:
 	OUT    I2C_RDY     ; start the communication
 	CALL   BlockI2C    ; wait for it to finish
 	RETURN
-
+	
 ; Subroutine to block until I2C device is idle
 BlockI2C:
 	LOAD   Zero
@@ -945,7 +965,7 @@ Travel_Distance:	DW	&H0000
 IR_Current_Val:	DW	&H0
 
 ;** Variables for motion control
-Increment_Speed:	DW	60 ;Value used to make adjustments to position
+Increment_Speed:	DW	250 ;Value used to make adjustments to position >>> changed
 Increment_Angle:	DW	15  ;Value used to make adjustments to angle
 
 ;***************************************************************
@@ -964,8 +984,6 @@ Seven:    DW 7
 Eight:    DW 8
 Nine:     DW 9
 Ten:      DW 10
-Ninety:	  DW 90
-MinusNinety:  DW -90
 
 ; **Some bit masks.
 ; **Masks of multiple bits can be constructed by ORing these
@@ -989,7 +1007,7 @@ Deg90:    DW 90        ; 90 degrees in odometer units
 Deg180:   DW 180       ; 180
 Deg270:   DW 270       ; 270
 Deg360:   DW 360       ; can never actually happen; for math only
-FSlow:    DW 200       ; 100 is about the lowest velocity value that will move
+FSlow:    DW 100       ; 100 is about the lowest velocity value that will move
 RSlow:    DW -100
 FMid:     DW 350       ; 350 is a medium speed
 RMid:     DW -350
@@ -1051,7 +1069,7 @@ IR_Pause:	DW	&H8877
 IR_Enter:	DW	&H3AC5
 IR_TV_VCR:	DW	&H10EF
 IR_CH_UP:	DW	&H8074
-IR_STOP:	DW	&H08F7
+IR_CH_DW:	DW	&H40BF
 IR_VolUp:	DW	&H40BF
 IR_VolDwn:	DW	&HC03F
 IR_RW:		DW	&H48B7
@@ -1068,16 +1086,35 @@ IR_8:		DW	&HF00F
 IR_9:		DW	&H38C7
 
 ;** Constants for Fully Autonomous
-PerpendicularDist:  DW	&H0172
-ParallelDist:  		DW	247
-Start_Offset: DW	&H00D0  ;C2
-InitDist1:	DW	&H0192	; 300mm
-InitDist2:	DW	&H0390	; 700mm
-SpotOff:	DW	&H0000
-OffOne:		DW	&H00C2
-OffTwo:		DW	&H022B
-OffThree:	DW	&H0394
-OffFour:	DW	&H04FE
-OffFive:	DW	&H0667
-OffSix:		DW	&H07D3
-OffSeven:	DW	&H093E
+PerpendicularDist:  DW	400
+ParallelDist:  		DW	250
+InitDist1:	DW	450
+InitDist2:	DW	950
+SpotOff:	DW	0
+OffOne:		DW	194
+OffTwo:		DW	555
+OffThree:	DW	916
+OffFour:	DW	1278
+OffFive:	DW	1639
+OffSix:		DW	2003
+OffSeven:	DW	2366
+
+;** Coords for Fully Autonomous
+BotSpeed:	DW	350
+TravelCoord:	DW 0
+PerpendicularCoord:  DW	1330
+ParallelCoord:  	 DW	280
+InitCoord1:	DW	350
+InitCoord2:	DW	850
+SpotCoord:	DW	0
+CoordOne:	DW	730
+CoordTwo:	DW	1055
+CoordThree:	DW	1416
+CoordFour:	DW	1778
+CoordFive:	DW	2139
+CoordSix:	DW	2503
+CoordSeven:	DW	3000
+
+
+
+
