@@ -12,707 +12,699 @@ CONTENT
 
            000 : 2805;  -- 	JUMP   Init        ; Reset vector
            001 : B000;  -- 	RETI               ; Sonar interrupt (unused)
-           002 : 2928;  -- 	JUMP   CTimer_ISR  ; Timer interrupt
+           002 : 2920;  -- 	JUMP   CTimer_ISR  ; Timer interrupt
            003 : B000;  -- 	RETI               ; UART interrupt (unused)
            004 : B000;  -- 	RETI               ; Motor stall interrupt (unused)
-           005 : 0A9A;  -- 	LOAD   Zero
+           005 : 0A92;  -- 	LOAD   Zero
            006 : 9883;  -- 	OUT    LVELCMD     ; Stop motors
            007 : 988B;  -- 	OUT    RVELCMD
            008 : 98B2;  -- 	OUT    SONAREN     ; Disable sonar (optional)
            009 : 980A;  -- 	OUT    BEEP        ; Stop any beeping (optional)
-           00A : 98C3;  -- 	OUT	   RESETPOS
-           00B : 827C;  -- 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
-           00C : 825E;  -- 	CALL   BattCheck   ; Get battery voltage (and end if too low).
+           00A : 98C3;  -- 	OUT	   RESETPOS		;>>>added
+           00B : 8274;  -- 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
+           00C : 8256;  -- 	CALL   BattCheck   ; Get battery voltage (and end if too low).
            00D : 9806;  -- 	OUT    LCD         ; Display battery voltage (hex, tenths of volts)
            00E : 9003;  -- 	IN     XIO         ; XIO contains SAFETY signal
-           00F : 4AA9;  -- 	AND    Mask4       ; SAFETY signal is bit 4
+           00F : 4AA1;  -- 	AND    Mask4       ; SAFETY signal is bit 4
            010 : 3816;  -- 	JPOS   WaitForUser ; If ready, jump to wait for PB3
            011 : 9002;  -- 	IN     TIMER       ; We'll use the timer value to
-           012 : 4AA6;  -- 	AND    Mask1       ;  blink LED17 as a reminder to toggle SW17
+           012 : 4A9E;  -- 	AND    Mask1       ;  blink LED17 as a reminder to toggle SW17
            013 : 6008;  -- 	SHIFT  8           ; Shift over to LED17
            014 : 9807;  -- 	OUT    XLEDS       ; LED17 blinks at 2.5Hz (10Hz/4)
            015 : 280E;  -- 	JUMP   WaitForSafety
            016 : B814;  -- 	LOADI	20
-           017 : 9804;  -- 	OUT		SSEG1
-           018 : 9002;  -- 	IN     TIMER       ; We'll blink the LEDs above PB3
-           019 : 4AA6;  -- 	AND    Mask1
-           01A : 6005;  -- 	SHIFT  5           ; Both LEDG6 and LEDG7
-           01B : 1292;  -- 	STORE  Temp        ; (overkill, but looks nice)
-           01C : 6001;  -- 	SHIFT  1
-           01D : 5292;  -- 	OR     Temp
-           01E : 9807;  -- 	OUT    XLEDS
-           01F : 9003;  -- 	IN     XIO         ; XIO contains KEYs
-           020 : 4AA7;  -- 	AND    Mask2       ; KEY3 mask (KEY0 is reset and can't be read)
-           021 : 3816;  -- 	JPOS   WaitForUser ; not ready (KEYs are active-low, hence JPOS)
-           022 : 0A9A;  -- 	LOAD   Zero
-           023 : 9807;  -- 	OUT    XLEDS       ; clear LEDs once ready to continue
-           024 : 0A97;  -- 	LOAD	Increment_Speed
-           025 : 9804;  -- 	OUT		SSEG1
-           026 : 0A98;  -- 	LOAD	Increment_Angle
-           027 : 9805;  -- 	OUT		SSEG2
-           028 : B800;  -- 	LOADI  0
-           029 : 112B;  -- 	STORE  DVel        ; desired forward velocity
-           02A : 90C2;  -- 	IN     THETA
-           02B : 112A;  -- 	STORE  DTheta      ; desired heading
-           02C : B80A;  -- 	LOADI  10          ; 10ms * 10 = 0.1s rate, or 10Hz.
-           02D : 980C;  -- 	OUT    CTIMER      ; turn on timer peripheral
-           02E : A802;  -- 	SEI    &B0010
-           02F : 90D1;  -- 	IN      IR_LO                       ; get the low word
-           030 : 402F;  --     JZERO	Main					;If zero, no new value, check again
-           031 : 1296;  -- 	STORE	IR_Current_Val	        ;Else, store new value and start down tree
-           032 : 811E;  -- 	Call    Reset_IR				;Reset IR to not read same value twice
-           033 : 0A96;  -- 	LOAD    IR_Current_Val
-           034 : 27D0;  -- 	SUB		IR_Power				;Check if power button (E-Stop)
-           035 : 406D;  -- 	JZERO	Die
-           036 : 0A96;  -- 	LOAD    IR_Current_Val	
-           037 : 27D7;  -- 	SUB		IR_VolUp				;Increase the increment in motion and angle
-           038 : 4094;  -- 	JZERO	Increase_Increment
-           039 : 0A96;  -- 	LOAD    IR_Current_Val	
-           03A : 27D8;  -- 	SUB		IR_VolDwn				;Decrease the increment in motion and angle
-           03B : 409B;  -- 	JZERO	Decrease_Increment
-           03C : 0A96;  -- 	LOAD    IR_Current_Val	
-           03D : 27D1;  -- 	SUB		IR_Play					;Check if it is pause button (Stop motion)
-           03E : 40A7;  -- 	JZERO	Pause_Motion
-           03F : 0A96;  -- 	LOAD    IR_Current_Val	
-           040 : 27DA;  -- 	SUB		IR_FF					;Do stuff to turn right
-           041 : C082;  -- 	CZERO	Turn_Right
-           042 : 0A96;  -- 	LOAD    IR_Current_Val	
-           043 : 27D9;  -- 	SUB		IR_RW					;Do stuff to turn left
-           044 : C07E;  -- 	CZERO	Turn_Left	
-           045 : 0A96;  -- 	LOAD    IR_Current_Val	
-           046 : 27DB;  -- 	SUB		IR_0					;Do stuff to go forward
-           047 : 4076;  -- 	JZERO	Move_Forward
-           048 : 0A96;  -- 	LOAD    IR_Current_Val	
-           049 : 27D2;  -- 	SUB		IR_Pause				;Do stuff to back up
-           04A : 407A;  -- 	JZERO	Move_Backward
-           04B : 0A96;  -- 	LOAD    IR_Current_Val			;Turn in place left 90
-           04C : 27D5;  -- 	SUB		IR_CH_UP
-           04D : C086;  -- 	CZERO   Turn_Left90
-           04E : 0A96;  -- 	LOAD    IR_Current_Val			;Turn in place right 90
-           04F : 27D6;  -- 	SUB		IR_CH_DW
-           050 : C08A;  -- 	CZERO   Turn_Right90
-           051 : 0A96;  -- 	LOAD    IR_Current_Val	
-           052 : 27D4;  -- 	SUB		IR_TV_VCR
-           053 : C112;  -- 	CZERO   Perpendicular
-           054 : 0A96;  -- 	LOAD    IR_Current_Val	
-           055 : 27D3;  -- 	SUB		IR_Enter
-           056 : C117;  -- 	CZERO   Parallel
-           057 : 0A96;  -- 	LOAD    IR_Current_Val	
-           058 : 27DC;  -- 	SUB		IR_1
-           059 : C086;  -- 	CZERO   Turn_Left90 
-           05A : 0A96;  -- 	LOAD    IR_Current_Val	
-           05B : 27DD;  -- 	SUB		IR_2
-           05C : C08A;  -- 	CZERO   Turn_Right90 
-           05D : 0A96;  -- 	LOAD    IR_Current_Val
-           05E : 27DE;  -- 	SUB		IR_3
-           05F : 40B0;  -- 	JZERO   GoThree
-           060 : 0A96;  -- 	LOAD    IR_Current_Val	
-           061 : 27DF;  -- 	SUB		IR_4
-           062 : 40B2;  -- 	JZERO   GoFour
-           063 : 0A96;  -- 	LOAD    IR_Current_Val	
-           064 : 27E0;  -- 	SUB		IR_5
-           065 : 40B4;  -- 	JZERO   GoFive
-           066 : 0A96;  -- 	LOAD    IR_Current_Val	
-           067 : 27E1;  -- 	SUB		IR_6
-           068 : 40B6;  -- 	JZERO   GoSix
-           069 : 0A96;  -- 	LOAD    IR_Current_Val	
-           06A : 27E2;  -- 	SUB		IR_7
-           06B : 40B8;  -- 	JZERO   GoSeven
-           06C : 282F;  -- 	JUMP	Main					        ;Match not found, return to begining
-           06D : A00F;  -- 	CLI    &B1111      ; disable all interrupts
-           06E : 0A9A;  -- 	LOAD   Zero        ; Stop everything.
-           06F : 9883;  -- 	OUT    LVELCMD
-           070 : 988B;  -- 	OUT    RVELCMD
-           071 : 98B2;  -- 	OUT    SONAREN
-           072 : 0875;  -- 	LOAD   DEAD        ; An indication that we are dead
-           073 : 9805;  -- 	OUT    SSEG2       ; "dEAd" on the LEDs
-           074 : 2874;  -- 	JUMP   Forever     ; Do this forever.
-           075 : DEAD;  -- 	DEAD:  DW &HDEAD   ; Example of a "local" variable
-           076 : B800;  -- 	LOADI	0
-           077 : 1A97;  -- 	ADD		Increment_Speed
-           078 : 112B;  -- 	STORE	DVel
-           079 : 282F;  -- 	JUMP	Main
-           07A : B800;  -- 	LOADI	0
-           07B : 2297;  -- 	SUB		Increment_Speed
-           07C : 112B;  -- 	STORE	DVel
-           07D : 282F;  -- 	JUMP	Main
-           07E : 90C2;  -- 	IN    	THETA
-           07F : 1A98;  -- 	ADD		Increment_Angle
-           080 : 112A;  -- 	STORE 	DTheta
-           081 : 8800;  -- 	RETURN
-           082 : 90C2;  -- 	IN    	THETA
-           083 : 2298;  -- 	SUB		Increment_Angle
-           084 : 112A;  -- 	STORE 	DTheta
-           085 : 8800;  -- 	RETURN
-           086 : 90C2;  -- 	IN    	THETA
-           087 : 685A;  -- 	ADDI	90
-           088 : 112A;  -- 	STORE 	DTheta
-           089 : 8800;  -- 	RETURN
-           08A : 90C2;  -- 	IN    	THETA
-           08B : 6FA6;  -- 	ADDI	-90
-           08C : 112A;  -- 	STORE 	DTheta
-           08D : 8800;  -- 	RETURN	
-           08E : B800;  -- 	LOADI	0	;>>>
-           08F : 112A;  -- 	STORE 	DTheta
-           090 : 8800;  -- 	RETURN
-           091 : B90E;  -- 	LOADI	270	;>>>
-           092 : 112A;  -- 	STORE 	DTheta
-           093 : 8800;  -- 	RETURN
-           094 : 0A97;  -- 	LOAD	Increment_Speed
-           095 : 40A2;  -- 	JZERO	Fix_Increment
-           096 : 30A2;  -- 	JNEG	Fix_Increment
-           097 : 6814;  -- 	ADDI	20
-           098 : 1297;  -- 	STORE	Increment_Speed
-           099 : 9804;  -- 	OUT		SSEG1
-           09A : 282F;  -- 	JUMP	Main
-           09B : 0A97;  -- 	LOAD	Increment_Speed
-           09C : 40A2;  -- 	JZERO	Fix_Increment
-           09D : 30A2;  -- 	JNEG	Fix_Increment
-           09E : 6FEC;  -- 	ADDI	-20
-           09F : 1297;  -- 	STORE	Increment_Speed
-           0A0 : 9804;  -- 	OUT		SSEG1
-           0A1 : 282F;  -- 	JUMP	Main
-           0A2 : B83C;  -- 	LOADI	60
-           0A3 : 1297;  -- 	STORE 	Increment_Speed
-           0A4 : B80F;  -- 	LOADI	15
-           0A5 : 1298;  -- 	STORE	Increment_Angle
-           0A6 : 282F;  -- 	JUMP 	Main
-           0A7 : 0A9A;  -- 	LOAD	Zero
-           0A8 : 112B;  -- 	STORE	DVel
-           0A9 : 90C2;  -- 	IN		THETA
-           0AA : 112A;  -- 	STORE	DTHETA
-           0AB : 282F;  -- 	JUMP	Main
-           0AC : 0FEA;  -- GoOne:	LOAD OffOne
-           0AD : 28BA;  -- 	JUMP Goto_Spot
-           0AE : 0FEB;  -- GoTwo:  LOAD OffTwo
-           0AF : 28BA;  -- 	JUMP Goto_Spot
-           0B0 : 0FEC;  -- GoThree: LOAD OffThree
-           0B1 : 28BA;  -- 	JUMP Goto_Spot
-           0B2 : 0FED;  -- GoFour: LOAD OffFour
-           0B3 : 28BA;  -- 	JUMP Goto_Spot
-           0B4 : 0FEE;  -- GoFive: LOAD OffFive
-           0B5 : 28BA;  -- 	JUMP Goto_Spot
-           0B6 : 0FEF;  -- GoSix:  LOAD OffSix
-           0B7 : 28BA;  -- 	JUMP Goto_Spot
-           0B8 : 0FF0;  -- GoSeven: LOAD OffSeven
-           0B9 : 28BA;  -- 	JUMP Goto_Spot
-           0BA : 17E9;  -- 	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
-           0BB : 80D0;  -- 	CALL	Goto_Init_Pos2					
-           0BC : 0FE9;  -- 	LOAD	SpotOff
-           0BD : 80F6;  -- 	CALL	Go_ForwardX
-           0BE : 2912;  -- 	JUMP    Perpendicular
-           0BF : 90C2;  -- 	IN 		THETA
-           0C0 : 9806;  -- 	OUT 	LCD
-           0C1 : 9805;  -- 	OUT     SSEG2       ; "dEAd" on the LEDs	
-           0C2 : 8144;  -- 	CALL   	GetThetaErr ; get the heading error
-           0C3 : 815E;  -- 	CALL   	Abs	
+           017 : 98C3;  -- 	OUT	   RESETPOS		;>>>added
+           018 : 9804;  -- 	OUT		SSEG1
+           019 : 9002;  -- 	IN     TIMER       ; We'll blink the LEDs above PB3
+           01A : 4A9E;  -- 	AND    Mask1
+           01B : 6005;  -- 	SHIFT  5           ; Both LEDG6 and LEDG7
+           01C : 128A;  -- 	STORE  Temp        ; (overkill, but looks nice)
+           01D : 6001;  -- 	SHIFT  1
+           01E : 528A;  -- 	OR     Temp
+           01F : 9807;  -- 	OUT    XLEDS
+           020 : 9003;  -- 	IN     XIO         ; XIO contains KEYs
+           021 : 4A9F;  -- 	AND    Mask2       ; KEY3 mask (KEY0 is reset and can't be read)
+           022 : 3816;  -- 	JPOS   WaitForUser ; not ready (KEYs are active-low, hence JPOS)
+           023 : 0A92;  -- 	LOAD   Zero
+           024 : 9807;  -- 	OUT    XLEDS       ; clear LEDs once ready to continue
+           025 : 0A8F;  -- 	LOAD	Increment_Speed
+           026 : 9804;  -- 	OUT		SSEG1
+           027 : 0A90;  -- 	LOAD	Increment_Angle
+           028 : 9805;  -- 	OUT		SSEG2
+           029 : B800;  -- 	LOADI  0
+           02A : 1123;  -- 	STORE  DVel        ; desired forward velocity
+           02B : 90C2;  -- 	IN     THETA
+           02C : 1122;  -- 	STORE  DTheta      ; desired heading
+           02D : B80A;  -- 	LOADI  10          ; 10ms * 10 = 0.1s rate, or 10Hz.
+           02E : 980C;  -- 	OUT    CTIMER      ; turn on timer peripheral
+           02F : A802;  -- 	SEI    &B0010
+           030 : 90D1;  -- 	IN      IR_LO                       ; get the low word
+           031 : 4030;  --     JZERO	Main					;If zero, no new value, check again
+           032 : 128E;  -- 	STORE	IR_Current_Val	        ;Else, store new value and start down tree
+           033 : 8116;  -- 	Call    Reset_IR				;Reset IR to not read same value twice
+           034 : 0A8E;  -- 	LOAD    IR_Current_Val
+           035 : 27D0;  -- 	SUB		IR_Power				;Check if power button (E-Stop)
+           036 : 406E;  -- 	JZERO	Die
+           037 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           038 : 27D7;  -- 	SUB		IR_VolUp				;Increase the increment in motion and angle
+           039 : 4095;  -- 	JZERO	Increase_Increment
+           03A : 0A8E;  -- 	LOAD    IR_Current_Val	
+           03B : 27D8;  -- 	SUB		IR_VolDwn				;Decrease the increment in motion and angle
+           03C : 409C;  -- 	JZERO	Decrease_Increment
+           03D : 0A8E;  -- 	LOAD    IR_Current_Val	
+           03E : 27D1;  -- 	SUB		IR_Play					;Check if it is pause button (Stop motion)
+           03F : 40A8;  -- 	JZERO	Pause_Motion
+           040 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           041 : 27DA;  -- 	SUB		IR_FF					;Do stuff to turn right
+           042 : C083;  -- 	CZERO	Turn_Right
+           043 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           044 : 27D9;  -- 	SUB		IR_RW					;Do stuff to turn left
+           045 : C07F;  -- 	CZERO	Turn_Left	
+           046 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           047 : 27DB;  -- 	SUB		IR_0					;Do stuff to go forward
+           048 : 4077;  -- 	JZERO	Move_Forward
+           049 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           04A : 27D2;  -- 	SUB		IR_Pause				;Do stuff to back up
+           04B : 407B;  -- 	JZERO	Move_Backward
+           04C : 0A8E;  -- 	LOAD    IR_Current_Val			;Turn in place left 90
+           04D : 27D3;  -- 	SUB		IR_ENTER
+           04E : C087;  -- 	CZERO   Turn_Left90
+           04F : 0A8E;  -- 	LOAD    IR_Current_Val			;Turn in place right 90
+           050 : 27D4;  -- 	SUB		IR_TV_VCR
+           051 : C08B;  -- 	CZERO   Turn_Right90
+           052 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           053 : 27DC;  -- 	SUB		IR_1
+           054 : 40AD;  -- 	JZERO   GoOne
+           055 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           056 : 27DD;  -- 	SUB		IR_2
+           057 : 40AF;  -- 	JZERO   GoTwo
+           058 : 0A8E;  -- 	LOAD    IR_Current_Val
+           059 : 27DE;  -- 	SUB		IR_3
+           05A : 40B1;  -- 	JZERO   GoThree
+           05B : 0A8E;  -- 	LOAD    IR_Current_Val	
+           05C : 27DF;  -- 	SUB		IR_4
+           05D : 40B3;  -- 	JZERO   GoFour
+           05E : 0A8E;  -- 	LOAD    IR_Current_Val	
+           05F : 27E0;  -- 	SUB		IR_5
+           060 : 40B5;  -- 	JZERO   GoFive
+           061 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           062 : 27E1;  -- 	SUB		IR_6
+           063 : 40B7;  -- 	JZERO   GoSix
+           064 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           065 : 27E2;  -- 	SUB		IR_7
+           066 : 40B9;  -- 	JZERO   GoSeven
+           067 : 0A8E;  -- 	LOAD    IR_Current_Val	
+           068 : 27E3;  -- 	SUB		IR_8
+           069 : C10F;  -- 	CZERO   Parallel	
+           06A : 0A8E;  -- 	LOAD    IR_Current_Val	
+           06B : 27E4;  -- 	SUB		IR_9
+           06C : C10A;  -- 	CZERO   Perpendicular	
+           06D : 2830;  -- 	JUMP	Main					        ;Match not found, return to begining
+           06E : A00F;  -- 	CLI    &B1111      ; disable all interrupts
+           06F : 0A92;  -- 	LOAD   Zero        ; Stop everything.
+           070 : 9883;  -- 	OUT    LVELCMD
+           071 : 988B;  -- 	OUT    RVELCMD
+           072 : 98B2;  -- 	OUT    SONAREN
+           073 : 0876;  -- 	LOAD   DEAD        ; An indication that we are dead
+           074 : 9805;  -- 	OUT    SSEG2       ; "dEAd" on the LEDs
+           075 : 2875;  -- 	JUMP   Forever     ; Do this forever.
+           076 : DEAD;  -- 	DEAD:  DW &HDEAD   ; Example of a "local" variable
+           077 : B800;  -- 	LOADI	0
+           078 : 1A8F;  -- 	ADD		Increment_Speed
+           079 : 1123;  -- 	STORE	DVel
+           07A : 2830;  -- 	JUMP	Main
+           07B : B800;  -- 	LOADI	0
+           07C : 228F;  -- 	SUB		Increment_Speed
+           07D : 1123;  -- 	STORE	DVel
+           07E : 2830;  -- 	JUMP	Main
+           07F : 90C2;  -- 	IN    	THETA
+           080 : 1A90;  -- 	ADD		Increment_Angle
+           081 : 1122;  -- 	STORE 	DTheta
+           082 : 8800;  -- 	RETURN
+           083 : 90C2;  -- 	IN    	THETA
+           084 : 2290;  -- 	SUB		Increment_Angle
+           085 : 1122;  -- 	STORE 	DTheta
+           086 : 8800;  -- 	RETURN
+           087 : 90C2;  -- 	IN    	THETA
+           088 : 685A;  -- 	ADDI	90
+           089 : 1122;  -- 	STORE 	DTheta
+           08A : 8800;  -- 	RETURN
+           08B : 90C2;  -- 	IN    	THETA
+           08C : 6FA6;  -- 	ADDI	-90
+           08D : 1122;  -- 	STORE 	DTheta
+           08E : 8800;  -- 	RETURN	
+           08F : B800;  -- 	LOADI	0
+           090 : 1122;  -- 	STORE 	DTheta
+           091 : 8800;  -- 	RETURN
+           092 : B90E;  -- 	LOADI	270
+           093 : 1122;  -- 	STORE 	DTheta
+           094 : 8800;  -- 	RETURN
+           095 : 0A8F;  -- 	LOAD	Increment_Speed
+           096 : 40A3;  -- 	JZERO	Fix_Increment
+           097 : 30A3;  -- 	JNEG	Fix_Increment
+           098 : 6814;  -- 	ADDI	20
+           099 : 128F;  -- 	STORE	Increment_Speed
+           09A : 9804;  -- 	OUT		SSEG1
+           09B : 2830;  -- 	JUMP	Main
+           09C : 0A8F;  -- 	LOAD	Increment_Speed
+           09D : 40A3;  -- 	JZERO	Fix_Increment
+           09E : 30A3;  -- 	JNEG	Fix_Increment
+           09F : 6FEC;  -- 	ADDI	-20
+           0A0 : 128F;  -- 	STORE	Increment_Speed
+           0A1 : 9804;  -- 	OUT		SSEG1
+           0A2 : 2830;  -- 	JUMP	Main
+           0A3 : B83C;  -- 	LOADI	60
+           0A4 : 128F;  -- 	STORE 	Increment_Speed
+           0A5 : B80F;  -- 	LOADI	15
+           0A6 : 1290;  -- 	STORE	Increment_Angle
+           0A7 : 2830;  -- 	JUMP 	Main
+           0A8 : 0A92;  -- 	LOAD	Zero
+           0A9 : 1123;  -- 	STORE	DVel
+           0AA : 90C2;  -- 	IN		THETA
+           0AB : 1122;  -- 	STORE	DTHETA
+           0AC : 2830;  -- 	JUMP	Main
+           0AD : 0FF7;  -- GoOne:	LOAD CoordOne
+           0AE : 28BB;  -- 	JUMP Goto_Spot
+           0AF : 0FF8;  -- GoTwo:  LOAD CoordTwo
+           0B0 : 28BB;  -- 	JUMP Goto_Spot
+           0B1 : 0FF9;  -- GoThree: LOAD CoordThree
+           0B2 : 28BB;  -- 	JUMP Goto_Spot
+           0B3 : 0FFA;  -- GoFour: LOAD CoordFour
+           0B4 : 28BB;  -- 	JUMP Goto_Spot
+           0B5 : 0FFB;  -- GoFive: LOAD CoordFive
+           0B6 : 28BB;  -- 	JUMP Goto_Spot
+           0B7 : 0FFC;  -- GoSix:  LOAD CoordSix
+           0B8 : 28BB;  -- 	JUMP Goto_Spot
+           0B9 : 0FFD;  -- GoSeven: LOAD CoordSeven
+           0BA : 28BB;  -- 	JUMP Goto_Spot
+           0BB : 17F6;  -- 	STORE   SpotCoord			;Spot offset is calculated from the init pos in the next line
+           0BC : 80D0;  -- 	CALL	Goto_Init_Pos2					
+           0BD : 0FF6;  -- 	LOAD	SpotCoord
+           0BE : 80F6;  -- 	CALL	GoCoordX
+           0BF : 290A;  -- 	JUMP    Perpendicular
+           0C0 : 90C2;  -- 	IN 		THETA
+           0C1 : 9806;  -- 	OUT 	LCD	
+           0C2 : 813C;  -- 	CALL   	GetThetaErr ; get the heading error
+           0C3 : 8156;  -- 	CALL   	Abs	
            0C4 : 6FFE;  -- 	ADDI   	-2          ; check if within 5 degrees
-           0C5 : 38BF;  -- 	JPOS  	Err_Correct	; if not, keep testing
+           0C5 : 38C0;  -- 	JPOS  	Err_Correct	; if not, keep testing
            0C6 : 8800;  -- 	RETURN
-           0C7 : 0AB8;  -- 	LOAD	FMID		; 350 is MID velocity
-           0C8 : 112B;  -- 	STORE	Dvel
-           0C9 : 8091;  -- 	CALL	FaceRight
-           0CA : 80BF;  -- 	CALL   	Err_Correct
-           0CB : 808E;  -- 	CALL	FaceForward
-           0CC : 80BF;  -- 	CALL   	Err_Correct
+           0C7 : 0AB0;  -- 	LOAD	FMID		; 350 is MID velocity
+           0C8 : 1123;  -- 	STORE	Dvel
+           0C9 : 8092;  -- 	CALL	FaceRight
+           0CA : 80C0;  -- 	CALL   	Err_Correct
+           0CB : 808F;  -- 	CALL	FaceForward
+           0CC : 80C0;  -- 	CALL   	Err_Correct
            0CD : B800;  -- 	LOADI	0
-           0CE : 112B;  -- 	STORE	Dvel		
+           0CE : 1123;  -- 	STORE	Dvel		
            0CF : 8800;  -- 	RETURN							
-           0D0 : 0FE7;  -- 	LOAD 	InitDist1
-           0D1 : 80F6;  -- 	CALL	Go_ForwardX
-           0D2 : 8091;  -- 	CALL 	FaceRight
-           0D3 : 80BF;  -- 	CALL   	Err_Correct
-           0D4 : 0FE8;  -- 	LOAD 	InitDist2
-           0D5 : 8104;  -- 	CALL	Go_ForwardY
-           0D6 : 808E;  -- 	CALL 	FaceForward
-           0D7 : 80BF;  -- 	CALL   	Err_Correct
+           0D0 : 0FF4;  -- 	LOAD 	InitCoord1
+           0D1 : 80F6;  -- 	CALL	GoCoordX
+           0D2 : 8092;  -- 	CALL 	FaceRight
+           0D3 : 80C0;  -- 	CALL   	Err_Correct
+           0D4 : 0FF5;  -- 	LOAD 	InitCoord2
+           0D5 : 8100;  -- 	CALL	GoCoordY
+           0D6 : 808F;  -- 	CALL 	FaceForward
+           0D7 : 80C0;  -- 	CALL   	Err_Correct
            0D8 : 8800;  -- 	RETURN
-           0D9 : 1293;  -- 	STORE	Travel_Distance
+           0D9 : 128B;  -- 	STORE	Travel_Distance
            0DA : 90C0;  -- 	IN		XPOS
-           0DB : 1294;  -- 	STORE	Starting_X
+           0DB : 128C;  -- 	STORE	Starting_X
            0DC : 90C1;  -- 	IN		YPOS
-           0DD : 1295;  -- 	STORE	Starting_Y
+           0DD : 128D;  -- 	STORE	Starting_Y
            0DE : 90C2;  -- 	IN		THETA
-           0DF : 112A;  -- 	STORE	DTHETA
+           0DF : 1122;  -- 	STORE	DTHETA
            0E0 : B81E;  -- 	LOADI	30
-           0E1 : 112B;  -- 	STORE	DVEL
+           0E1 : 1123;  -- 	STORE	DVEL
            0E2 : 90C0;  -- 	IN		XPOS
-           0E3 : 2294;  -- 	SUB		Starting_X
-           0E4 : 1253;  -- 	STORE	L2X
+           0E3 : 228C;  -- 	SUB		Starting_X
+           0E4 : 124B;  -- 	STORE	L2X
            0E5 : 90C1;  -- 	IN		YPOS
-           0E6 : 2295;  -- 	SUB		Starting_Y
-           0E7 : 1254;  -- 	STORE	L2Y
-           0E8 : 8229;  -- 	CALL	L2Estimate
-           0E9 : 2293;  -- 	SUB		Travel_Distance
+           0E6 : 228D;  -- 	SUB		Starting_Y
+           0E7 : 124C;  -- 	STORE	L2Y
+           0E8 : 8221;  -- 	CALL	L2Estimate
+           0E9 : 228B;  -- 	SUB		Travel_Distance
            0EA : 30E2;  -- 	JNEG	GF_Check
            0EB : 8800;  -- 	RETURN
-           0EC : 1293;  -- 	STORE	Travel_Distance
+           0EC : 128B;  -- 	STORE	Travel_Distance
            0ED : 98C3;  -- 	OUT    	RESETPOS
-           0EE : 0AB6;  -- 	LOAD	FSLOW
-           0EF : 112B;  -- 	STORE	DVEL
+           0EE : 0AAE;  -- 	LOAD	FSLOW
+           0EF : 1123;  -- 	STORE	DVEL
            0F0 : 90C0;  -- 	IN		XPOS
-           0F1 : 2293;  -- 	SUB		Travel_Distance
+           0F1 : 228B;  -- 	SUB		Travel_Distance
            0F2 : 30F0;  -- 	JNEG	GF_Check2
            0F3 : B800;  -- 	LOADI	0
-           0F4 : 112B;  -- 	STORE	DVEL
+           0F4 : 1123;  -- 	STORE	DVEL
            0F5 : 8800;  -- 	RETURN	
-           0F6 : 1293;  -- 	STORE	Travel_Distance
-           0F7 : 90C0;  -- 	IN		XPos
-           0F8 : 9806;  -- 	OUT 	LCD
-           0F9 : 1A93;  -- 	ADD		Travel_Distance
-           0FA : 1293;  -- 	STORE	Travel_Distance
-           0FB : 0AB6;  -- 	LOAD	FSLOW
-           0FC : 112B;  -- 	STORE	DVEL
-           0FD : 90C0;  -- 	IN		Xpos
-           0FE : 9806;  -- 	OUT     LCD  
-           0FF : 2293;  -- 	SUB		Travel_Distance
-           100 : 30FD;  -- 	JNEG	GX
-           101 : B800;  -- 	LOADI	0
-           102 : 112B;  -- 	STORE	DVEL
-           103 : 8800;  -- 	RETURN	
-           104 : 1293;  -- 	STORE	Travel_Distance
-           105 : 90C1;  -- 	IN		YPOS
-           106 : 9806;  -- 	OUT 	LCD
-           107 : 2293;  -- 	SUB		Travel_Distance
-           108 : 1293;  -- 	STORE	Travel_Distance
-           109 : 0AB6;  -- 	LOAD	FSLOW
-           10A : 112B;  -- 	STORE	DVEL
-           10B : 90C1;  -- 	IN		YPOS
-           10C : 9806;  -- 	OUT     LCD         
-           10D : 2293;  -- 	SUB		Travel_Distance
-           10E : 390B;  -- 	JPOS	GY
-           10F : B800;  -- 	LOADI	0
-           110 : 112B;  -- 	STORE	DVEL
-           111 : 8800;  -- 	RETURN	
-           112 : 8091;  --     CALL	FaceRight
-           113 : 80BF;  --    	CALL   	Err_Correct
-           114 : 0FE5;  --    	LOAD	PerpendicularDist
-           115 : 8104;  --    	CALL	Go_ForwardY
-           116 : 286D;  -- 	JUMP Die
-           117 : 8091;  --    	CALL	FaceRight
-           118 : 80BF;  -- 	CALL   	Err_Correct
-           119 : 0FE6;  --     LOAD 	ParallelDist
-           11A : 8104;  --     CALL	Go_ForwardY
-           11B : 808E;  --     CALL	FaceForward
-           11C : 80BF;  -- 	CALL   	Err_Correct
-           11D : 286D;  -- 	JUMP Die
-           11E : 0A9A;  -- 	LOAD	Zero
-           11F : 98D0;  -- 	OUT     IR_HI
-           120 : 98D1;  -- 	OUT     IR_LO
-           121 : 8800;  -- 	RETURN
-           122 : 9802;  -- 	OUT    TIMER
-           123 : 9002;  -- 	IN     TIMER
-           124 : 9807;  -- 	OUT    XLEDS       ; User-feedback that a pause is occurring.
-           125 : 6FEC;  -- 	ADDI   -20         ; 2 second at 10Hz.
-           126 : 3123;  -- 	JNEG   Wloop2
-           127 : 8800;  -- 	RETURN
-           128 : 812C;  -- 	CALL   ControlMovement
-           129 : B000;  -- 	RETI   ; return from ISR
-           12A : 0000;  -- DTheta:    DW 0
-           12B : 0000;  -- DVel:      DW 0
-           12C : B832;  -- 	LOADI  50          ; used later to get a +/- constant
-           12D : 1157;  -- 	STORE  MaxVal
-           12E : 8144;  -- 	CALL   GetThetaErr ; get the heading error
-           12F : 6002;  -- 	SHIFT  2
-           130 : 1143;  -- 	STORE  CMAErr      ; hold temporarily
-           131 : 6003;  -- 	SHIFT  3           ; multiply by another 4
-           132 : 814B;  -- 	CALL   CapValue    ; get a +/- max of 50
-           133 : 1943;  -- 	ADD    CMAErr
-           134 : 1143;  -- 	STORE  CMAErr
-           135 : B9FE;  -- 	LOADI  510
-           136 : 1157;  -- 	STORE  MaxVal
-           137 : 092B;  -- 	LOAD   DVel
-           138 : 814B;  -- 	CALL   CapValue    ; ensure velocity is valid
-           139 : 112B;  -- 	STORE  DVel        ; overwrite any invalid input
-           13A : 1943;  -- 	ADD    CMAErr
-           13B : 814B;  -- 	CALL   CapValue    ; ensure velocity is valid
-           13C : 988B;  -- 	OUT    RVELCMD
-           13D : 0943;  -- 	LOAD   CMAErr
-           13E : 815F;  -- 	CALL   Neg         ; left wheel gets negative differential
-           13F : 192B;  -- 	ADD    DVel
-           140 : 814B;  -- 	CALL   CapValue
-           141 : 9883;  -- 	OUT    LVELCMD
+           0F6 : 17F1;  -- 	STORE	TravelCoord
+           0F7 : 0AAE;  -- 	LOAD	FSLOW
+           0F8 : 1123;  -- 	STORE	DVEL
+           0F9 : 90C0;  -- 	IN		Xpos
+           0FA : 9804;  -- 	OUT     SSEG1
+           0FB : 27F1;  -- 	SUB		TravelCoord
+           0FC : 30F9;  -- 	JNEG	GX
+           0FD : B800;  -- 	LOADI	0
+           0FE : 1123;  -- 	STORE	DVEL
+           0FF : 8800;  -- 	RETURN	
+           100 : 17F1;  -- 	STORE	TravelCoord
+           101 : 0AAE;  -- 	LOAD	FSLOW
+           102 : 1123;  -- 	STORE	DVEL
+           103 : 90C1;  -- 	IN		YPOS
+           104 : 9805;  -- 	OUT     SSEG2       
+           105 : 27F1;  -- 	SUB		TravelCoord
+           106 : 3903;  -- 	JPOS	GY
+           107 : B800;  -- 	LOADI	0
+           108 : 1123;  -- 	STORE	DVEL
+           109 : 8800;  -- 	RETURN	
+           10A : 8092;  --     CALL	FaceRight
+           10B : 80C0;  --    	CALL   	Err_Correct
+           10C : 0FF2;  --    	LOAD	PerpendicularCoord
+           10D : 8100;  --    	CALL	GoCoordY
+           10E : 286E;  -- 	JUMP Die
+           10F : 8092;  --    	CALL	FaceRight
+           110 : 80C0;  -- 	CALL   	Err_Correct
+           111 : 0FF3;  --     LOAD 	ParallelCoord
+           112 : 8100;  --     CALL	GoCoordY
+           113 : 808F;  --     CALL	FaceForward
+           114 : 80C0;  -- 	CALL   	Err_Correct
+           115 : 286E;  -- 	JUMP Die
+           116 : 0A92;  -- 	LOAD	Zero
+           117 : 98D0;  -- 	OUT     IR_HI
+           118 : 98D1;  -- 	OUT     IR_LO
+           119 : 8800;  -- 	RETURN
+           11A : 9802;  -- 	OUT    TIMER
+           11B : 9002;  -- 	IN     TIMER
+           11C : 9807;  -- 	OUT    XLEDS       ; User-feedback that a pause is occurring.
+           11D : 6FEC;  -- 	ADDI   -20         ; 2 second at 10Hz.
+           11E : 311B;  -- 	JNEG   Wloop2
+           11F : 8800;  -- 	RETURN
+           120 : 8124;  -- 	CALL   ControlMovement
+           121 : B000;  -- 	RETI   ; return from ISR
+           122 : 0000;  -- DTheta:    DW 0
+           123 : 0000;  -- DVel:      DW 0
+           124 : B832;  -- 	LOADI  50          ; used later to get a +/- constant
+           125 : 114F;  -- 	STORE  MaxVal
+           126 : 813C;  -- 	CALL   GetThetaErr ; get the heading error
+           127 : 6002;  -- 	SHIFT  2
+           128 : 113B;  -- 	STORE  CMAErr      ; hold temporarily
+           129 : 6003;  -- 	SHIFT  3           ; multiply by another 4
+           12A : 8143;  -- 	CALL   CapValue    ; get a +/- max of 50
+           12B : 193B;  -- 	ADD    CMAErr
+           12C : 113B;  -- 	STORE  CMAErr
+           12D : B9FE;  -- 	LOADI  510
+           12E : 114F;  -- 	STORE  MaxVal
+           12F : 0923;  -- 	LOAD   DVel
+           130 : 8143;  -- 	CALL   CapValue    ; ensure velocity is valid
+           131 : 1123;  -- 	STORE  DVel        ; overwrite any invalid input
+           132 : 193B;  -- 	ADD    CMAErr
+           133 : 8143;  -- 	CALL   CapValue    ; ensure velocity is valid
+           134 : 988B;  -- 	OUT    RVELCMD
+           135 : 093B;  -- 	LOAD   CMAErr
+           136 : 8157;  -- 	CALL   Neg         ; left wheel gets negative differential
+           137 : 1923;  -- 	ADD    DVel
+           138 : 8143;  -- 	CALL   CapValue
+           139 : 9883;  -- 	OUT    LVELCMD
+           13A : 8800;  -- 	RETURN
+           13B : 0000;  -- 	CMAErr: DW 0       ; holds angle error velocity
+           13C : 90C2;  -- 	IN     THETA
+           13D : 2122;  -- 	SUB    DTheta      ; actual - desired angle
+           13E : 8157;  -- 	CALL   Neg         ; desired - actual angle
+           13F : 68B4;  -- 	ADDI   180
+           140 : 8150;  -- 	CALL   Mod360
+           141 : 6F4C;  -- 	ADDI   -180
            142 : 8800;  -- 	RETURN
-           143 : 0000;  -- 	CMAErr: DW 0       ; holds angle error velocity
-           144 : 90C2;  -- 	IN     THETA
-           145 : 212A;  -- 	SUB    DTheta      ; actual - desired angle
-           146 : 815F;  -- 	CALL   Neg         ; desired - actual angle
-           147 : 68B4;  -- 	ADDI   180
-           148 : 8158;  -- 	CALL   Mod360
-           149 : 6F4C;  -- 	ADDI   -180
-           14A : 8800;  -- 	RETURN
-           14B : 2157;  -- 	SUB     MaxVal
-           14C : 3952;  -- 	JPOS    CapVelHigh
-           14D : 1957;  -- 	ADD     MaxVal
-           14E : 1957;  -- 	ADD     MaxVal
-           14F : 3154;  -- 	JNEG    CapVelLow
-           150 : 2157;  -- 	SUB     MaxVal
-           151 : 8800;  -- 	RETURN
-           152 : 0957;  -- 	LOAD    MaxVal
-           153 : 8800;  -- 	RETURN
-           154 : 0957;  -- 	LOAD    MaxVal
-           155 : 815F;  -- 	CALL    Neg
-           156 : 8800;  -- 	RETURN
-           157 : 01FE;  -- 	MaxVal: DW 510
-           158 : 315B;  -- 	JNEG   M360N
-           159 : 6E98;  -- 	ADDI   -360
-           15A : 2958;  -- 	JUMP   Mod360
-           15B : 6968;  -- 	ADDI   360
-           15C : 315B;  -- 	JNEG   M360N
-           15D : 8800;  -- 	RETURN
-           15E : 3961;  -- 	JPOS   Abs_r
-           15F : 5A99;  -- 	XOR    NegOne       ; Flip all bits
-           160 : 6801;  -- 	ADDI   1            ; Add one (i.e. negate number)
-           161 : 8800;  -- 	RETURN
-           162 : 09C2;  -- 	LOAD   AtanY
-           163 : 815E;  -- 	CALL   Abs          ; abs(y)
-           164 : 11C4;  -- 	STORE  AtanT
-           165 : 09C1;  -- 	LOAD   AtanX        ; abs(x)
-           166 : 815E;  -- 	CALL   Abs
-           167 : 21C4;  -- 	SUB    AtanT        ; abs(x) - abs(y)
-           168 : 3173;  -- 	JNEG   A2_sw        ; if abs(y) > abs(x), switch arguments.
-           169 : 09C1;  -- 	LOAD   AtanX        ; Octants 1, 4, 5, 8
-           16A : 3170;  -- 	JNEG   A2_R3
-           16B : 8182;  -- 	CALL   A2_calc      ; Octants 1, 8
-           16C : 316E;  -- 	JNEG   A2_R1n
-           16D : 8800;  -- 	RETURN              ; Return raw value if in octant 1
-           16E : 6968;  -- 	ADDI   360          ; Add 360 if we are in octant 8
-           16F : 8800;  -- 	RETURN
-           170 : 8182;  -- 	CALL   A2_calc      ; Octants 4, 5            
-           171 : 68B4;  -- 	ADDI   180          ; theta' = theta + 180
-           172 : 8800;  -- 	RETURN
-           173 : 09C2;  -- 	LOAD   AtanY        ; Swap input arguments
-           174 : 11C4;  -- 	STORE  AtanT
-           175 : 09C1;  -- 	LOAD   AtanX
-           176 : 11C2;  -- 	STORE  AtanY
-           177 : 09C4;  -- 	LOAD   AtanT
-           178 : 11C1;  -- 	STORE  AtanX
-           179 : 397E;  -- 	JPOS   A2_R2        ; If Y positive, octants 2,3
-           17A : 8182;  -- 	CALL   A2_calc      ; else octants 6, 7
-           17B : 815F;  -- 	CALL   Neg          ; Negatge the number
-           17C : 690E;  -- 	ADDI   270          ; theta' = 270 - theta
-           17D : 8800;  -- 	RETURN
-           17E : 8182;  -- 	CALL   A2_calc      ; Octants 2, 3
-           17F : 815F;  -- 	CALL   Neg          ; negate the angle
-           180 : 685A;  -- 	ADDI   90           ; theta' = 90 - theta
-           181 : 8800;  -- 	RETURN
-           182 : 09C2;  -- 	LOAD   AtanY
-           183 : 1221;  -- 	STORE  d16sN        ; Y in numerator
-           184 : 09C1;  -- 	LOAD   AtanX
-           185 : 1222;  -- 	STORE  d16sD        ; X in denominator
-           186 : 81AE;  -- 	CALL   A2_div       ; divide
-           187 : 0A27;  -- 	LOAD   dres16sQ     ; get the quotient (remainder ignored)
-           188 : 11C3;  -- 	STORE  AtanRatio
-           189 : 11EA;  -- 	STORE  m16sA
-           18A : 11EB;  -- 	STORE  m16sB
-           18B : 81A5;  -- 	CALL   A2_mult      ; X^2
-           18C : 11EA;  -- 	STORE  m16sA
-           18D : 09C5;  -- 	LOAD   A2c
-           18E : 11EB;  -- 	STORE  m16sB
-           18F : 81A5;  -- 	CALL   A2_mult
-           190 : 6900;  -- 	ADDI   256          ; 256/256+0.28125X^2
-           191 : 1222;  -- 	STORE  d16sD
-           192 : 09C3;  -- 	LOAD   AtanRatio
-           193 : 1221;  -- 	STORE  d16sN        ; Ratio in numerator
-           194 : 81AE;  -- 	CALL   A2_div       ; divide
-           195 : 0A27;  -- 	LOAD   dres16sQ     ; get the quotient (remainder ignored)
-           196 : 11EA;  -- 	STORE  m16sA        ; <= result in radians
-           197 : 09C6;  -- 	LOAD   A2cd         ; degree conversion factor
-           198 : 11EB;  -- 	STORE  m16sB
-           199 : 81A5;  -- 	CALL   A2_mult      ; convert to degrees
-           19A : 11C4;  -- 	STORE  AtanT
-           19B : 6017;  -- 	SHIFT  -7           ; check 7th bit
-           19C : 4A9B;  -- 	AND    One
-           19D : 41A2;  -- 	JZERO  A2_rdwn      ; round down
-           19E : 09C4;  -- 	LOAD   AtanT
-           19F : 6018;  -- 	SHIFT  -8
-           1A0 : 6801;  -- 	ADDI   1            ; round up
-           1A1 : 8800;  -- 	RETURN
-           1A2 : 09C4;  -- 	LOAD   AtanT
-           1A3 : 6018;  -- 	SHIFT  -8           ; round down
-           1A4 : 8800;  -- 	RETURN
-           1A5 : 81C7;  -- 	CALL   Mult16s
-           1A6 : 09EF;  -- 	LOAD   mres16sH
-           1A7 : 6008;  -- 	SHIFT  8            ; move high word of result up 8 bits
-           1A8 : 11EF;  -- 	STORE  mres16sH
-           1A9 : 09EE;  -- 	LOAD   mres16sL
-           1AA : 6018;  -- 	SHIFT  -8           ; move low word of result down 8 bits
-           1AB : 4AAD;  -- 	AND    LowByte
-           1AC : 51EF;  -- 	OR     mres16sH     ; combine high and low words of result
-           1AD : 8800;  -- 	RETURN
-           1AE : B809;  -- 	LOADI  9            ; loop 8 times (256 = 2^8)
-           1AF : 11C4;  -- 	STORE  AtanT
-           1B0 : 09C4;  -- 	LOAD   AtanT
-           1B1 : 6FFF;  -- 	ADDI   -1
-           1B2 : 39B5;  -- 	JPOS   A2_DN        ; not done; continue shifting
-           1B3 : 81F0;  -- 	CALL   Div16s       ; do the standard division
-           1B4 : 8800;  -- 	RETURN
-           1B5 : 11C4;  -- 	STORE  AtanT
-           1B6 : 0A21;  -- 	LOAD   d16sN        ; start by trying to scale the numerator
-           1B7 : 6001;  -- 	SHIFT  1
-           1B8 : 5A21;  -- 	XOR    d16sN        ; if the sign changed,
-           1B9 : 31BD;  -- 	JNEG   A2_DD        ; switch to scaling the denominator
-           1BA : 5A21;  -- 	XOR    d16sN        ; get back shifted version
-           1BB : 1221;  -- 	STORE  d16sN
-           1BC : 29B0;  -- 	JUMP   A2_DL
-           1BD : 0A22;  -- 	LOAD   d16sD
-           1BE : 6011;  -- 	SHIFT  -1           ; have to scale denominator
-           1BF : 1222;  -- 	STORE  d16sD
-           1C0 : 29B0;  -- 	JUMP   A2_DL
-           1C1 : 0000;  -- AtanX:      DW 0
-           1C2 : 0000;  -- AtanY:      DW 0
-           1C3 : 0000;  -- AtanRatio:  DW 0        ; =y/x
-           1C4 : 0000;  -- AtanT:      DW 0        ; temporary value
-           1C5 : 0048;  -- A2c:        DW 72       ; 72/256=0.28125, with 8 fractional bits
-           1C6 : 394C;  -- A2cd:       DW 14668    ; = 180/pi with 8 fractional bits
-           1C7 : B800;  -- 	LOADI  0
-           1C8 : 11EC;  -- 	STORE  m16sc        ; clear carry
-           1C9 : 11EF;  -- 	STORE  mres16sH     ; clear result
-           1CA : B810;  -- 	LOADI  16           ; load 16 to counter
-           1CB : 11ED;  -- 	STORE  mcnt16s      
-           1CC : 09EC;  -- 	LOAD   m16sc        ; check the carry (from previous iteration)
-           1CD : 41D1;  -- 	JZERO  Mult16s_noc  ; if no carry, move on
-           1CE : 09EF;  -- 	LOAD   mres16sH     ; if a carry, 
-           1CF : 19EA;  -- 	ADD    m16sA        ;  add multiplicand to result H
-           1D0 : 11EF;  -- 	STORE  mres16sH
-           1D1 : 09EB;  -- 	LOAD   m16sB
-           1D2 : 4A9B;  -- 	AND    One          ; check bit 0 of multiplier
-           1D3 : 11EC;  -- 	STORE  m16sc        ; save as next carry
-           1D4 : 41D8;  -- 	JZERO  Mult16s_sh   ; if no carry, move on to shift
-           1D5 : 09EF;  -- 	LOAD   mres16sH     ; if bit 0 set,
-           1D6 : 21EA;  -- 	SUB    m16sA        ;  subtract multiplicand from result H
-           1D7 : 11EF;  -- 	STORE  mres16sH
-           1D8 : 09EB;  -- 	LOAD   m16sB
-           1D9 : 6011;  -- 	SHIFT  -1           ; shift result L >>1
-           1DA : 49E9;  -- 	AND    c7FFF        ; clear msb
-           1DB : 11EB;  -- 	STORE  m16sB
-           1DC : 09EF;  -- 	LOAD   mres16sH     ; load result H
-           1DD : 600F;  -- 	SHIFT  15           ; move lsb to msb
-           1DE : 51EB;  -- 	OR     m16sB
-           1DF : 11EB;  -- 	STORE  m16sB        ; result L now includes carry out from H
-           1E0 : 09EF;  -- 	LOAD   mres16sH
-           1E1 : 6011;  -- 	SHIFT  -1
-           1E2 : 11EF;  -- 	STORE  mres16sH     ; shift result H >>1
-           1E3 : 09ED;  -- 	LOAD   mcnt16s
-           1E4 : 6FFF;  -- 	ADDI   -1           ; check counter
-           1E5 : 39CB;  -- 	JPOS   Mult16s_loop ; need to iterate 16 times
-           1E6 : 09EB;  -- 	LOAD   m16sB
-           1E7 : 11EE;  -- 	STORE  mres16sL     ; multiplier and result L shared a word
-           1E8 : 8800;  -- 	RETURN              ; Done
-           1E9 : 7FFF;  -- c7FFF: DW &H7FFF
-           1EA : 0000;  -- m16sA: DW 0 ; multiplicand
-           1EB : 0000;  -- m16sB: DW 0 ; multipler
-           1EC : 0000;  -- m16sc: DW 0 ; carry
-           1ED : 0000;  -- mcnt16s: DW 0 ; counter
-           1EE : 0000;  -- mres16sL: DW 0 ; result low
-           1EF : 0000;  -- mres16sH: DW 0 ; result high
-           1F0 : B800;  -- 	LOADI  0
-           1F1 : 1228;  -- 	STORE  dres16sR     ; clear remainder result
-           1F2 : 1225;  -- 	STORE  d16sC1       ; clear carry
-           1F3 : 0A21;  -- 	LOAD   d16sN
-           1F4 : 5A22;  -- 	XOR    d16sD
-           1F5 : 1223;  -- 	STORE  d16sS        ; sign determination = N XOR D
-           1F6 : B811;  -- 	LOADI  17
-           1F7 : 1224;  -- 	STORE  d16sT        ; preload counter with 17 (16+1)
-           1F8 : 0A22;  -- 	LOAD   d16sD
-           1F9 : 815E;  -- 	CALL   Abs          ; take absolute value of denominator
-           1FA : 1222;  -- 	STORE  d16sD
-           1FB : 0A21;  -- 	LOAD   d16sN
-           1FC : 815E;  -- 	CALL   Abs          ; take absolute value of numerator
-           1FD : 1221;  -- 	STORE  d16sN
-           1FE : 0A21;  -- 	LOAD   d16sN
-           1FF : 601F;  -- 	SHIFT  -15          ; get msb
-           200 : 4A9B;  -- 	AND    One          ; only msb (because shift is arithmetic)
-           201 : 1226;  -- 	STORE  d16sC2       ; store as carry
-           202 : 0A21;  -- 	LOAD   d16sN
-           203 : 6001;  -- 	SHIFT  1            ; shift <<1
-           204 : 5225;  -- 	OR     d16sC1       ; with carry
-           205 : 1221;  -- 	STORE  d16sN
-           206 : 0A24;  -- 	LOAD   d16sT
-           207 : 6FFF;  -- 	ADDI   -1           ; decrement counter
-           208 : 4218;  -- 	JZERO  Div16s_sign  ; if finished looping, finalize result
-           209 : 1224;  -- 	STORE  d16sT
-           20A : 0A28;  -- 	LOAD   dres16sR
-           20B : 6001;  -- 	SHIFT  1            ; shift remainder
-           20C : 5226;  -- 	OR     d16sC2       ; with carry from other shift
-           20D : 2222;  -- 	SUB    d16sD        ; subtract denominator from remainder
-           20E : 3213;  -- 	JNEG   Div16s_add   ; if negative, need to add it back
-           20F : 1228;  -- 	STORE  dres16sR
-           210 : B801;  -- 	LOADI  1
-           211 : 1225;  -- 	STORE  d16sC1       ; set carry
-           212 : 29FE;  -- 	JUMP   Div16s_loop
-           213 : 1A22;  -- 	ADD    d16sD        ; add denominator back in
-           214 : 1228;  -- 	STORE  dres16sR
-           215 : B800;  -- 	LOADI  0
-           216 : 1225;  -- 	STORE  d16sC1       ; clear carry
-           217 : 29FE;  -- 	JUMP   Div16s_loop
-           218 : 0A21;  -- 	LOAD   d16sN
-           219 : 1227;  -- 	STORE  dres16sQ     ; numerator was used to hold quotient result
-           21A : 0A23;  -- 	LOAD   d16sS        ; check the sign indicator
-           21B : 321D;  -- 	JNEG   Div16s_neg
-           21C : 8800;  -- 	RETURN
-           21D : 0A27;  -- 	LOAD   dres16sQ     ; need to negate the result
-           21E : 815F;  -- 	CALL   Neg
-           21F : 1227;  -- 	STORE  dres16sQ
-           220 : 8800;  -- 	RETURN	
-           221 : 0000;  -- d16sN: DW 0 ; numerator
-           222 : 0000;  -- d16sD: DW 0 ; denominator
-           223 : 0000;  -- d16sS: DW 0 ; sign value
-           224 : 0000;  -- d16sT: DW 0 ; temp counter
-           225 : 0000;  -- d16sC1: DW 0 ; carry value
-           226 : 0000;  -- d16sC2: DW 0 ; carry value
-           227 : 0000;  -- dres16sQ: DW 0 ; quotient result
-           228 : 0000;  -- dres16sR: DW 0 ; remainder result
-           229 : 0A53;  -- 	LOAD   L2X
-           22A : 815E;  -- 	CALL   Abs
-           22B : 1255;  -- 	STORE  L2T1
-           22C : 0A54;  -- 	LOAD   L2Y
-           22D : 815E;  -- 	CALL   Abs
-           22E : 2255;  -- 	SUB    L2T1
-           22F : 324B;  -- 	JNEG   GDSwap    ; swap if needed to get largest value in X
-           230 : 1A55;  -- 	ADD    L2T1
-           231 : 11EA;  -- 	STORE  m16sa
-           232 : B8F6;  -- 	LOADI  246       ; max * 246
-           233 : 11EB;  -- 	STORE  m16sB
-           234 : 81C7;  -- 	CALL   Mult16s
-           235 : 09EF;  -- 	LOAD   mres16sH
-           236 : 6008;  -- 	SHIFT  8
-           237 : 1256;  -- 	STORE  L2T2
-           238 : 09EE;  -- 	LOAD   mres16sL
-           239 : 6018;  -- 	SHIFT  -8        ; / 256
-           23A : 4AAD;  -- 	AND    LowByte
-           23B : 5256;  -- 	OR     L2T2
-           23C : 1257;  -- 	STORE  L2T3
-           23D : 0A55;  -- 	LOAD   L2T1
-           23E : 11EA;  -- 	STORE  m16sa
-           23F : B868;  -- 	LOADI  104       ; min * 104
-           240 : 11EB;  -- 	STORE  m16sB
-           241 : 81C7;  -- 	CALL   Mult16s
-           242 : 09EF;  -- 	LOAD   mres16sH
-           243 : 6008;  -- 	SHIFT  8
-           244 : 1256;  -- 	STORE  L2T2
-           245 : 09EE;  -- 	LOAD   mres16sL
-           246 : 6018;  -- 	SHIFT  -8        ; / 256
-           247 : 4AAD;  -- 	AND    LowByte
-           248 : 5256;  -- 	OR     L2T2
-           249 : 1A57;  -- 	ADD    L2T3     ; sum
-           24A : 8800;  -- 	RETURN
-           24B : 1A55;  -- 	ADD    L2T1
-           24C : 1256;  -- 	STORE  L2T2
-           24D : 0A55;  -- 	LOAD   L2T1
-           24E : 1257;  -- 	STORE  L2T3
-           24F : 0A56;  -- 	LOAD   L2T2
-           250 : 1255;  -- 	STORE  L2T1
-           251 : 0A57;  -- 	LOAD   L2T3
-           252 : 2A31;  -- 	JUMP   CalcDist
-           253 : 0000;  -- L2X:  DW 0
-           254 : 0000;  -- L2Y:  DW 0
-           255 : 0000;  -- L2T1: DW 0
-           256 : 0000;  -- L2T2: DW 0
-           257 : 0000;  -- L2T3: DW 0
-           258 : 9802;  -- 	OUT    TIMER
-           259 : 9002;  -- 	IN     TIMER
-           25A : 9807;  -- 	OUT    XLEDS       ; User-feedback that a pause is occurring.
-           25B : 6FF6;  -- 	ADDI   -10         ; 1 second at 10Hz.
-           25C : 3259;  -- 	JNEG   Wloop
-           25D : 8800;  -- 	RETURN
-           25E : 8276;  -- 	CALL   GetBattLvl
-           25F : 425E;  -- 	JZERO  BattCheck   ; A/D hasn't had time to initialize
-           260 : 22BC;  -- 	SUB    MinBatt
-           261 : 3264;  -- 	JNEG   DeadBatt
-           262 : 1ABC;  -- 	ADD    MinBatt     ; get original value back
-           263 : 8800;  -- 	RETURN
-           264 : B820;  -- 	LOADI  &H20
-           265 : 980A;  -- 	OUT    BEEP        ; start beep sound
-           266 : 8276;  -- 	CALL   GetBattLvl  ; get the battery level
-           267 : 9804;  -- 	OUT    SSEG1       ; display it everywhere
-           268 : 9805;  -- 	OUT    SSEG2
-           269 : 9806;  -- 	OUT    LCD
-           26A : 0A9A;  -- 	LOAD   Zero
-           26B : 6FFF;  -- 	ADDI   -1          ; 0xFFFF
-           26C : 9801;  -- 	OUT    LEDS        ; all LEDs on
-           26D : 9807;  -- 	OUT    XLEDS
-           26E : 8258;  -- 	CALL   Wait1       ; 1 second
-           26F : B940;  -- 	LOADI  &H140       ; short, high-pitched beep
-           270 : 980A;  -- 	OUT    BEEP        ; stop beeping
-           271 : 0A9A;  -- 	LOAD   Zero
-           272 : 9801;  -- 	OUT    LEDS        ; LEDs off
-           273 : 9807;  -- 	OUT    XLEDS
-           274 : 8258;  -- 	CALL   Wait1       ; 1 second
-           275 : 2A64;  -- 	JUMP   DeadBatt    ; repeat forever
-           276 : 0ABE;  -- 	LOAD   I2CRCmd     ; 0x0190 (write 0B, read 1B, addr 0x90)
-           277 : 9890;  -- 	OUT    I2C_CMD     ; to I2C_CMD
-           278 : 9892;  -- 	OUT    I2C_RDY     ; start the communication
-           279 : 8284;  -- 	CALL   BlockI2C    ; wait for it to finish
-           27A : 9091;  -- 	IN     I2C_DATA    ; get the returned data
+           143 : 214F;  -- 	SUB     MaxVal
+           144 : 394A;  -- 	JPOS    CapVelHigh
+           145 : 194F;  -- 	ADD     MaxVal
+           146 : 194F;  -- 	ADD     MaxVal
+           147 : 314C;  -- 	JNEG    CapVelLow
+           148 : 214F;  -- 	SUB     MaxVal
+           149 : 8800;  -- 	RETURN
+           14A : 094F;  -- 	LOAD    MaxVal
+           14B : 8800;  -- 	RETURN
+           14C : 094F;  -- 	LOAD    MaxVal
+           14D : 8157;  -- 	CALL    Neg
+           14E : 8800;  -- 	RETURN
+           14F : 01FE;  -- 	MaxVal: DW 510
+           150 : 3153;  -- 	JNEG   M360N
+           151 : 6E98;  -- 	ADDI   -360
+           152 : 2950;  -- 	JUMP   Mod360
+           153 : 6968;  -- 	ADDI   360
+           154 : 3153;  -- 	JNEG   M360N
+           155 : 8800;  -- 	RETURN
+           156 : 3959;  -- 	JPOS   Abs_r
+           157 : 5A91;  -- 	XOR    NegOne       ; Flip all bits
+           158 : 6801;  -- 	ADDI   1            ; Add one (i.e. negate number)
+           159 : 8800;  -- 	RETURN
+           15A : 09BA;  -- 	LOAD   AtanY
+           15B : 8156;  -- 	CALL   Abs          ; abs(y)
+           15C : 11BC;  -- 	STORE  AtanT
+           15D : 09B9;  -- 	LOAD   AtanX        ; abs(x)
+           15E : 8156;  -- 	CALL   Abs
+           15F : 21BC;  -- 	SUB    AtanT        ; abs(x) - abs(y)
+           160 : 316B;  -- 	JNEG   A2_sw        ; if abs(y) > abs(x), switch arguments.
+           161 : 09B9;  -- 	LOAD   AtanX        ; Octants 1, 4, 5, 8
+           162 : 3168;  -- 	JNEG   A2_R3
+           163 : 817A;  -- 	CALL   A2_calc      ; Octants 1, 8
+           164 : 3166;  -- 	JNEG   A2_R1n
+           165 : 8800;  -- 	RETURN              ; Return raw value if in octant 1
+           166 : 6968;  -- 	ADDI   360          ; Add 360 if we are in octant 8
+           167 : 8800;  -- 	RETURN
+           168 : 817A;  -- 	CALL   A2_calc      ; Octants 4, 5            
+           169 : 68B4;  -- 	ADDI   180          ; theta' = theta + 180
+           16A : 8800;  -- 	RETURN
+           16B : 09BA;  -- 	LOAD   AtanY        ; Swap input arguments
+           16C : 11BC;  -- 	STORE  AtanT
+           16D : 09B9;  -- 	LOAD   AtanX
+           16E : 11BA;  -- 	STORE  AtanY
+           16F : 09BC;  -- 	LOAD   AtanT
+           170 : 11B9;  -- 	STORE  AtanX
+           171 : 3976;  -- 	JPOS   A2_R2        ; If Y positive, octants 2,3
+           172 : 817A;  -- 	CALL   A2_calc      ; else octants 6, 7
+           173 : 8157;  -- 	CALL   Neg          ; Negatge the number
+           174 : 690E;  -- 	ADDI   270          ; theta' = 270 - theta
+           175 : 8800;  -- 	RETURN
+           176 : 817A;  -- 	CALL   A2_calc      ; Octants 2, 3
+           177 : 8157;  -- 	CALL   Neg          ; negate the angle
+           178 : 685A;  -- 	ADDI   90           ; theta' = 90 - theta
+           179 : 8800;  -- 	RETURN
+           17A : 09BA;  -- 	LOAD   AtanY
+           17B : 1219;  -- 	STORE  d16sN        ; Y in numerator
+           17C : 09B9;  -- 	LOAD   AtanX
+           17D : 121A;  -- 	STORE  d16sD        ; X in denominator
+           17E : 81A6;  -- 	CALL   A2_div       ; divide
+           17F : 0A1F;  -- 	LOAD   dres16sQ     ; get the quotient (remainder ignored)
+           180 : 11BB;  -- 	STORE  AtanRatio
+           181 : 11E2;  -- 	STORE  m16sA
+           182 : 11E3;  -- 	STORE  m16sB
+           183 : 819D;  -- 	CALL   A2_mult      ; X^2
+           184 : 11E2;  -- 	STORE  m16sA
+           185 : 09BD;  -- 	LOAD   A2c
+           186 : 11E3;  -- 	STORE  m16sB
+           187 : 819D;  -- 	CALL   A2_mult
+           188 : 6900;  -- 	ADDI   256          ; 256/256+0.28125X^2
+           189 : 121A;  -- 	STORE  d16sD
+           18A : 09BB;  -- 	LOAD   AtanRatio
+           18B : 1219;  -- 	STORE  d16sN        ; Ratio in numerator
+           18C : 81A6;  -- 	CALL   A2_div       ; divide
+           18D : 0A1F;  -- 	LOAD   dres16sQ     ; get the quotient (remainder ignored)
+           18E : 11E2;  -- 	STORE  m16sA        ; <= result in radians
+           18F : 09BE;  -- 	LOAD   A2cd         ; degree conversion factor
+           190 : 11E3;  -- 	STORE  m16sB
+           191 : 819D;  -- 	CALL   A2_mult      ; convert to degrees
+           192 : 11BC;  -- 	STORE  AtanT
+           193 : 6017;  -- 	SHIFT  -7           ; check 7th bit
+           194 : 4A93;  -- 	AND    One
+           195 : 419A;  -- 	JZERO  A2_rdwn      ; round down
+           196 : 09BC;  -- 	LOAD   AtanT
+           197 : 6018;  -- 	SHIFT  -8
+           198 : 6801;  -- 	ADDI   1            ; round up
+           199 : 8800;  -- 	RETURN
+           19A : 09BC;  -- 	LOAD   AtanT
+           19B : 6018;  -- 	SHIFT  -8           ; round down
+           19C : 8800;  -- 	RETURN
+           19D : 81BF;  -- 	CALL   Mult16s
+           19E : 09E7;  -- 	LOAD   mres16sH
+           19F : 6008;  -- 	SHIFT  8            ; move high word of result up 8 bits
+           1A0 : 11E7;  -- 	STORE  mres16sH
+           1A1 : 09E6;  -- 	LOAD   mres16sL
+           1A2 : 6018;  -- 	SHIFT  -8           ; move low word of result down 8 bits
+           1A3 : 4AA5;  -- 	AND    LowByte
+           1A4 : 51E7;  -- 	OR     mres16sH     ; combine high and low words of result
+           1A5 : 8800;  -- 	RETURN
+           1A6 : B809;  -- 	LOADI  9            ; loop 8 times (256 = 2^8)
+           1A7 : 11BC;  -- 	STORE  AtanT
+           1A8 : 09BC;  -- 	LOAD   AtanT
+           1A9 : 6FFF;  -- 	ADDI   -1
+           1AA : 39AD;  -- 	JPOS   A2_DN        ; not done; continue shifting
+           1AB : 81E8;  -- 	CALL   Div16s       ; do the standard division
+           1AC : 8800;  -- 	RETURN
+           1AD : 11BC;  -- 	STORE  AtanT
+           1AE : 0A19;  -- 	LOAD   d16sN        ; start by trying to scale the numerator
+           1AF : 6001;  -- 	SHIFT  1
+           1B0 : 5A19;  -- 	XOR    d16sN        ; if the sign changed,
+           1B1 : 31B5;  -- 	JNEG   A2_DD        ; switch to scaling the denominator
+           1B2 : 5A19;  -- 	XOR    d16sN        ; get back shifted version
+           1B3 : 1219;  -- 	STORE  d16sN
+           1B4 : 29A8;  -- 	JUMP   A2_DL
+           1B5 : 0A1A;  -- 	LOAD   d16sD
+           1B6 : 6011;  -- 	SHIFT  -1           ; have to scale denominator
+           1B7 : 121A;  -- 	STORE  d16sD
+           1B8 : 29A8;  -- 	JUMP   A2_DL
+           1B9 : 0000;  -- AtanX:      DW 0
+           1BA : 0000;  -- AtanY:      DW 0
+           1BB : 0000;  -- AtanRatio:  DW 0        ; =y/x
+           1BC : 0000;  -- AtanT:      DW 0        ; temporary value
+           1BD : 0048;  -- A2c:        DW 72       ; 72/256=0.28125, with 8 fractional bits
+           1BE : 394C;  -- A2cd:       DW 14668    ; = 180/pi with 8 fractional bits
+           1BF : B800;  -- 	LOADI  0
+           1C0 : 11E4;  -- 	STORE  m16sc        ; clear carry
+           1C1 : 11E7;  -- 	STORE  mres16sH     ; clear result
+           1C2 : B810;  -- 	LOADI  16           ; load 16 to counter
+           1C3 : 11E5;  -- 	STORE  mcnt16s      
+           1C4 : 09E4;  -- 	LOAD   m16sc        ; check the carry (from previous iteration)
+           1C5 : 41C9;  -- 	JZERO  Mult16s_noc  ; if no carry, move on
+           1C6 : 09E7;  -- 	LOAD   mres16sH     ; if a carry, 
+           1C7 : 19E2;  -- 	ADD    m16sA        ;  add multiplicand to result H
+           1C8 : 11E7;  -- 	STORE  mres16sH
+           1C9 : 09E3;  -- 	LOAD   m16sB
+           1CA : 4A93;  -- 	AND    One          ; check bit 0 of multiplier
+           1CB : 11E4;  -- 	STORE  m16sc        ; save as next carry
+           1CC : 41D0;  -- 	JZERO  Mult16s_sh   ; if no carry, move on to shift
+           1CD : 09E7;  -- 	LOAD   mres16sH     ; if bit 0 set,
+           1CE : 21E2;  -- 	SUB    m16sA        ;  subtract multiplicand from result H
+           1CF : 11E7;  -- 	STORE  mres16sH
+           1D0 : 09E3;  -- 	LOAD   m16sB
+           1D1 : 6011;  -- 	SHIFT  -1           ; shift result L >>1
+           1D2 : 49E1;  -- 	AND    c7FFF        ; clear msb
+           1D3 : 11E3;  -- 	STORE  m16sB
+           1D4 : 09E7;  -- 	LOAD   mres16sH     ; load result H
+           1D5 : 600F;  -- 	SHIFT  15           ; move lsb to msb
+           1D6 : 51E3;  -- 	OR     m16sB
+           1D7 : 11E3;  -- 	STORE  m16sB        ; result L now includes carry out from H
+           1D8 : 09E7;  -- 	LOAD   mres16sH
+           1D9 : 6011;  -- 	SHIFT  -1
+           1DA : 11E7;  -- 	STORE  mres16sH     ; shift result H >>1
+           1DB : 09E5;  -- 	LOAD   mcnt16s
+           1DC : 6FFF;  -- 	ADDI   -1           ; check counter
+           1DD : 39C3;  -- 	JPOS   Mult16s_loop ; need to iterate 16 times
+           1DE : 09E3;  -- 	LOAD   m16sB
+           1DF : 11E6;  -- 	STORE  mres16sL     ; multiplier and result L shared a word
+           1E0 : 8800;  -- 	RETURN              ; Done
+           1E1 : 7FFF;  -- c7FFF: DW &H7FFF
+           1E2 : 0000;  -- m16sA: DW 0 ; multiplicand
+           1E3 : 0000;  -- m16sB: DW 0 ; multipler
+           1E4 : 0000;  -- m16sc: DW 0 ; carry
+           1E5 : 0000;  -- mcnt16s: DW 0 ; counter
+           1E6 : 0000;  -- mres16sL: DW 0 ; result low
+           1E7 : 0000;  -- mres16sH: DW 0 ; result high
+           1E8 : B800;  -- 	LOADI  0
+           1E9 : 1220;  -- 	STORE  dres16sR     ; clear remainder result
+           1EA : 121D;  -- 	STORE  d16sC1       ; clear carry
+           1EB : 0A19;  -- 	LOAD   d16sN
+           1EC : 5A1A;  -- 	XOR    d16sD
+           1ED : 121B;  -- 	STORE  d16sS        ; sign determination = N XOR D
+           1EE : B811;  -- 	LOADI  17
+           1EF : 121C;  -- 	STORE  d16sT        ; preload counter with 17 (16+1)
+           1F0 : 0A1A;  -- 	LOAD   d16sD
+           1F1 : 8156;  -- 	CALL   Abs          ; take absolute value of denominator
+           1F2 : 121A;  -- 	STORE  d16sD
+           1F3 : 0A19;  -- 	LOAD   d16sN
+           1F4 : 8156;  -- 	CALL   Abs          ; take absolute value of numerator
+           1F5 : 1219;  -- 	STORE  d16sN
+           1F6 : 0A19;  -- 	LOAD   d16sN
+           1F7 : 601F;  -- 	SHIFT  -15          ; get msb
+           1F8 : 4A93;  -- 	AND    One          ; only msb (because shift is arithmetic)
+           1F9 : 121E;  -- 	STORE  d16sC2       ; store as carry
+           1FA : 0A19;  -- 	LOAD   d16sN
+           1FB : 6001;  -- 	SHIFT  1            ; shift <<1
+           1FC : 521D;  -- 	OR     d16sC1       ; with carry
+           1FD : 1219;  -- 	STORE  d16sN
+           1FE : 0A1C;  -- 	LOAD   d16sT
+           1FF : 6FFF;  -- 	ADDI   -1           ; decrement counter
+           200 : 4210;  -- 	JZERO  Div16s_sign  ; if finished looping, finalize result
+           201 : 121C;  -- 	STORE  d16sT
+           202 : 0A20;  -- 	LOAD   dres16sR
+           203 : 6001;  -- 	SHIFT  1            ; shift remainder
+           204 : 521E;  -- 	OR     d16sC2       ; with carry from other shift
+           205 : 221A;  -- 	SUB    d16sD        ; subtract denominator from remainder
+           206 : 320B;  -- 	JNEG   Div16s_add   ; if negative, need to add it back
+           207 : 1220;  -- 	STORE  dres16sR
+           208 : B801;  -- 	LOADI  1
+           209 : 121D;  -- 	STORE  d16sC1       ; set carry
+           20A : 29F6;  -- 	JUMP   Div16s_loop
+           20B : 1A1A;  -- 	ADD    d16sD        ; add denominator back in
+           20C : 1220;  -- 	STORE  dres16sR
+           20D : B800;  -- 	LOADI  0
+           20E : 121D;  -- 	STORE  d16sC1       ; clear carry
+           20F : 29F6;  -- 	JUMP   Div16s_loop
+           210 : 0A19;  -- 	LOAD   d16sN
+           211 : 121F;  -- 	STORE  dres16sQ     ; numerator was used to hold quotient result
+           212 : 0A1B;  -- 	LOAD   d16sS        ; check the sign indicator
+           213 : 3215;  -- 	JNEG   Div16s_neg
+           214 : 8800;  -- 	RETURN
+           215 : 0A1F;  -- 	LOAD   dres16sQ     ; need to negate the result
+           216 : 8157;  -- 	CALL   Neg
+           217 : 121F;  -- 	STORE  dres16sQ
+           218 : 8800;  -- 	RETURN	
+           219 : 0000;  -- d16sN: DW 0 ; numerator
+           21A : 0000;  -- d16sD: DW 0 ; denominator
+           21B : 0000;  -- d16sS: DW 0 ; sign value
+           21C : 0000;  -- d16sT: DW 0 ; temp counter
+           21D : 0000;  -- d16sC1: DW 0 ; carry value
+           21E : 0000;  -- d16sC2: DW 0 ; carry value
+           21F : 0000;  -- dres16sQ: DW 0 ; quotient result
+           220 : 0000;  -- dres16sR: DW 0 ; remainder result
+           221 : 0A4B;  -- 	LOAD   L2X
+           222 : 8156;  -- 	CALL   Abs
+           223 : 124D;  -- 	STORE  L2T1
+           224 : 0A4C;  -- 	LOAD   L2Y
+           225 : 8156;  -- 	CALL   Abs
+           226 : 224D;  -- 	SUB    L2T1
+           227 : 3243;  -- 	JNEG   GDSwap    ; swap if needed to get largest value in X
+           228 : 1A4D;  -- 	ADD    L2T1
+           229 : 11E2;  -- 	STORE  m16sa
+           22A : B8F6;  -- 	LOADI  246       ; max * 246
+           22B : 11E3;  -- 	STORE  m16sB
+           22C : 81BF;  -- 	CALL   Mult16s
+           22D : 09E7;  -- 	LOAD   mres16sH
+           22E : 6008;  -- 	SHIFT  8
+           22F : 124E;  -- 	STORE  L2T2
+           230 : 09E6;  -- 	LOAD   mres16sL
+           231 : 6018;  -- 	SHIFT  -8        ; / 256
+           232 : 4AA5;  -- 	AND    LowByte
+           233 : 524E;  -- 	OR     L2T2
+           234 : 124F;  -- 	STORE  L2T3
+           235 : 0A4D;  -- 	LOAD   L2T1
+           236 : 11E2;  -- 	STORE  m16sa
+           237 : B868;  -- 	LOADI  104       ; min * 104
+           238 : 11E3;  -- 	STORE  m16sB
+           239 : 81BF;  -- 	CALL   Mult16s
+           23A : 09E7;  -- 	LOAD   mres16sH
+           23B : 6008;  -- 	SHIFT  8
+           23C : 124E;  -- 	STORE  L2T2
+           23D : 09E6;  -- 	LOAD   mres16sL
+           23E : 6018;  -- 	SHIFT  -8        ; / 256
+           23F : 4AA5;  -- 	AND    LowByte
+           240 : 524E;  -- 	OR     L2T2
+           241 : 1A4F;  -- 	ADD    L2T3     ; sum
+           242 : 8800;  -- 	RETURN
+           243 : 1A4D;  -- 	ADD    L2T1
+           244 : 124E;  -- 	STORE  L2T2
+           245 : 0A4D;  -- 	LOAD   L2T1
+           246 : 124F;  -- 	STORE  L2T3
+           247 : 0A4E;  -- 	LOAD   L2T2
+           248 : 124D;  -- 	STORE  L2T1
+           249 : 0A4F;  -- 	LOAD   L2T3
+           24A : 2A29;  -- 	JUMP   CalcDist
+           24B : 0000;  -- L2X:  DW 0
+           24C : 0000;  -- L2Y:  DW 0
+           24D : 0000;  -- L2T1: DW 0
+           24E : 0000;  -- L2T2: DW 0
+           24F : 0000;  -- L2T3: DW 0
+           250 : 9802;  -- 	OUT    TIMER
+           251 : 9002;  -- 	IN     TIMER
+           252 : 9807;  -- 	OUT    XLEDS       ; User-feedback that a pause is occurring.
+           253 : 6FF6;  -- 	ADDI   -10         ; 1 second at 10Hz.
+           254 : 3251;  -- 	JNEG   Wloop
+           255 : 8800;  -- 	RETURN
+           256 : 826E;  -- 	CALL   GetBattLvl
+           257 : 4256;  -- 	JZERO  BattCheck   ; A/D hasn't had time to initialize
+           258 : 22B4;  -- 	SUB    MinBatt
+           259 : 325C;  -- 	JNEG   DeadBatt
+           25A : 1AB4;  -- 	ADD    MinBatt     ; get original value back
+           25B : 8800;  -- 	RETURN
+           25C : B820;  -- 	LOADI  &H20
+           25D : 980A;  -- 	OUT    BEEP        ; start beep sound
+           25E : 826E;  -- 	CALL   GetBattLvl  ; get the battery level
+           25F : 9804;  -- 	OUT    SSEG1       ; display it everywhere
+           260 : 9805;  -- 	OUT    SSEG2
+           261 : 9806;  -- 	OUT    LCD
+           262 : 0A92;  -- 	LOAD   Zero
+           263 : 6FFF;  -- 	ADDI   -1          ; 0xFFFF
+           264 : 9801;  -- 	OUT    LEDS        ; all LEDs on
+           265 : 9807;  -- 	OUT    XLEDS
+           266 : 8250;  -- 	CALL   Wait1       ; 1 second
+           267 : B940;  -- 	LOADI  &H140       ; short, high-pitched beep
+           268 : 980A;  -- 	OUT    BEEP        ; stop beeping
+           269 : 0A92;  -- 	LOAD   Zero
+           26A : 9801;  -- 	OUT    LEDS        ; LEDs off
+           26B : 9807;  -- 	OUT    XLEDS
+           26C : 8250;  -- 	CALL   Wait1       ; 1 second
+           26D : 2A5C;  -- 	JUMP   DeadBatt    ; repeat forever
+           26E : 0AB6;  -- 	LOAD   I2CRCmd     ; 0x0190 (write 0B, read 1B, addr 0x90)
+           26F : 9890;  -- 	OUT    I2C_CMD     ; to I2C_CMD
+           270 : 9892;  -- 	OUT    I2C_RDY     ; start the communication
+           271 : 827C;  -- 	CALL   BlockI2C    ; wait for it to finish
+           272 : 9091;  -- 	IN     I2C_DATA    ; get the returned data
+           273 : 8800;  -- 	RETURN
+           274 : 827C;  -- 	CALL   BlockI2C    ; wait for idle
+           275 : 0AB5;  -- 	LOAD   I2CWCmd     ; 0x1190 (write 1B, read 1B, addr 0x90)
+           276 : 9890;  -- 	OUT    I2C_CMD     ; to I2C_CMD register
+           277 : 0A92;  -- 	LOAD   Zero        ; 0x0000 (A/D port 0, no increment)
+           278 : 9891;  -- 	OUT    I2C_DATA    ; to I2C_DATA register
+           279 : 9892;  -- 	OUT    I2C_RDY     ; start the communication
+           27A : 827C;  -- 	CALL   BlockI2C    ; wait for it to finish
            27B : 8800;  -- 	RETURN
-           27C : 8284;  -- 	CALL   BlockI2C    ; wait for idle
-           27D : 0ABD;  -- 	LOAD   I2CWCmd     ; 0x1190 (write 1B, read 1B, addr 0x90)
-           27E : 9890;  -- 	OUT    I2C_CMD     ; to I2C_CMD register
-           27F : 0A9A;  -- 	LOAD   Zero        ; 0x0000 (A/D port 0, no increment)
-           280 : 9891;  -- 	OUT    I2C_DATA    ; to I2C_DATA register
-           281 : 9892;  -- 	OUT    I2C_RDY     ; start the communication
-           282 : 8284;  -- 	CALL   BlockI2C    ; wait for it to finish
-           283 : 8800;  -- 	RETURN
-           284 : 0A9A;  -- 	LOAD   Zero
-           285 : 1292;  -- 	STORE  Temp        ; Used to check for timeout
-           286 : 0A92;  -- 	LOAD   Temp
-           287 : 6801;  -- 	ADDI   1           ; this will result in ~0.1s timeout
-           288 : 1292;  -- 	STORE  Temp
-           289 : 428D;  -- 	JZERO  I2CError    ; Timeout occurred; error
-           28A : 9092;  -- 	IN     I2C_RDY     ; Read busy signal
-           28B : 3A86;  -- 	JPOS   BI2CL       ; If not 0, try again
-           28C : 8800;  -- 	RETURN             ; Else return
-           28D : 0A9A;  -- 	LOAD   Zero
-           28E : 692C;  -- 	ADDI   &H12C       ; "I2C"
-           28F : 9804;  -- 	OUT    SSEG1
-           290 : 9805;  -- 	OUT    SSEG2       ; display error message
-           291 : 2A8D;  -- 	JUMP   I2CError
-           292 : 0000;  -- Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
-           293 : 0000;  -- Travel_Distance:	DW	&H0000
-           294 : 0000;  -- 	Starting_X:		DW	&H0000
-           295 : 0000;  -- 	Starting_Y:		DW	&H0000
-           296 : 0000;  -- IR_Current_Val:	DW	&H0
-           297 : 003C;  -- Increment_Speed:	DW	60 ;Value used to make adjustments to position
-           298 : 000F;  -- Increment_Angle:	DW	15  ;Value used to make adjustments to angle
-           299 : FFFF;  -- NegOne:   DW -1
-           29A : 0000;  -- Zero:     DW 0
-           29B : 0001;  -- One:      DW 1
-           29C : 0002;  -- Two:      DW 2
-           29D : 0003;  -- Three:    DW 3
-           29E : 0004;  -- Four:     DW 4
-           29F : 0005;  -- Five:     DW 5
-           2A0 : 0006;  -- Six:      DW 6
-           2A1 : 0007;  -- Seven:    DW 7
-           2A2 : 0008;  -- Eight:    DW 8
-           2A3 : 0009;  -- Nine:     DW 9
-           2A4 : 000A;  -- Ten:      DW 10
-           2A5 : 0001;  -- Mask0:    DW &B00000001
-           2A6 : 0002;  -- Mask1:    DW &B00000010
-           2A7 : 0004;  -- Mask2:    DW &B00000100
-           2A8 : 0008;  -- Mask3:    DW &B00001000
-           2A9 : 0010;  -- Mask4:    DW &B00010000
-           2AA : 0020;  -- Mask5:    DW &B00100000
-           2AB : 0040;  -- Mask6:    DW &B01000000
-           2AC : 0080;  -- Mask7:    DW &B10000000
-           2AD : 00FF;  -- LowByte:  DW &HFF      ; binary 00000000 1111111
-           2AE : 000F;  -- LowNibl:  DW &HF       ; 0000 0000 0000 1111
-           2AF : 03C1;  -- OneMeter: DW 961       ; ~1m in 1.04mm units
-           2B0 : 01E1;  -- HalfMeter: DW 481      ; ~0.5m in 1.04mm units
-           2B1 : 024A;  -- TwoFeet:  DW 586       ; ~2ft in 1.04mm units
-           2B2 : 005A;  -- Deg90:    DW 90        ; 90 degrees in odometer units
-           2B3 : 00B4;  -- Deg180:   DW 180       ; 180
-           2B4 : 010E;  -- Deg270:   DW 270       ; 270
-           2B5 : 0168;  -- Deg360:   DW 360       ; can never actually happen; for math only
-           2B6 : 0064;  -- FSlow:    DW 100       ; 100 is about the lowest velocity value that will move
-           2B7 : FF9C;  -- RSlow:    DW -100
-           2B8 : 015E;  -- FMid:     DW 350       ; 350 is a medium speed
-           2B9 : FEA2;  -- RMid:     DW -350
-           2BA : 01F4;  -- FFast:    DW 500       ; 500 is almost max speed (511 is max)
-           2BB : FE0C;  -- RFast:    DW -500
-           2BC : 008C;  -- MinBatt:  DW 140       ; 14.0V - minimum safe battery voltage
-           2BD : 1190;  -- I2CWCmd:  DW &H1190    ; write one i2c byte, read one byte, addr 0x90
-           2BE : 0190;  -- I2CRCmd:  DW &H0190    ; write nothing, read one byte, addr 0x90
+           27C : 0A92;  -- 	LOAD   Zero
+           27D : 128A;  -- 	STORE  Temp        ; Used to check for timeout
+           27E : 0A8A;  -- 	LOAD   Temp
+           27F : 6801;  -- 	ADDI   1           ; this will result in ~0.1s timeout
+           280 : 128A;  -- 	STORE  Temp
+           281 : 4285;  -- 	JZERO  I2CError    ; Timeout occurred; error
+           282 : 9092;  -- 	IN     I2C_RDY     ; Read busy signal
+           283 : 3A7E;  -- 	JPOS   BI2CL       ; If not 0, try again
+           284 : 8800;  -- 	RETURN             ; Else return
+           285 : 0A92;  -- 	LOAD   Zero
+           286 : 692C;  -- 	ADDI   &H12C       ; "I2C"
+           287 : 9804;  -- 	OUT    SSEG1
+           288 : 9805;  -- 	OUT    SSEG2       ; display error message
+           289 : 2A85;  -- 	JUMP   I2CError
+           28A : 0000;  -- Temp:     		DW 	0  ;"Temp" is not a great name, but can be useful
+           28B : 0000;  -- Travel_Distance:	DW	&H0000
+           28C : 0000;  -- 	Starting_X:		DW	&H0000
+           28D : 0000;  -- 	Starting_Y:		DW	&H0000
+           28E : 0000;  -- IR_Current_Val:	DW	&H0
+           28F : 003C;  -- Increment_Speed:	DW	60 ;Value used to make adjustments to position
+           290 : 000F;  -- Increment_Angle:	DW	15  ;Value used to make adjustments to angle
+           291 : FFFF;  -- NegOne:   DW -1
+           292 : 0000;  -- Zero:     DW 0
+           293 : 0001;  -- One:      DW 1
+           294 : 0002;  -- Two:      DW 2
+           295 : 0003;  -- Three:    DW 3
+           296 : 0004;  -- Four:     DW 4
+           297 : 0005;  -- Five:     DW 5
+           298 : 0006;  -- Six:      DW 6
+           299 : 0007;  -- Seven:    DW 7
+           29A : 0008;  -- Eight:    DW 8
+           29B : 0009;  -- Nine:     DW 9
+           29C : 000A;  -- Ten:      DW 10
+           29D : 0001;  -- Mask0:    DW &B00000001
+           29E : 0002;  -- Mask1:    DW &B00000010
+           29F : 0004;  -- Mask2:    DW &B00000100
+           2A0 : 0008;  -- Mask3:    DW &B00001000
+           2A1 : 0010;  -- Mask4:    DW &B00010000
+           2A2 : 0020;  -- Mask5:    DW &B00100000
+           2A3 : 0040;  -- Mask6:    DW &B01000000
+           2A4 : 0080;  -- Mask7:    DW &B10000000
+           2A5 : 00FF;  -- LowByte:  DW &HFF      ; binary 00000000 1111111
+           2A6 : 000F;  -- LowNibl:  DW &HF       ; 0000 0000 0000 1111
+           2A7 : 03C1;  -- OneMeter: DW 961       ; ~1m in 1.04mm units
+           2A8 : 01E1;  -- HalfMeter: DW 481      ; ~0.5m in 1.04mm units
+           2A9 : 024A;  -- TwoFeet:  DW 586       ; ~2ft in 1.04mm units
+           2AA : 005A;  -- Deg90:    DW 90        ; 90 degrees in odometer units
+           2AB : 00B4;  -- Deg180:   DW 180       ; 180
+           2AC : 010E;  -- Deg270:   DW 270       ; 270
+           2AD : 0168;  -- Deg360:   DW 360       ; can never actually happen; for math only
+           2AE : 0064;  -- FSlow:    DW 100       ; 100 is about the lowest velocity value that will move
+           2AF : FF9C;  -- RSlow:    DW -100
+           2B0 : 015E;  -- FMid:     DW 350       ; 350 is a medium speed
+           2B1 : FEA2;  -- RMid:     DW -350
+           2B2 : 01F4;  -- FFast:    DW 500       ; 500 is almost max speed (511 is max)
+           2B3 : FE0C;  -- RFast:    DW -500
+           2B4 : 008C;  -- MinBatt:  DW 140       ; 14.0V - minimum safe battery voltage
+           2B5 : 1190;  -- I2CWCmd:  DW &H1190    ; write one i2c byte, read one byte, addr 0x90
+           2B6 : 0190;  -- I2CRCmd:  DW &H0190    ; write nothing, read one byte, addr 0x90
            7D0 : 00FF;  -- IR_Power:	DW	&H00FF
            7D1 : 28D7;  -- IR_Play:	DW	&H28D7
            7D2 : 8877;  -- IR_Pause:	DW	&H8877
@@ -746,4 +738,17 @@ CONTENT
            7EE : 0667;  -- OffFive:	DW	1639
            7EF : 07D3;  -- OffSix:		DW	2003
            7F0 : 093E;  -- OffSeven:	DW	2366
+           7F1 : 0000;  -- TravelCoord:	DW 0
+           7F2 : 0578;  -- PerpendicularCoord:  DW	1400
+           7F3 : 015E;  -- ParallelCoord:  	 DW	350
+           7F4 : 01C2;  -- InitCoord1:	DW	450
+           7F5 : 03B6;  -- InitCoord2:	DW	950
+           7F6 : 0000;  -- SpotCoord:	DW	0
+           7F7 : 02B6;  -- CoordOne:	DW	694
+           7F8 : 041F;  -- CoordTwo:	DW	1055
+           7F9 : 0588;  -- CoordThree:	DW	1416
+           7FA : 06F2;  -- CoordFour:	DW	1778
+           7FB : 085B;  -- CoordFive:	DW	2139
+           7FC : 09C7;  -- CoordSix:	DW	2503
+           7FD : 0B32;  -- CoordSeven:	DW	2866
   END;

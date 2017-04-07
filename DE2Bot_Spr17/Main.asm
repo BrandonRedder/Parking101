@@ -20,7 +20,7 @@ Init:
 	OUT    RVELCMD
 	OUT    SONAREN     ; Disable sonar (optional)
 	OUT    BEEP        ; Stop any beeping (optional)
-	OUT	   RESETPOS
+	OUT	   RESETPOS		;>>>added
 	
 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
 	CALL   BattCheck   ; Get battery voltage (and end if too low).
@@ -43,6 +43,7 @@ WaitForUser:
 	; This loop will wait for the user to press PB3, to ensure that
 	; they have a chance to prepare for any movement in the main code.
 	LOADI	20
+	OUT	   RESETPOS		;>>>added
 	OUT		SSEG1
 	IN     TIMER       ; We'll blink the LEDs above PB3
 	AND    Mask1
@@ -76,10 +77,7 @@ WaitForUser:
 ;* Main code
 ;***************************************************************
 Main:				
-	;IN      IR_HI                      ; get the high word
-	;OUT     SSEG1						; display the high word
 	IN      IR_LO                       ; get the low word
-	;OUT     SSEG2						; display the low word
 
     JZERO	Main					;If zero, no new value, check again
 	STORE	IR_Current_Val	        ;Else, store new value and start down tree
@@ -120,32 +118,22 @@ Main:
 	JZERO	Move_Backward
 	
 	LOAD    IR_Current_Val			;Turn in place left 90
-	SUB		IR_CH_UP
+	SUB		IR_ENTER
 	CZERO   Turn_Left90
 
 	LOAD    IR_Current_Val			;Turn in place right 90
-	SUB		IR_CH_DW
+	SUB		IR_TV_VCR
 	CZERO   Turn_Right90
 	
-	
-	
-	LOAD    IR_Current_Val	
-	SUB		IR_TV_VCR
-	CZERO   Perpendicular
 
-	LOAD    IR_Current_Val	
-	SUB		IR_Enter
-	CZERO   Parallel
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_1
-	;JZERO   GoOne
-	CZERO   Turn_Left90 
+	JZERO   GoOne
 
 	LOAD    IR_Current_Val	
 	SUB		IR_2
-	;JZERO   GoTwo
-	CZERO   Turn_Right90 
+	JZERO   GoTwo
 	
 	LOAD    IR_Current_Val
 	SUB		IR_3
@@ -166,6 +154,14 @@ Main:
 	LOAD    IR_Current_Val	
 	SUB		IR_7
 	JZERO   GoSeven
+	
+	LOAD    IR_Current_Val	
+	SUB		IR_8
+	CZERO   Parallel	
+	
+	LOAD    IR_Current_Val	
+	SUB		IR_9
+	CZERO   Perpendicular	
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -228,12 +224,12 @@ Turn_Right90:							;Manually turn bot to right by increment
 	RETURN	
 	
 FaceForward:						;Manually turn bot to left by 90 degrees
-	LOADI	0	;>>>
+	LOADI	0
 	STORE 	DTheta
 	RETURN
 	
 FaceRight:							;Manually turn bot to left by 90 degrees
-	LOADI	270	;>>>
+	LOADI	270
 	STORE 	DTheta
 	RETURN
 
@@ -272,38 +268,37 @@ Pause_Motion:							;Pause motion from motors
 ;***************************************************************
 ;** Autonomous Control Subroutines
 ;***************************************************************
-GoOne:	LOAD OffOne
+GoOne:	LOAD CoordOne
 	JUMP Goto_Spot
 
-GoTwo:  LOAD OffTwo
+GoTwo:  LOAD CoordTwo
 	JUMP Goto_Spot
 
-GoThree: LOAD OffThree
+GoThree: LOAD CoordThree
 	JUMP Goto_Spot
 
-GoFour: LOAD OffFour
+GoFour: LOAD CoordFour
 	JUMP Goto_Spot
 	
-GoFive: LOAD OffFive
+GoFive: LOAD CoordFive
 	JUMP Goto_Spot
 	
-GoSix:  LOAD OffSix
+GoSix:  LOAD CoordSix
 	JUMP Goto_Spot
 	
-GoSeven: LOAD OffSeven
+GoSeven: LOAD CoordSeven
 	JUMP Goto_Spot
 
 Goto_Spot:						;Go to specific spot specified by offset value in AC
-	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
+	STORE   SpotCoord			;Spot offset is calculated from the init pos in the next line
 	CALL	Goto_Init_Pos2					
-	LOAD	SpotOff
-	CALL	Go_ForwardX
+	LOAD	SpotCoord
+	CALL	GoCoordX
 	JUMP    Perpendicular
 
-Err_Correct:	;>>>
+Err_Correct:
 	IN 		THETA
-	OUT 	LCD
-	OUT     SSEG2       ; "dEAd" on the LEDs	
+	OUT 	LCD	
 	CALL   	GetThetaErr ; get the heading error
 	CALL   	Abs	
 	ADDI   	-2          ; check if within 5 degrees
@@ -322,12 +317,12 @@ Goto_Init_Pos1:			;Facing towards the further wall, not spots
 	RETURN							
 	
 Goto_Init_Pos2:			;Facing towards the further wall, not spots
-	LOAD 	InitDist1
-	CALL	Go_ForwardX
+	LOAD 	InitCoord1
+	CALL	GoCoordX
 	CALL 	FaceRight
 	CALL   	Err_Correct
-	LOAD 	InitDist2
-	CALL	Go_ForwardY
+	LOAD 	InitCoord2
+	CALL	GoCoordY
 	CALL 	FaceForward
 	CALL   	Err_Correct
 	RETURN
@@ -367,27 +362,27 @@ GF_Check2:
 	STORE	DVEL
 	RETURN	
 	
-Go_ForwardX:						;Logic to go forward by the specified amount***
-	STORE	Travel_Coord
+GoCoordX:						;Logic to go forward by the specified amount***
+	STORE	TravelCoord
 	LOAD	FSLOW
 	STORE	DVEL
 GX:
 	IN		Xpos
-	OUT     LCD  
-	SUB		Travel_Coord
+	OUT     SSEG1
+	SUB		TravelCoord
 	JNEG	GX
 	LOADI	0
 	STORE	DVEL
 	RETURN	
 
-Go_ForwardY:						;Logic to go forward by the specified amount***
-	STORE	Travel_Coord
+GoCoordY:						;Logic to go forward by the specified amount***
+	STORE	TravelCoord
 	LOAD	FSLOW
 	STORE	DVEL
 GY:
 	IN		YPOS
-	OUT     LCD         
-	SUB		Travel_Coord
+	OUT     SSEG2       
+	SUB		TravelCoord
 	JPOS	GY
 	LOADI	0
 	STORE	DVEL
@@ -396,15 +391,15 @@ GY:
 Perpendicular:
     CALL	FaceRight
    	CALL   	Err_Correct
-   	LOAD	PerpendicularDist
-   	CALL	Go_ForwardY
+   	LOAD	PerpendicularCoord
+   	CALL	GoCoordY
 	JUMP Die
 
 Parallel:
    	CALL	FaceRight
 	CALL   	Err_Correct
-    LOAD 	ParallelDist
-    CALL	Go_ForwardY
+    LOAD 	ParallelCoord
+    CALL	GoCoordY
     CALL	FaceForward
 	CALL   	Err_Correct
 	JUMP Die
@@ -1101,6 +1096,21 @@ OffFour:	DW	1278
 OffFive:	DW	1639
 OffSix:		DW	2003
 OffSeven:	DW	2366
+
+;** Coords for Fully Autonomous
+TravelCoord:	DW 0
+PerpendicularCoord:  DW	1400
+ParallelCoord:  	 DW	350
+InitCoord1:	DW	450
+InitCoord2:	DW	950
+SpotCoord:	DW	0
+CoordOne:	DW	694
+CoordTwo:	DW	1055
+CoordThree:	DW	1416
+CoordFour:	DW	1778
+CoordFive:	DW	2139
+CoordSix:	DW	2503
+CoordSeven:	DW	2866
 
 
 
