@@ -20,6 +20,7 @@ Init:
 	OUT    RVELCMD
 	OUT    SONAREN     ; Disable sonar (optional)
 	OUT    BEEP        ; Stop any beeping (optional)
+	OUT	   RESETPOS
 	
 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
 	CALL   BattCheck   ; Get battery voltage (and end if too low).
@@ -214,15 +215,25 @@ Turn_Right:							;Manually turn bot to right by increment
 	STORE 	DTheta
 	RETURN
 	
-Turn_Left90:							;Manually turn bot to left by 90 degrees
+Turn_Left90:							;Manually turn bot to left by increment
 	IN    	THETA
 	ADDI	90
 	STORE 	DTheta
 	RETURN
 	
-Turn_Right90:							;Manually turn bot to right by 90 degrees
+Turn_Right90:							;Manually turn bot to right by increment
 	IN    	THETA
 	ADDI	-90
+	STORE 	DTheta
+	RETURN	
+	
+FaceForward:						;Manually turn bot to left by 90 degrees
+	LOADI	0	;>>>
+	STORE 	DTheta
+	RETURN
+	
+FaceRight:							;Manually turn bot to left by 90 degrees
+	LOADI	270	;>>>
 	STORE 	DTheta
 	RETURN
 
@@ -284,27 +295,27 @@ GoSeven: LOAD OffSeven
 
 Goto_Spot:						;Go to specific spot specified by offset value in AC
 	STORE   SpotOff				;Spot offset is calculated from the init pos in the next line
-	CALL	Goto_Init_Pos1					
+	CALL	Goto_Init_Pos2					
 	LOAD	SpotOff
-	CALL	Go_Forward
+	CALL	Go_ForwardX
 	JUMP    Perpendicular
 
-Err_Correct:
+Err_Correct:	;>>>
+	IN 		THETA
+	OUT 	LCD
+	OUT     SSEG2       ; "dEAd" on the LEDs	
 	CALL   	GetThetaErr ; get the heading error
 	CALL   	Abs	
-	ADDI   	-5          ; check if within 5 degrees
+	ADDI   	-2          ; check if within 5 degrees
 	JPOS  	Err_Correct	; if not, keep testing
-	OUT    	RESETPOS
-	LOADI	0
-	STORE	DTHETA	
 	RETURN
 	
 Goto_Init_Pos1:			;Facing towards the further wall, not spots
 	LOAD	FMID		; 350 is MID velocity
 	STORE	Dvel
-	CALL	Turn_Right90
+	CALL	FaceRight
 	CALL   	Err_Correct
-	CALL	Turn_Left90
+	CALL	FaceForward
 	CALL   	Err_Correct
 	LOADI	0
 	STORE	Dvel		
@@ -312,12 +323,12 @@ Goto_Init_Pos1:			;Facing towards the further wall, not spots
 	
 Goto_Init_Pos2:			;Facing towards the further wall, not spots
 	LOAD 	InitDist1
-	CALL	Go_Forward2
-	CALL 	Turn_Right90
+	CALL	Go_ForwardX
+	CALL 	FaceRight
 	CALL   	Err_Correct
 	LOAD 	InitDist2
-	CALL	Go_Forward2
-	CALL 	Turn_Left90
+	CALL	Go_ForwardY
+	CALL 	FaceForward
 	CALL   	Err_Correct
 	RETURN
 	
@@ -355,20 +366,46 @@ GF_Check2:
 	LOADI	0
 	STORE	DVEL
 	RETURN	
+	
+Go_ForwardX:						;Logic to go forward by the specified amount***
+	STORE	Travel_Coord
+	LOAD	FSLOW
+	STORE	DVEL
+GX:
+	IN		Xpos
+	OUT     LCD  
+	SUB		Travel_Coord
+	JNEG	GX
+	LOADI	0
+	STORE	DVEL
+	RETURN	
+
+Go_ForwardY:						;Logic to go forward by the specified amount***
+	STORE	Travel_Coord
+	LOAD	FSLOW
+	STORE	DVEL
+GY:
+	IN		YPOS
+	OUT     LCD         
+	SUB		Travel_Coord
+	JPOS	GY
+	LOADI	0
+	STORE	DVEL
+	RETURN	
 
 Perpendicular:
-    CALL	Turn_Right90
-	CALL   	Err_Correct
+    CALL	FaceRight
+   	CALL   	Err_Correct
    	LOAD	PerpendicularDist
-   	CALL	Go_Forward2
+   	CALL	Go_ForwardY
 	JUMP Die
 
 Parallel:
-   	CALL	Turn_Right90
+   	CALL	FaceRight
 	CALL   	Err_Correct
     LOAD 	ParallelDist
-    CALL	Go_Forward2
-    CALL	Turn_Left90
+    CALL	Go_ForwardY
+    CALL	FaceForward
 	CALL   	Err_Correct
 	JUMP Die
 	
@@ -1054,16 +1091,16 @@ IR_9:		DW	&H38C7
 ;** Constants for Fully Autonomous
 PerpendicularDist:  DW	400
 ParallelDist:  		DW	250
-InitDist1:	DW	&H012C	; 300mm
-InitDist2:	DW	&H02BC	; 700mm
-SpotOff:	DW	&H0000
-OffOne:		DW	&H01F4  ; 500mm
-OffTwo:		DW	&H0000
-OffThree:	DW	&H0000
-OffFour:	DW	&H0000
-OffFive:	DW	&H0000
-OffSix:		DW	&H0000
-OffSeven:	DW	&H0000
+InitDist1:	DW	450
+InitDist2:	DW	950
+SpotOff:	DW	0
+OffOne:		DW	194
+OffTwo:		DW	555
+OffThree:	DW	916
+OffFour:	DW	1278
+OffFive:	DW	1639
+OffSix:		DW	2003
+OffSeven:	DW	2366
 
 
 
