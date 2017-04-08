@@ -104,7 +104,7 @@ Main:
 
 	LOAD    IR_Current_Val	
 	SUB		IR_FF					;Do stuff to turn right
-	CZERO	Turn_Right
+	;CZERO	Turn_Right
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_RW					;Do stuff to turn left
@@ -295,6 +295,7 @@ Goto_Spot:						;Go to specific spot specified by offset value in AC
 	CALL	Goto_Init_Pos2					
 	LOAD	SpotCoord
 	CALL	GoCoordX
+	CALL	Wait1
 	JUMP    Perpendicular
 
 Err_Correct:
@@ -302,7 +303,7 @@ Err_Correct:
 	OUT 	LCD	
 	CALL   	GetThetaErr ; get the heading error
 	CALL   	Abs	
-	ADDI   	-2          ; check if within 5 degrees
+	ADDI   	-1          ; check if within 5 degrees
 	JPOS  	Err_Correct	; if not, keep testing
 	RETURN
 	
@@ -318,6 +319,8 @@ Goto_Init_Pos1:			;Facing towards the further wall, not spots
 	RETURN							
 	
 Goto_Init_Pos2:			;Facing towards the further wall, not spots
+	LOADI	230
+	STORE 	BotSpeed
 	LOAD 	InitCoord1
 	CALL	GoCoordX
 	CALL 	FaceRight
@@ -327,6 +330,7 @@ Goto_Init_Pos2:			;Facing towards the further wall, not spots
 	CALL	Wait1
 	CALL 	FaceForward
 	CALL   	Err_Correct
+	CALL	Wait1	
 	RETURN
 	
 Go_Forward:						;Logic to go forward by the specified amount***
@@ -366,7 +370,7 @@ GF_Check2:
 	
 GoCoordX:						;Logic to go forward by the specified amount***
 	STORE	TravelCoord
-	LOAD	FMID
+	LOAD	BotSpeed
 	STORE	DVEL
 GX:
 	IN		Xpos
@@ -379,7 +383,7 @@ GX:
 
 GoCoordY:						;Logic to go forward by the specified amount***
 	STORE	TravelCoord
-	LOAD	FMID
+	LOAD	BotSpeed
 	STORE	DVEL
 GY:
 	IN		YPOS
@@ -391,6 +395,8 @@ GY:
 	RETURN	
 
 Perpendicular:
+	LOAD	FSLOW
+	STORE	BotSpeed
     CALL	FaceRight
    	CALL   	Err_Correct
    	LOAD	PerpendicularCoord
@@ -398,6 +404,8 @@ Perpendicular:
 	JUMP Die	
 
 Parallel:
+	LOAD	FSLOW
+	STORE	BotSpeed
    	CALL	FaceRight
 	CALL   	Err_Correct
     LOAD 	ParallelCoord
@@ -423,6 +431,7 @@ Wloop2:
 	ADDI   -20         ; 2 second at 10Hz.
 	JNEG   Wloop2
 	RETURN
+	
 
 ;*************************
 ;* Predefined Subroutines
@@ -1100,20 +1109,20 @@ OffSix:		DW	2003
 OffSeven:	DW	2366
 
 ;** Coords for Fully Autonomous
-BotSpeed:	DW	350
+BotSpeed:	DW	0
 TravelCoord:	DW 0
-PerpendicularCoord:  DW	1330
+PerpendicularCoord:  DW	1430
 ParallelCoord:  	 DW	280
-InitCoord1:	DW	350
-InitCoord2:	DW	850
+InitCoord1:	DW	365
+InitCoord2:	DW	910
 SpotCoord:	DW	0
-CoordOne:	DW	730
-CoordTwo:	DW	1055
-CoordThree:	DW	1416
-CoordFour:	DW	1778
-CoordFive:	DW	2139
-CoordSix:	DW	2503
-CoordSeven:	DW	3000
+CoordOne:	DW	3075
+CoordTwo:	DW	2705
+CoordThree:	DW	2290
+CoordFour:	DW	1920
+CoordFive:	DW	1595
+CoordSix:	DW	1246
+CoordSeven:	DW	885
 
 
 
