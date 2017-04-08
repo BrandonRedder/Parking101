@@ -21,6 +21,7 @@ Init:
 	OUT    SONAREN     ; Disable sonar (optional)
 	OUT    BEEP        ; Stop any beeping (optional)
 	OUT	   RESETPOS		;>>>added
+	Call    Reset_IR				;Reset IR to not read same value twice
 	
 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
 	CALL   BattCheck   ; Get battery voltage (and end if too low).
@@ -323,6 +324,7 @@ Goto_Init_Pos2:			;Facing towards the further wall, not spots
 	CALL   	Err_Correct
 	LOAD 	InitCoord2
 	CALL	GoCoordY
+	CALL	Wait1
 	CALL 	FaceForward
 	CALL   	Err_Correct
 	RETURN
@@ -364,7 +366,7 @@ GF_Check2:
 	
 GoCoordX:						;Logic to go forward by the specified amount***
 	STORE	TravelCoord
-	LOAD	FSLOW
+	LOAD	FMID
 	STORE	DVEL
 GX:
 	IN		Xpos
@@ -377,12 +379,12 @@ GX:
 
 GoCoordY:						;Logic to go forward by the specified amount***
 	STORE	TravelCoord
-	LOAD	FSLOW
+	LOAD	FMID
 	STORE	DVEL
 GY:
 	IN		YPOS
 	OUT     SSEG2       
-	SUB		TravelCoord
+	ADD		TravelCoord
 	JPOS	GY
 	LOADI	0
 	STORE	DVEL
@@ -393,7 +395,7 @@ Perpendicular:
    	CALL   	Err_Correct
    	LOAD	PerpendicularCoord
    	CALL	GoCoordY
-	JUMP Die
+	JUMP Die	
 
 Parallel:
    	CALL	FaceRight
@@ -963,7 +965,7 @@ Travel_Distance:	DW	&H0000
 IR_Current_Val:	DW	&H0
 
 ;** Variables for motion control
-Increment_Speed:	DW	60 ;Value used to make adjustments to position
+Increment_Speed:	DW	250 ;Value used to make adjustments to position >>> changed
 Increment_Angle:	DW	15  ;Value used to make adjustments to angle
 
 ;***************************************************************
@@ -1098,19 +1100,20 @@ OffSix:		DW	2003
 OffSeven:	DW	2366
 
 ;** Coords for Fully Autonomous
+BotSpeed:	DW	350
 TravelCoord:	DW 0
-PerpendicularCoord:  DW	1400
-ParallelCoord:  	 DW	350
-InitCoord1:	DW	450
-InitCoord2:	DW	950
+PerpendicularCoord:  DW	1330
+ParallelCoord:  	 DW	280
+InitCoord1:	DW	350
+InitCoord2:	DW	850
 SpotCoord:	DW	0
-CoordOne:	DW	694
+CoordOne:	DW	730
 CoordTwo:	DW	1055
 CoordThree:	DW	1416
 CoordFour:	DW	1778
 CoordFive:	DW	2139
 CoordSix:	DW	2503
-CoordSeven:	DW	2866
+CoordSeven:	DW	3000
 
 
 
