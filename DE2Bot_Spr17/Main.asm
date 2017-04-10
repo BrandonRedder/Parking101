@@ -158,11 +158,11 @@ Main:
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_8
-	CZERO   Parallel	
+	CZERO   Parallel_M
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_9
-	CZERO   Perpendicular	
+	CZERO   Perpendicular_M	
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -204,24 +204,28 @@ Turn_Left:							;Manually turn bot to left by increment
 	IN    	THETA
 	ADD		Increment_Angle
 	STORE 	DTheta
+	CALL	Err_Correct
 	RETURN
 	
 Turn_Right:							;Manually turn bot to right by increment
 	IN    	THETA
 	SUB		Increment_Angle
 	STORE 	DTheta
+	CALL	Err_Correct
 	RETURN
 	
 Turn_Left90:							;Manually turn bot to left by increment
 	IN    	THETA
 	ADDI	90
 	STORE 	DTheta
+	CALL	Err_Correct
 	RETURN
 	
 Turn_Right90:							;Manually turn bot to right by increment
 	IN    	THETA
 	ADDI	-90
 	STORE 	DTheta
+	CALL	Err_Correct
 	RETURN	
 	
 FaceForward:						;Manually turn bot to left by 90 degrees
@@ -303,7 +307,7 @@ Err_Correct:
 	OUT 	LCD	
 	CALL   	GetThetaErr ; get the heading error
 	CALL   	Abs	
-	ADDI   	-1          ; check if within 5 degrees
+	ADDI   	-1          ; check if within 2 degrees
 	JPOS  	Err_Correct	; if not, keep testing
 	RETURN
 	
@@ -358,6 +362,8 @@ GF_Check:
 Go_Forward2:						;Logic to go forward by the specified amount***
 	STORE	Travel_Distance
 	OUT    	RESETPOS
+	LOADI	0
+	STORE	DTHETA
 	LOAD	FSLOW
 	STORE	DVEL
 GF_Check2:
@@ -392,7 +398,23 @@ GY:
 	JPOS	GY
 	LOADI	0
 	STORE	DVEL
-	RETURN	
+	RETURN
+		
+Perpendicular_M:
+	CALL	Turn_Right90
+	CALL   	Err_Correct
+	LOAD	PerpendicularDist
+	CALL	Go_Forward2
+	JUMP	Die
+
+Parallel_M:
+	CALL	Turn_Right90
+	CALL   	Err_Correct
+	LOAD 	ParallelDist
+	CALL	Go_Forward2
+	CALL	Turn_Left90
+	CALL	Wait2
+	JUMP	Die
 
 Perpendicular:
 	LOAD	FSLOW
@@ -403,16 +425,6 @@ Perpendicular:
    	CALL	GoCoordY
 	JUMP Die	
 
-Parallel:
-	LOAD	FSLOW
-	STORE	BotSpeed
-   	CALL	FaceRight
-	CALL   	Err_Correct
-    LOAD 	ParallelCoord
-    CALL	GoCoordY
-    CALL	FaceForward
-	CALL   	Err_Correct
-	JUMP Die
 	
 ;***************************************************************
 ;** Other Subroutines
@@ -450,7 +462,7 @@ CTimer_ISR:
 DTheta:    DW 0
 DVel:      DW 0
 ControlMovement:
-	LOADI  50          ; used later to get a +/- constant
+	LOADI  46          ; used later to get a +/- constant
 	STORE  MaxVal
 	CALL   GetThetaErr ; get the heading error
 	; A simple way to get a decent velocity value
@@ -1076,7 +1088,7 @@ IR_Power:	DW	&H00FF
 IR_Play:	DW	&H28D7
 IR_Pause:	DW	&H8877
 IR_Enter:	DW	&H3AC5
-IR_TV_VCR:	DW	&H10EF
+IR_TV_VCR:	DW	&HFF00
 IR_CH_UP:	DW	&H8074
 IR_CH_DW:	DW	&H40BF
 IR_VolUp:	DW	&H40BF
@@ -1094,24 +1106,15 @@ IR_7:		DW	&H708F
 IR_8:		DW	&HF00F
 IR_9:		DW	&H38C7
 
-;** Constants for Fully Autonomous
-PerpendicularDist:  DW	400
-ParallelDist:  		DW	250
-InitDist1:	DW	450
-InitDist2:	DW	950
-SpotOff:	DW	0
-OffOne:		DW	194
-OffTwo:		DW	555
-OffThree:	DW	916
-OffFour:	DW	1278
-OffFive:	DW	1639
-OffSix:		DW	2003
-OffSeven:	DW	2366
+;** Constants for Semi Autonomous
+PerpendicularDist:  DW	410
+ParallelDist:  		DW	265
+
 
 ;** Coords for Fully Autonomous
 BotSpeed:	DW	0
 TravelCoord:	DW 0
-PerpendicularCoord:  DW	1430
+PerpendicularCoord:  DW	1440
 ParallelCoord:  	 DW	280
 InitCoord1:	DW	365
 InitCoord2:	DW	910
@@ -1119,10 +1122,10 @@ SpotCoord:	DW	0
 CoordOne:	DW	3075
 CoordTwo:	DW	2705
 CoordThree:	DW	2290
-CoordFour:	DW	1920
-CoordFive:	DW	1595
+CoordFour:	DW	1979      ;1920
+CoordFive:	DW	1611
 CoordSix:	DW	1246
-CoordSeven:	DW	885
+CoordSeven:	DW	886
 
 
 
