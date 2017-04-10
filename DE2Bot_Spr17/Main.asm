@@ -20,8 +20,6 @@ Init:
 	OUT    RVELCMD
 	OUT    SONAREN     ; Disable sonar (optional)
 	OUT    BEEP        ; Stop any beeping (optional)
-	OUT	   RESETPOS		;>>>added
-	Call    Reset_IR				;Reset IR to not read same value twice
 	
 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
 	CALL   BattCheck   ; Get battery voltage (and end if too low).
@@ -38,6 +36,8 @@ WaitForSafety:
 	AND    Mask1       ;  blink LED17 as a reminder to toggle SW17
 	SHIFT  8           ; Shift over to LED17
 	OUT    XLEDS       ; LED17 blinks at 2.5Hz (10Hz/4)
+	OUT	   RESETPOS		;>>>added
+	Call   Reset_IR				;Reset IR to not read same value twice
 	JUMP   WaitForSafety
 	
 WaitForUser:
@@ -104,7 +104,7 @@ Main:
 
 	LOAD    IR_Current_Val	
 	SUB		IR_FF					;Do stuff to turn right
-	;CZERO	Turn_Right
+	CZERO	Turn_Right
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_RW					;Do stuff to turn left
@@ -1111,18 +1111,18 @@ OffSeven:	DW	2366
 ;** Coords for Fully Autonomous
 BotSpeed:	DW	0
 TravelCoord:	DW 0
-PerpendicularCoord:  DW	1430
+PerpendicularCoord:  DW	1418
 ParallelCoord:  	 DW	280
 InitCoord1:	DW	365
 InitCoord2:	DW	910
 SpotCoord:	DW	0
-CoordOne:	DW	3075
-CoordTwo:	DW	2705
-CoordThree:	DW	2290
-CoordFour:	DW	1920
-CoordFive:	DW	1595
-CoordSix:	DW	1246
-CoordSeven:	DW	885
+CoordOne:	DW	3101
+CoordTwo:	DW	2728
+CoordThree:	DW	2337
+CoordFour:	DW	1963
+CoordFive:	DW	1618
+CoordSix:	DW	1262
+CoordSeven:	DW	900
 
 
 
