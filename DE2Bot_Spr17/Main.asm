@@ -158,11 +158,11 @@ Main:
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_8
-	CZERO   Parallel	
+	CZERO   Parallel ;not the manual parallel, this works well for now, we can change it	
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_9
-	CZERO   Perpendicular	
+	CZERO   Perpendicular ;;not the manual perpendicular, this works well for now, we can change it	
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -413,6 +413,22 @@ Parallel:
     CALL	FaceForward
 	CALL   	Err_Correct
 	JUMP Die
+
+Perpendicular_M: 
+	CALL	Turn_Right90 
+	CALL   	Err_Correct 
+	LOAD	PerpendicularDist 
+	CALL	Go_Forward2 
+	JUMP	Die 
+ 
+Parallel_M: 
+	CALL	Turn_Right90 
+	CALL   	Err_Correct 
+	LOAD 	ParallelDist 
+	CALL	Go_Forward2 
+	CALL	Turn_Left90 
+	CALL	Wait2 
+	JUMP	Die 	
 	
 ;***************************************************************
 ;** Other Subroutines
@@ -450,7 +466,7 @@ CTimer_ISR:
 DTheta:    DW 0
 DVel:      DW 0
 ControlMovement:
-	LOADI  50          ; used later to get a +/- constant
+	LOADI  46          ; used later to get a +/- constant <<< was 50
 	STORE  MaxVal
 	CALL   GetThetaErr ; get the heading error
 	; A simple way to get a decent velocity value
@@ -1076,7 +1092,7 @@ IR_Power:	DW	&H00FF
 IR_Play:	DW	&H28D7
 IR_Pause:	DW	&H8877
 IR_Enter:	DW	&H3AC5
-IR_TV_VCR:	DW	&H10EF
+IR_TV_VCR:	DW	&HFF00
 IR_CH_UP:	DW	&H8074
 IR_CH_DW:	DW	&H40BF
 IR_VolUp:	DW	&H40BF
@@ -1095,8 +1111,8 @@ IR_8:		DW	&HF00F
 IR_9:		DW	&H38C7
 
 ;** Constants for Fully Autonomous
-PerpendicularDist:  DW	400
-ParallelDist:  		DW	250
+PerpendicularDist:  DW	410
+ParallelDist:  		DW	265
 InitDist1:	DW	450
 InitDist2:	DW	950
 SpotOff:	DW	0
