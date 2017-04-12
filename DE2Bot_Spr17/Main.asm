@@ -298,7 +298,7 @@ Goto_Spot:						;Go to specific spot specified by offset value in AC
 	LOAD	SpotCoord
 	CALL	GoCoordX
 	CALL	Wait1
-	JUMP    Perpendicular
+	JUMP    PerpendicularS
 
 Err_Correct:
 	IN 		THETA
@@ -403,6 +403,20 @@ Perpendicular:
    	CALL   	Err_Correct
    	LOAD	PerpendicularCoord
    	CALL	GoCoordY
+	JUMP Die
+	
+PerpendicularS: ;attempt with sonar
+	LOAD	FSLOW
+	STORE	BotSpeed
+	LOADI 	32
+	STORE	SONAREN
+	IN		DIST5
+	ADDI  	-150
+	STORE 	SONMEAS
+    CALL	FaceRight
+   	CALL   	Err_Correct
+   	LOAD 	SONMEAS
+   	CALL 	Go_Forward2
 	JUMP Die	
 
 Parallel:
@@ -1141,6 +1155,7 @@ CoordFour:	DW	1998
 CoordFive:	DW	1638
 CoordSix:	DW	1262
 CoordSeven:	DW	907
+SONMEAS: 	DW  0
 
 
 
