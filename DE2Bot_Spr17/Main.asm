@@ -20,8 +20,6 @@ Init:
 	OUT    RVELCMD
 	OUT    SONAREN     ; Disable sonar (optional)
 	OUT    BEEP        ; Stop any beeping (optional)
-	OUT	   RESETPOS		;>>>added
-	Call    Reset_IR				;Reset IR to not read same value twice
 	
 	CALL   SetupI2C    ; Configure the I2C to read the battery voltage
 	CALL   BattCheck   ; Get battery voltage (and end if too low).
@@ -38,6 +36,8 @@ WaitForSafety:
 	AND    Mask1       ;  blink LED17 as a reminder to toggle SW17
 	SHIFT  8           ; Shift over to LED17
 	OUT    XLEDS       ; LED17 blinks at 2.5Hz (10Hz/4)
+	OUT	   RESETPOS		;>>>added
+	Call   Reset_IR				;Reset IR to not read same value twice
 	JUMP   WaitForSafety
 	
 WaitForUser:
@@ -74,6 +74,7 @@ WaitForUser:
 	LOADI  10          ; 10ms * 10 = 0.1s rate, or 10Hz.
 	OUT    CTIMER      ; turn on timer peripheral
 	SEI    &B0010
+	
 ;***************************************************************
 ;* Main code
 ;***************************************************************
@@ -82,6 +83,7 @@ Main:
 
     JZERO	Main					;If zero, no new value, check again
 	STORE	IR_Current_Val	        ;Else, store new value and start down tree
+	OUT		LCD
 	Call    Reset_IR				;Reset IR to not read same value twice
 	
 	LOAD    IR_Current_Val
@@ -158,11 +160,11 @@ Main:
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_8
-	CZERO   Parallel	
+	CZERO   Parallel ;not the manual parallel, this works well for now, we can change it	
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_9
-	CZERO   Perpendicular	
+	CZERO   Perpendicular ;;not the manual perpendicular, this works well for now, we can change it	
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -295,6 +297,7 @@ Goto_Spot:						;Go to specific spot specified by offset value in AC
 	CALL	Goto_Init_Pos2					
 	LOAD	SpotCoord
 	CALL	GoCoordX
+	CALL	Wait1
 	JUMP    Perpendicular
 
 Err_Correct:
@@ -302,7 +305,7 @@ Err_Correct:
 	OUT 	LCD	
 	CALL   	GetThetaErr ; get the heading error
 	CALL   	Abs	
-	ADDI   	-2          ; check if within 5 degrees
+	ADDI   	-1          ; check if within 5 degrees
 	JPOS  	Err_Correct	; if not, keep testing
 	RETURN
 	
@@ -318,6 +321,8 @@ Goto_Init_Pos1:			;Facing towards the further wall, not spots
 	RETURN							
 	
 Goto_Init_Pos2:			;Facing towards the further wall, not spots
+	LOADI	230
+	STORE 	BotSpeed
 	LOAD 	InitCoord1
 	CALL	GoCoordX
 	CALL 	FaceRight
@@ -327,6 +332,7 @@ Goto_Init_Pos2:			;Facing towards the further wall, not spots
 	CALL	Wait1
 	CALL 	FaceForward
 	CALL   	Err_Correct
+	CALL	Wait1	
 	RETURN
 	
 Go_Forward:						;Logic to go forward by the specified amount***
@@ -366,7 +372,7 @@ GF_Check2:
 	
 GoCoordX:						;Logic to go forward by the specified amount***
 	STORE	TravelCoord
-	LOAD	FMID
+	LOAD	BotSpeed
 	STORE	DVEL
 GX:
 	IN		Xpos
@@ -379,7 +385,7 @@ GX:
 
 GoCoordY:						;Logic to go forward by the specified amount***
 	STORE	TravelCoord
-	LOAD	FMID
+	LOAD	BotSpeed
 	STORE	DVEL
 GY:
 	IN		YPOS
@@ -391,6 +397,8 @@ GY:
 	RETURN	
 
 Perpendicular:
+	LOAD	FSLOW
+	STORE	BotSpeed
     CALL	FaceRight
    	CALL   	Err_Correct
    	LOAD	PerpendicularCoord
@@ -398,6 +406,8 @@ Perpendicular:
 	JUMP Die	
 
 Parallel:
+	LOAD	FSLOW
+	STORE	BotSpeed
    	CALL	FaceRight
 	CALL   	Err_Correct
     LOAD 	ParallelCoord
@@ -405,6 +415,22 @@ Parallel:
     CALL	FaceForward
 	CALL   	Err_Correct
 	JUMP Die
+
+Perpendicular_M: 
+	CALL	Turn_Right90 
+	CALL   	Err_Correct 
+	LOAD	PerpendicularDist 
+	CALL	Go_Forward2 
+	JUMP	Die 
+ 
+Parallel_M: 
+	CALL	Turn_Right90 
+	CALL   	Err_Correct 
+	LOAD 	ParallelDist 
+	CALL	Go_Forward2 
+	CALL	Turn_Left90 
+	CALL	Wait2 
+	JUMP	Die 	
 	
 ;***************************************************************
 ;** Other Subroutines
@@ -423,6 +449,7 @@ Wloop2:
 	ADDI   -20         ; 2 second at 10Hz.
 	JNEG   Wloop2
 	RETURN
+	
 
 ;*************************
 ;* Predefined Subroutines
@@ -441,7 +468,7 @@ CTimer_ISR:
 DTheta:    DW 0
 DVel:      DW 0
 ControlMovement:
-	LOADI  50          ; used later to get a +/- constant
+	LOADI  46          ; used later to get a +/- constant <<< was 50
 	STORE  MaxVal
 	CALL   GetThetaErr ; get the heading error
 	; A simple way to get a decent velocity value
@@ -1067,7 +1094,7 @@ IR_Power:	DW	&H00FF
 IR_Play:	DW	&H28D7
 IR_Pause:	DW	&H8877
 IR_Enter:	DW	&H3AC5
-IR_TV_VCR:	DW	&H10EF
+IR_TV_VCR:	DW	&HFF00
 IR_CH_UP:	DW	&H8074
 IR_CH_DW:	DW	&H40BF
 IR_VolUp:	DW	&H40BF
@@ -1086,8 +1113,8 @@ IR_8:		DW	&HF00F
 IR_9:		DW	&H38C7
 
 ;** Constants for Fully Autonomous
-PerpendicularDist:  DW	400
-ParallelDist:  		DW	250
+PerpendicularDist:  DW	410
+ParallelDist:  		DW	265
 InitDist1:	DW	450
 InitDist2:	DW	950
 SpotOff:	DW	0
@@ -1100,20 +1127,20 @@ OffSix:		DW	2003
 OffSeven:	DW	2366
 
 ;** Coords for Fully Autonomous
-BotSpeed:	DW	350
+BotSpeed:	DW	0
 TravelCoord:	DW 0
-PerpendicularCoord:  DW	1330
+PerpendicularCoord:  DW	1418
 ParallelCoord:  	 DW	280
-InitCoord1:	DW	350
-InitCoord2:	DW	850
+InitCoord1:	DW	365
+InitCoord2:	DW	910
 SpotCoord:	DW	0
-CoordOne:	DW	730
-CoordTwo:	DW	1055
-CoordThree:	DW	1416
-CoordFour:	DW	1778
-CoordFive:	DW	2139
-CoordSix:	DW	2503
-CoordSeven:	DW	3000
+CoordOne:	DW	3101
+CoordTwo:	DW	2728
+CoordThree:	DW	2357
+CoordFour:	DW	1998
+CoordFive:	DW	1638
+CoordSix:	DW	1262
+CoordSeven:	DW	907
 
 
 
