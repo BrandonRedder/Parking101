@@ -74,6 +74,7 @@ WaitForUser:
 	LOADI  10          ; 10ms * 10 = 0.1s rate, or 10Hz.
 	OUT    CTIMER      ; turn on timer peripheral
 	SEI    &B0010
+	
 ;***************************************************************
 ;* Main code
 ;***************************************************************
@@ -82,6 +83,7 @@ Main:
 
     JZERO	Main					;If zero, no new value, check again
 	STORE	IR_Current_Val	        ;Else, store new value and start down tree
+	OUT		LCD
 	Call    Reset_IR				;Reset IR to not read same value twice
 	
 	LOAD    IR_Current_Val
@@ -1134,11 +1136,11 @@ InitCoord2:	DW	910
 SpotCoord:	DW	0
 CoordOne:	DW	3101
 CoordTwo:	DW	2728
-CoordThree:	DW	2337
-CoordFour:	DW	1963
-CoordFive:	DW	1618
+CoordThree:	DW	2357
+CoordFour:	DW	1998
+CoordFive:	DW	1638
 CoordSix:	DW	1262
-CoordSeven:	DW	900
+CoordSeven:	DW	907
 
 
 
