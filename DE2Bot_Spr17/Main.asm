@@ -37,6 +37,8 @@ WaitForSafety:
 	SHIFT  8           ; Shift over to LED17
 	OUT    XLEDS       ; LED17 blinks at 2.5Hz (10Hz/4)
 	OUT	   RESETPOS		;>>>added
+	LOADI	0
+	STORE	Manual
 	Call   Reset_IR				;Reset IR to not read same value twice
 	JUMP   WaitForSafety
 	
@@ -164,7 +166,11 @@ Main:
 	
 	LOAD    IR_Current_Val	
 	SUB		IR_9
-	CZERO   Perpendicular ;;not the manual perpendicular, this works well for now, we can change it	
+	CZERO   PerpendicularS ;;not the manual perpendicular, this works well for now, we can change it
+	
+	LOAD	IR_Current_Val
+	SUB		IR_CH_UP
+	CZERO	Set_Manual	
 	
 	JUMP	Main					        ;Match not found, return to begining
 
@@ -187,6 +193,14 @@ Forever:
 
 ;***************************************************************
 ;* Subroutines
+;***************************************************************
+Set_Manual:	
+	LOAD	Manual
+	XOR		NegOne
+	STORE	Manual
+	OUT		XLEDS
+	RETURN
+
 ;***************************************************************
 ;** Manual Control Subroutines
 ;***************************************************************
@@ -271,7 +285,8 @@ Pause_Motion:							;Pause motion from motors
 ;***************************************************************
 ;** Autonomous Control Subroutines
 ;***************************************************************
-GoOne:	LOAD CoordOne
+GoOne:	
+	LOAD CoordOne
 	JUMP Goto_Spot
 
 GoTwo:  LOAD CoordTwo
@@ -298,7 +313,10 @@ Goto_Spot:						;Go to specific spot specified by offset value in AC
 	LOAD	SpotCoord
 	CALL	GoCoordX
 	CALL	Wait1
-	JUMP    Perpendicular
+	LOAD	Manual
+	JNEG	Main
+	JUMP    PerpendicularS
+
 
 Err_Correct:
 	IN 		THETA
@@ -360,6 +378,8 @@ GF_Check:
 Go_Forward2:						;Logic to go forward by the specified amount***
 	STORE	Travel_Distance
 	OUT    	RESETPOS
+	LOADI	0
+	STORE	DTHETA
 	LOAD	FSLOW
 	STORE	DVEL
 GF_Check2:
@@ -403,18 +423,43 @@ Perpendicular:
    	CALL   	Err_Correct
    	LOAD	PerpendicularCoord
    	CALL	GoCoordY
+	JUMP Die
+	
+PerpendicularS: ;attempt with sonar
+	LOAD	FSLOW
+	STORE	BotSpeed
+	LOADI 	32
+	OUT		SONAREN
+	CALL	Wait2
+	IN		DIST5
+	ADDI  	-150
+	STORE 	SONMEAS
+	LOADI 	0
+	OUT 	SONAREN
+    CALL	Turn_Right90
+	CALL	Err_Correct
+   	LOAD 	SONMEAS
+   	CALL 	Go_Forward2
 	JUMP Die	
 
 Parallel:
 	LOAD	FSLOW
 	STORE	BotSpeed
-   	CALL	FaceRight
+    LOADI 	32
+	OUT		SONAREN
+	CALL	Wait2
+	IN		DIST5
+	ADDI  	-150
+	STORE 	SONMEAS
+	LOADI 	0
+	OUT 	SONAREN
+    CALL	Turn_Right90
+	CALL	Err_Correct
+   	LOAD 	SONMEAS
+   	CALL 	Go_Forward2
+   	CALL	Turn_Left90
 	CALL   	Err_Correct
-    LOAD 	ParallelCoord
-    CALL	GoCoordY
-    CALL	FaceForward
-	CALL   	Err_Correct
-	JUMP Die
+	JUMP 	Die
 
 Perpendicular_M: 
 	CALL	Turn_Right90 
@@ -993,7 +1038,7 @@ IR_Current_Val:	DW	&H0
 
 ;** Variables for motion control
 Increment_Speed:	DW	250 ;Value used to make adjustments to position >>> changed
-Increment_Angle:	DW	15  ;Value used to make adjustments to angle
+Increment_Angle:	DW	5  ;Value used to make adjustments to angle
 
 ;***************************************************************
 ;* Constants
@@ -1011,6 +1056,7 @@ Seven:    DW 7
 Eight:    DW 8
 Nine:     DW 9
 Ten:      DW 10
+Sixteen:	  DW 16
 
 ; **Some bit masks.
 ; **Masks of multiple bits can be constructed by ORing these
@@ -1095,8 +1141,8 @@ IR_Play:	DW	&H28D7
 IR_Pause:	DW	&H8877
 IR_Enter:	DW	&H3AC5
 IR_TV_VCR:	DW	&HFF00
-IR_CH_UP:	DW	&H8074
-IR_CH_DW:	DW	&H40BF
+IR_CH_UP:	DW	&H807F
+;IR_CH_DW:	DW	&H40BF
 IR_VolUp:	DW	&H40BF
 IR_VolDwn:	DW	&HC03F
 IR_RW:		DW	&H48B7
@@ -1118,15 +1164,10 @@ ParallelDist:  		DW	265
 InitDist1:	DW	450
 InitDist2:	DW	950
 SpotOff:	DW	0
-OffOne:		DW	194
-OffTwo:		DW	555
-OffThree:	DW	916
-OffFour:	DW	1278
-OffFive:	DW	1639
-OffSix:		DW	2003
-OffSeven:	DW	2366
+
 
 ;** Coords for Fully Autonomous
+Manual:		DW	0
 BotSpeed:	DW	0
 TravelCoord:	DW 0
 PerpendicularCoord:  DW	1418
@@ -1141,6 +1182,8 @@ CoordFour:	DW	1998
 CoordFive:	DW	1638
 CoordSix:	DW	1262
 CoordSeven:	DW	907
+SONMEAS: 	DW  0
+
 
 
 
